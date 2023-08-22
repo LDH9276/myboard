@@ -1,0 +1,9 @@
+.listItem{
+  display: flex;
+  justify-content: space-around;
+  text-align: left;
+}
+.listItem > p{
+  display: block;
+  width: 100%;
+}
