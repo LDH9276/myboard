@@ -9,9 +9,8 @@ import List from './Board/List';
 import Read from './Board/Read';
 import { Cookies } from 'react-cookie';
 import Mypage from './Login/Mypage';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { login, logout } from './Redux/Actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from './Redux/Loginout';
 
 function App() {
 
@@ -119,7 +118,7 @@ function App() {
           <Mypage userId={userId} />
         } />
 
-        <Route path="/write/:boardname" element={<Wtite userId={userId} />} />
+        <Route path="/write/" element={<Wtite userId={userId} />} />
         <Route path="/write/:id/:mod" element={<Wtite userId={userId} />} />
         <Route path="/read/:id" element={<Read userId={userId} />} />
 

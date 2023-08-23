@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { sendLoginRequest } from '../API/sendLoginRequest';
 import { Cookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
-import { login } from '../Redux/Actions';
+import { login } from '../Redux/Loginout';
 
 function Login(props) {
   const [id, setId] = useState('');
@@ -17,13 +17,11 @@ function Login(props) {
     event.preventDefault();
     try {
       const data = await sendLoginRequest(id, password);
-      console.log(data);
       localStorage.setItem('access_token', data.access_token);
       cookie.set('refresh_token', data.refresh_token, {path: '/'}, {sameSite: 'strict'}, {httpOnly: true});
       if (data.success === true) {
         console.log('로그인 성공');
-        dispatch(login(data.user_id)); // 로그인 상태로 변경
-        console.log(dispatch(login(data.user_id)));
+        dispatch(login(data.user_id));
         navigate('/');
       } else {
         setError(data.message);

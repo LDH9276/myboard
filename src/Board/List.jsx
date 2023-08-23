@@ -54,6 +54,7 @@ function List(props) {
   const newPostReset = () => {
     setNewPost(false);
     totalList();
+    list();
   };
 
   useEffect(() => {
