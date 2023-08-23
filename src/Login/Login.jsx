@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { sendLoginRequest } from '../API/sendLoginRequest';
 import { Cookies } from 'react-cookie';
+import { useDispatch } from 'react-redux';
+import { login } from '../Redux/Actions';
 
-function Login({setUserID, setIsLoggedIn}) {
+function Login(props) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
   const cookie = new Cookies();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onLoginClick = async (event) => {
     event.preventDefault();
@@ -19,8 +21,9 @@ function Login({setUserID, setIsLoggedIn}) {
       localStorage.setItem('access_token', data.access_token);
       cookie.set('refresh_token', data.refresh_token, {path: '/'}, {sameSite: 'strict'}, {httpOnly: true});
       if (data.success === true) {
-        setIsLoggedIn(true);
-        setUserID(data.user_id);
+        console.log('로그인 성공');
+        dispatch(login(data.user_id)); // 로그인 상태로 변경
+        console.log(dispatch(login(data.user_id)));
         navigate('/');
       } else {
         setError(data.message);
@@ -36,11 +39,13 @@ function Login({setUserID, setIsLoggedIn}) {
     <div>
         <p>{id}</p>
         <p>{password}</p>
-      <form action="">
-        <input type="text" name="id" id="id" placeholder="id" onChange={(e) => setId(e.target.value)} />
-        <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-        <input type="button" value="Login" onClick={(event) => onLoginClick(event)}/>
-      </form>
+        <form onSubmit={onLoginClick}>
+            <input type="text" name="id" id="id" placeholder="id" onChange={(e) => setId(e.target.value)} />
+            <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+            <input type="submit" value="Login" />
+        </form>
+        <p>{error}</p>
+        <Link to="/signup">회원가입</Link>
     </div>
   );
 }

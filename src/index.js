@@ -4,15 +4,29 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CookiesProvider } from 'react-cookie';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+
+const initialState = {};
+
+function rootReducer(state = initialState, action) {
+  switch (action.type) {
+    // 리듀서 함수
+    default:
+      return state;
+  }
+}
+const store = configureStore({
+    reducer: rootReducer,
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <CookiesProvider>
-        <App />
-    </CookiesProvider>
+    <Provider store={store}>
+        <CookiesProvider>
+            <App />
+        </CookiesProvider>
+    </Provider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

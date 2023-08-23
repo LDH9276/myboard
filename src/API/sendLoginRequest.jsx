@@ -4,7 +4,7 @@ import axios from 'axios';
 export const sendLoginRequest = async (id, password) => {
 
   // 로그인 체크 PHP 파일의 경로 (빌드 전 수정할 것.)
-  const loginCheckPHP = 'http://localhost/JTW_testing/Login_Check.php';
+  const loginCheckPHP = 'http://localhost/myboard_server/Login_Check.php';
 
   // FormData로 POST 전송을 보낸다. ID, PW
   const formData = new FormData();

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -13,7 +12,7 @@ function Write({userId}) {
   const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
   const [flag, setFlag] = useState(false);
-  const imgLink = "http://localhost/JTW_testing/Board/Upload"
+  const imgLink = "http://localhost/myboard_server/Board/Upload"
   const navigate = useNavigate();
 
   const customUploadAdapter = (loader) => {
@@ -25,7 +24,7 @@ function Write({userId}) {
         data.append("file", file);
         try {
           const res = await axios.post(
-            "http://localhost/JTW_testing/Board/Post_Upload.php",
+            "http://localhost/myboard_server/Board/Post_Upload.php",
             data
           );
           if (!flag) {
@@ -56,7 +55,7 @@ function Write({userId}) {
     if(mod === 'modify'){
       formData.append('id', id);
       formData.append('modify', true);
-      axios.post('http://localhost/JTW_testing/Board/Post_Write.php', formData)
+      axios.post('http://localhost/myboard_server/Board/Post_Write.php', formData)
       .then((res) => {
         alert('수정 완료');
         navigate('/');
@@ -66,7 +65,7 @@ function Write({userId}) {
         alert('수정 실패');
       });
     } else {
-    axios.post('http://localhost/JTW_testing/Board/Post_Write.php', formData)
+    axios.post('http://localhost/myboard_server/Board/Post_Write.php', formData)
       .then((res) => {
         alert('업로드 완료');
         navigate('/');
@@ -80,7 +79,7 @@ function Write({userId}) {
 
   const updateContent = async () => {
     try {
-      const response = await axios.get(`http://localhost/JTW_testing/Board/Post_Read.php?id=${id}`);;
+      const response = await axios.get(`http://localhost/myboard_server/Board/Post_Read.php?id=${id}`);;
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
         return item;

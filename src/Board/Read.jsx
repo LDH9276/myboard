@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import DOMPurify from 'dompurify';
 import { useNavigate, useParams } from 'react-router-dom';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import './css/read.css';
+
 
 function Read({userId}) {
   
   const { id } = useParams();
-  const contentChek = "http://localhost/JTW_testing/Board/Post_Read.php"
+  const contentChek = "http://localhost/myboard_server/Board/Post_Read.php"
   const [content, setContent] = useState([]);
   const [writer, setWriter] = useState('');
   const navigate = useNavigate();
@@ -60,14 +63,21 @@ function Read({userId}) {
           <li key={item.id}>
             <p>ID: {item.id}</p>
             <p>Title: {item.title}</p>
-            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(item.content) }}></div>
-            <p>Writer: {item.writer}</p>
-            <p>Reg Date: {item.reg_date}</p>
+            <div className="read">
+              <CKEditor
+                editor={ClassicEditor}
+                data={item.content}
+                readOnly={true}
+                toolbar={[]}
+                disabled={true}
+              />
+            </div>
+          
           </li>
         ))}
       </ul>
-      <button onClick={() => navigate('/write')}>글쓰기</button>
 
+      <button onClick={() => navigate('/write')}>글쓰기</button>
       {writer === userId ? (
         <>
           <button onClick={() => navigate(`/write/${id}/modify`)}>수정</button>

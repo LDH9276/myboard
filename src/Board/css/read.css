@@ -1,0 +1,9 @@
+.read .ck-reset_all {
+  display: none !important;
+}
+.read .ck,
+.read .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected,
+.read .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover {
+  border: none !important;
+  outline-color: transparent !important;
+}
