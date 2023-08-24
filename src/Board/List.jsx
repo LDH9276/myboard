@@ -67,7 +67,7 @@ function List(props) {
   }, [currentPage, totalPosts]);
 
   return (
-    <div>
+    <div className='board-container'>
       <ul>
         <li className={ListStyle.listItem}>
           <p>ID</p>
@@ -78,7 +78,7 @@ function List(props) {
         {newPost ? <li><button onClick={()=>newPostReset()}>갱신하기</button></li> : ''}
         {Array.isArray(boardList) && boardList.map(item => (
           <li key={item.id}>
-            <Link to={`/read/${item.id}`} className={ListStyle.listItem}>
+            <Link to={`/read/${item.id}`} className={ListStyle.item}>
             <p>{item.id}</p>
             <p>{item.title}</p>
             <p>{item.writer}</p>

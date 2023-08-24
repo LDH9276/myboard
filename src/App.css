@@ -1,9 +1,17 @@
+:root {
+  --var-color1: #333;
+  --var-main-color01: #333;
+  --var-main-color02: #333;
+  --var-main-color03: #fff;
+  --var-m-auto: 0 auto;
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  color: var(--var-color1);
+  text-decoration: none;
 }
-
 ul, ol, li {
   list-style-type: none;
 }
@@ -12,8 +20,14 @@ ul, ol, li {
   justify-content: center;
   gap: 20px;
 }
-
+.board-container{
+  width: 1200px;
+  margin: var(--var-m-auto);
+}
 .page-item button{
+  display: block;
+  width: 34px;
+  line-height: 34px;
   border: none;
   background: transparent;
 }

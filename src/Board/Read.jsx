@@ -1,18 +1,25 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import { useSelector, useDispatch } from 'react-redux';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import WriteComment from './WriteComment';
 import './css/read.css';
-
+import CommentList from './CommentList';
 
 function Read({userId}) {
   
   const { id } = useParams();
-  const contentChek = "http://localhost/myboard_server/Board/Post_Read.php"
-  const [content, setContent] = useState([]);
-  const [writer, setWriter] = useState('');
+  const content = useSelector(state => state.content);
+  const writer = useSelector(state => state.writer);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  // Link
+  const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php"
+  const contentChek = "http://localhost/myboard_server/Board/Post_Read.php"
+
 
   useEffect(() => {
     readContent();
@@ -25,8 +32,8 @@ function Read({userId}) {
         item.content = item.content.replace(/\\/g, '');
         return item;
       });
-      setContent(list);
-      setWriter(list[0].writer);
+      console.log(list);
+      dispatch({type: 'READ', payload: {writer : list[0].writer, content: list}});
     } catch (error) {
       console.error(error);
     }
@@ -44,7 +51,7 @@ function Read({userId}) {
     const formData = new FormData();
     formData.append('id', id);
     formData.append('delete', true);
-    axios.post('http://localhost/JTW_testing/Board/Post_Write.php', formData)
+    axios.post(postWriteLink, formData)
     .then((res) => {
       console.log(res.data);
       alert('삭제 완료');
@@ -57,12 +64,13 @@ function Read({userId}) {
   };
 
   return (
-    <div>
+    <div className='board-container'>
       <ul>
         {Array.isArray(content) && content.map(item => (
           <li key={item.id}>
             <p>ID: {item.id}</p>
             <p>Title: {item.title}</p>
+            <p>Writer: {item.writer}</p>
             <div className="read">
               <CKEditor
                 editor={ClassicEditor}
@@ -86,6 +94,11 @@ function Read({userId}) {
       ) : null}
 
       <button onClick={() => navigate('/')}>목록으로</button>
+
+      <div className="comment">
+          <CommentList id={id} /> 
+          <WriteComment id={id}/>
+      </div>
     </div>
   );
 }

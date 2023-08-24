@@ -2,8 +2,17 @@
   display: flex;
   justify-content: space-around;
   text-align: left;
+
 }
+.item{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  text-align: left;
+}
+.item > p,
 .listItem > p{
   display: block;
   width: 100%;
+  line-height: 40px;
 }

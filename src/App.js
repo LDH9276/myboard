@@ -11,6 +11,7 @@ import { Cookies } from 'react-cookie';
 import Mypage from './Login/Mypage';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from './Redux/Loginout';
+import Header from './Header/Header';
 
 function App() {
 
@@ -78,32 +79,7 @@ function App() {
 
   return (
     <Router>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-
-          {isLoggedIn === true ? (
-            <li>
-              <button onClick={() => handleLogout()}>로그아웃</button>
-              <Link to="/mypage">마이페이지</Link>
-            </li>
-          ) : (
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          )}
-          {isLoggedIn === true ? '' : (
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>)}
-        </ul>
-      </nav>
-
-      <div>
-        {isLoggedIn === true ? <h1>로그인 되었습니다. {userId}님.</h1> : <h1>로그인을 해주세요.</h1>}
-      </div>
+      <Header />
 
       <Routes>
         <Route exact path="/" element={<List />} />

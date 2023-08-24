@@ -20,7 +20,7 @@ function Pagination({ total, limit, page, setPage }) {
         <ul className="pagination">
           <li className={`page-item ${page === 1 ? 'disabled' : ''}`}>
             <button className="page-link" onClick={prevBlock}>
-              Previous
+              &laquo;
             </button>
           </li>
           {Array.from({ length: pageLastBlock - pageFirstBlock + 1 }, (_, i) => (
@@ -32,7 +32,7 @@ function Pagination({ total, limit, page, setPage }) {
           ))}
           <li className={`page-item ${page === numPages ? 'disabled' : ''}`}>
             <button className="page-link" onClick={nextBlock}>
-              Next
+              &raquo;
             </button>
           </li>
         </ul>

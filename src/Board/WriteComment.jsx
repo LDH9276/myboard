@@ -1,26 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useSelector, useDispatch } from 'react-redux';
 
-function Write({userId}) {
+function WriteComment( {id, commentId, modify} ) {
 
   // State, Props
-  const { id } = useParams();
-  const { mod } = useParams();
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
   const [flag, setFlag] = useState(false);
+  const userId = useSelector(state => state.userId);
+  const uploadedComment = useSelector(state => state.uploadedComment);
+  const dispatch = useDispatch();
 
   // Link
   const imgLink = "http://localhost/myboard_server/Board/Upload"
   const postUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
-  const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php"
-  const postRead = "http://localhost/myboard_server/Board/Post_Read.php"
-
-  const navigate = useNavigate();
+  const postCommentLink = "http://localhost/myboard_server/Board/Post_WriteComment.php"
+  const postCommentRead = "http://localhost/myboard_server/Board/Post_ReadComment.php"
 
   const customUploadAdapter = (loader) => {
     return {
@@ -55,37 +54,38 @@ function Write({userId}) {
     const formData = new FormData();
     formData.append('writer', userId);
     formData.append('content', content);
+    formData.append('post_id', id);
     formData.append('reg_date', new Date());
-    formData.append('title', title);
-
-    if(mod === 'modify'){
-      formData.append('id', id);
+    
+    if(modify){
+      formData.append('id', commentId);
+      formData.append('content', content);
       formData.append('modify', true);
-      axios.post(postWriteLink, formData)
+      axios.post(postCommentLink, formData)
       .then((res) => {
-        alert('수정 완료');
-        navigate('/');
+        console.log(res.data);
+        dispatch({type: 'UPLOAD_COMMENT', payload: uploadedComment});
+        setContent('');
       })
       .catch((err) => {
         console.error(err);
-        alert('수정 실패');
       });
     } else {
-    axios.post(postWriteLink, formData)
+    axios.post(postCommentLink, formData)
       .then((res) => {
-        alert('업로드 완료');
-        navigate('/');
+        dispatch({type: 'UPLOAD_COMMENT', payload: uploadedComment});
+        setContent('');
       })
       .catch((err) => {
         console.error(err);
-        alert('업로드 실패');
       });
     };
   };
 
   const updateContent = async () => {
     try {
-      const response = await axios.get(`${postRead}?id=${id}`);;
+      const response = await axios.get(`${postCommentRead}?id=${id}`);
+      console.log(response.data);
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
         return item;
@@ -98,29 +98,27 @@ function Write({userId}) {
   };
 
   useEffect(() => {
-    if(mod === 'modify'){
+    if(modify){
       updateContent();
     }
   }, []);
 
   return (
     <div>
-      <input type="text" onChange={(e) => setTitle(e.target.value)} value={title}/>
-
-      <CKEditor
-        editor={ClassicEditor}
-        config={{
-          extraPlugins: [uploadPlugin]
-        }}
-        data={content}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          setContent(data);
-        }}
-      />
-      <button onClick={() => onUpdateClick()}>업로드</button>
+        <CKEditor
+            editor={ClassicEditor}
+            config={{
+            extraPlugins: [uploadPlugin]
+            }}
+            data={content}
+            onChange={(event, editor) => {
+            const data = editor.getData();
+            setContent(data);
+            }}
+        />
+        <button onClick={() => onUpdateClick()}>등록</button>
     </div>
   );
 }
 
-export default Write;
+export default WriteComment;
