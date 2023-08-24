@@ -1,6 +1,7 @@
 export const UPLOAD_COMMENT = 'UPLOAD_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
 export const UPLOADED_COMMENT = 'UPLOADED_COMMENT';
+export const EDIT_ANSWER = 'EDIT_ANSWER';
 
 export function uploadComment() {
     return {
@@ -20,11 +21,21 @@ export function editComment(id) {
     };
 }
 
+export function editAnswer(parent, id) {
+    return {
+        type: EDIT_ANSWER,
+        payload: {
+            editAnswerId: id,
+            editAnswerParent: parent
+        }
+    };
+}
+
 export function uploadedComment() {
     return {
         type: UPLOADED_COMMENT,
         payload: {
-            uploadedComment: false
+            uploadedComment: false,
         }
     };
 }

@@ -8,13 +8,12 @@ import { editAnswer } from '../Redux/UploadComment';
 import CommnetChild from './CommnetChild';
 
 function CommentList({ id }) {
+  const [commentList, setCommentList] = useState([]);
   const uploadedComment = useSelector(state => state.uploadedComment);
   const editCommentId = useSelector(state => state.editCommentId);
   const editAnswerId = useSelector(state => state.editAnswerId);
   const editAnswerParent = useSelector(state => state.editAnswerParent);
   const userId = useSelector(state => state.userId);
-  const totalCommentLists = useSelector(state => state.totalCommentLists);
-  const [filteredCommentList, setFilteredCommentList] = useState([]);
   const dispatch = useDispatch();
 
   // Link
@@ -22,13 +21,14 @@ function CommentList({ id }) {
   const postCommentLink = "http://localhost/myboard_server/Board/Post_WriteComment.php";
 
   useEffect(() => {
-    if (Array.isArray(totalCommentLists)) {
-      return;
-    } else {
     readContent();
-    }
   }, []);
+
+  useEffect(() => {
+    readContent();
+  }, [uploadedComment]);
   
+
   const readContent = async () => {
     try {
       const response = await axios.get(`${contentChek}?id=${id}`);
@@ -61,25 +61,13 @@ function CommentList({ id }) {
       const hierarchicalComments = parentComments;
 
 
-      setFilteredCommentList(hierarchicalComments);
+      setCommentList(hierarchicalComments);
 
       dispatch({ type: 'UPLOADED_COMMENT' });
     } catch (error) {
       console.error(error);
     }
   };
-
-
-  useEffect(() => {
-    const intId = parseInt(id);
-    if(!Array.isArray(totalCommentLists)){
-      return;
-    } else {
-      const filteredList = totalCommentLists.filter(item => item.post_id === intId);
-      setFilteredCommentList(filteredList);
-    }
-  }, [id, totalCommentLists]);
-  
 
   const handleModify = (id) => {
     dispatch({ type: 'EDIT_COMMENT', payload: { editCommentId: id } });
@@ -95,7 +83,7 @@ function CommentList({ id }) {
       axios.post(postCommentLink, formdata)
         .then((response) => {
           console.log(response.data);
-          // readContent();
+          readContent();
         })
         .catch((error) => {
           console.log(error);
@@ -112,8 +100,8 @@ function CommentList({ id }) {
   return (
     <div>
       <ul className='firstchild-comment'>
-      {Array.isArray(filteredCommentList) &&
-          filteredCommentList.map(child => (
+      {Array.isArray(commentList) &&
+          commentList.map(child => (
         <li key={child.id}>
           {editCommentId !== child.id ? (
             <div className='comment-content'>

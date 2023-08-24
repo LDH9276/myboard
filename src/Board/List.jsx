@@ -3,11 +3,15 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ListStyle from './css/list.module.css';
+import { useDispatch } from 'react-redux';
+import { totalCommentLists } from '../Redux/CommentList';
 
 function List(props) {
 
   const pagination = "http://localhost/myboard_server/Board/Post_Pagination.php";
   const listCheck  = "http://localhost/myboard_server/Board/Post_List.php";
+  const commentList = "http://localhost/myboard_server/Board/Post_CommentList.php";
+
   const { boardname } = useParams();
   const [boardList, setBoardList] = useState([]);
   const navigate = useNavigate();
@@ -15,6 +19,7 @@ function List(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
   const [postsPerPage] = useState(10);
+  const dispatch = useDispatch();
 
   const totalList = async () => {
     try {
@@ -34,18 +39,59 @@ function List(props) {
     }
   };
 
+  const listComment = async () => {
+    try {
+      const response = await axios.post(`${commentList}?page=${currentPage}`);
+      const list = response.data.list.map(item => {
+        item.content = item.content.replace(/\\/g, '');
+        return item;
+      });
+
+      const parentComments = [];
+      const firstDepthComments = [];
+      const secondDepthComments = [];
+
+      list.forEach(item => {
+        if (item.comment_parent === null) {
+          parentComments.push(item);
+        } else if (item.comment_depth === 1) {
+          firstDepthComments.push(item);
+        } else {
+          secondDepthComments.push(item);
+        }
+      });
+
+      parentComments.forEach(parent => {
+        parent.children = firstDepthComments.filter(child => child.comment_parent === parent.id);
+        parent.children.forEach(child => {
+          child.children = secondDepthComments.filter(grandChild => grandChild.comment_parent === child.comment_parent);
+        });
+      })
+
+      const hierarchicalComments = parentComments;
+
+      dispatch(totalCommentLists(hierarchicalComments));
+
+      console.log(totalCommentLists(hierarchicalComments))
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   useEffect(() => {
     totalList();
   }, []);
 
   useEffect(() => {
     list();
+    listComment();
   }, [currentPage]);
 
   // 실시간 갱신하기
   const refreshPage = async () => {
     const response = await axios.post(pagination);
-    console.log(totalPosts, response.data.total)
     if(totalPosts < response.data.total){
       setNewPost(true);
     }
@@ -80,7 +126,7 @@ function List(props) {
           <li key={item.id}>
             <Link to={`/read/${item.id}`} className={ListStyle.item}>
             <p>{item.id}</p>
-            <p>{item.title}</p>
+            <p>{item.title} [{item.comment_count}]</p>
             <p>{item.writer}</p>
             <p>{item.reg_date}</p>
             </Link>

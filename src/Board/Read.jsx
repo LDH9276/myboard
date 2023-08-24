@@ -32,7 +32,6 @@ function Read({userId}) {
         item.content = item.content.replace(/\\/g, '');
         return item;
       });
-      console.log(list);
       dispatch({type: 'READ', payload: {writer : list[0].writer, content: list}});
     } catch (error) {
       console.error(error);
@@ -53,7 +52,6 @@ function Read({userId}) {
     formData.append('delete', true);
     axios.post(postWriteLink, formData)
     .then((res) => {
-      console.log(res.data);
       alert('삭제 완료');
       navigate('/');
     })

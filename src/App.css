@@ -21,7 +21,7 @@ ul, ol, li {
   gap: 20px;
 }
 .board-container{
-  width: 1200px;
+  max-width: 800px;
   margin: var(--var-m-auto);
 }
 .page-item button{
@@ -34,4 +34,11 @@ ul, ol, li {
 .page-item.active button{
   color: red;
   font-weight: bold;
+}
+
+.firstchild-comment{
+  margin-left: 20px;
+}
+.secondchild-comment{
+  margin-left: 40px;
 }

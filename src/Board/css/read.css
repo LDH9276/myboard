@@ -7,3 +7,74 @@
   border: none !important;
   outline-color: transparent !important;
 }
+
+.comment-content{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  height: 100px;
+}
+.comment-left-wrap{
+  width: 240px;
+}
+.comment-right-wrap{
+  width: 100%;
+}
+.comment-item-writer{
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+}
+.comment-item-regdate{
+  display: block;
+  font-size: 12px;
+  line-height: 22px;
+  color: #dcdcdc;
+}
+.comment-btn-wrap{
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+}
+.comment-reply-btn{
+  display: block;
+  font-size: 12px;
+  line-height: 22px;
+  padding: 0px 12px;
+  color: #dcdcdc;
+  cursor: pointer;
+  background: none;
+  border : 2px solid #f1c232;
+  color: #f1c232;
+}
+.comment-mod-btn{
+  display: block;
+  background: none;
+  border: none;
+  font-size: 12px;
+  line-height: 22px;
+  padding: 0px 5px;
+}
+
+.comment-asnwer-wrap{
+  width: 100%;
+  background: #333;
+}
+.comment-asnwer-wrap .ck-editor__main {
+  background: #333;
+  color: #fff;
+  min-height: 150px;
+}
+
+.comment-content .ck{
+  border: none !important;
+  outline-color: transparent !important;
+}
+.comment-content .ck-reset_all {
+  display: none !important;
+}
+
+.comment-content.modify .ck{
+  background: #f8f8f8 !important;
+}

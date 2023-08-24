@@ -4,7 +4,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useSelector, useDispatch } from 'react-redux';
 
-function WriteComment( {id, commentId, modify} ) {
+function WriteComment( {id, commentId, modify, answer, depth} ) {
 
   // State, Props
   const [content, setContent] = useState('');
@@ -19,7 +19,7 @@ function WriteComment( {id, commentId, modify} ) {
   const imgLink = "http://localhost/myboard_server/Board/Upload"
   const postUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
   const postCommentLink = "http://localhost/myboard_server/Board/Post_WriteComment.php"
-  const postCommentRead = "http://localhost/myboard_server/Board/Post_ReadComment.php"
+  const postCommentRead = "http://localhost/myboard_server/Board/Post_ReWriteComment.php"
 
   const customUploadAdapter = (loader) => {
     return {
@@ -70,9 +70,25 @@ function WriteComment( {id, commentId, modify} ) {
       .catch((err) => {
         console.error(err);
       });
+    } else if(!modify && answer){
+      formData.append('post_id', id);
+      formData.append('comment_id', commentId)
+      formData.append('content', content);
+      formData.append('answer', true);
+      formData.append('depth', depth);
+      axios.post(postCommentLink, formData)
+      .then((res) => {
+        console.log(res.data);
+        dispatch({type: 'UPLOAD_COMMENT', payload: uploadedComment});
+        setContent('');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     } else {
     axios.post(postCommentLink, formData)
       .then((res) => {
+        console.log(res.data);
         dispatch({type: 'UPLOAD_COMMENT', payload: uploadedComment});
         setContent('');
       })
@@ -84,7 +100,9 @@ function WriteComment( {id, commentId, modify} ) {
 
   const updateContent = async () => {
     try {
-      const response = await axios.get(`${postCommentRead}?id=${id}`);
+      console.log(commentId);
+      console.log(`${postCommentRead}?id=${commentId}`);
+      const response = await axios.get(`${postCommentRead}?id=${commentId}`);
       console.log(response.data);
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
