@@ -2,6 +2,7 @@
   "name": "sample-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://leedh9276.dothome.co.kr/",
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^39.0.1",
     "@ckeditor/ckeditor5-build-decoupled-document": "^39.0.1",

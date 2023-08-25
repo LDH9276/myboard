@@ -69,10 +69,7 @@ function List(props) {
       })
 
       const hierarchicalComments = parentComments;
-
       dispatch(totalCommentLists(hierarchicalComments));
-
-      console.log(totalCommentLists(hierarchicalComments))
 
     } catch (error) {
       console.error(error);

@@ -17,10 +17,10 @@ function Login(props) {
     event.preventDefault();
     try {
       const data = await sendLoginRequest(id, password);
+      console.log(data);
       localStorage.setItem('access_token', data.access_token);
       cookie.set('refresh_token', data.refresh_token, {path: '/'}, {sameSite: 'strict'}, {httpOnly: true});
       if (data.success === true) {
-        console.log('로그인 성공');
         dispatch(login(data.user_id));
         navigate('/');
       } else {

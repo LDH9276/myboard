@@ -78,3 +78,8 @@
 .comment-content.modify .ck{
   background: #f8f8f8 !important;
 }
+.comment-modbtn-wrap {
+  display: flex;
+  justify-content: space-between;
+  height: 26px;
+}

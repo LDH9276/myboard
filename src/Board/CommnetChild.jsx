@@ -25,13 +25,17 @@ function CommnetChild({commentId, children, id, handleModify, handleDelete, hand
                   <p className='comment-item-writer'>{child.writer}</p>
                   <p className='comment-item-regdate'>{child.reg_date}</p>
                 </div>
-                <div className='comment-btn-wrap'>
-                  {userId !== '' ? (
+                {userId !== '' ? (
+                  <div className='comment-btn-wrap'>
                     <button onClick={() => handelAnswer(commentId, child.id)} className='comment-reply-btn'>답글</button>
-                  ) : ''}
-                  <button onClick={() => handleModify(child.id)} className='comment-mod-btn'>수정</button>
-                  <button onClick={() => handleDelete(child.id)}className='comment-mod-btn'>삭제</button>
-                </div>
+                    {userId === child.writer ? (
+                      <div className='comment-modbtn-wrap'>
+                        <button onClick={() => handleModify(child.id)} className='comment-mod-btn'>수정</button>
+                        <button onClick={() => handleDelete(child.id)} className='comment-mod-btn'>삭제</button>
+                      </div>
+                    ) : ''}
+                  </div>
+                ) : ''}
               </div>
               <div className="comment-right-wrap">
                   <CKEditor 

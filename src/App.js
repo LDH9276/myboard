@@ -37,7 +37,6 @@ function App() {
         withCredentials: true,
       });
       if (response.data.success === true) {
-        console.log(response.data);
         dispatch(login(response.data.user_id)); // 로그인 상태로 변경
         localStorage.setItem('access_token', response.data.access_token);
       }
@@ -52,24 +51,6 @@ function App() {
       dispatch(logout()); // 로그아웃 상태로 변경
       localStorage.removeItem('access_token');
       cookies.remove('refresh_token');
-    }
-  }
-
-  useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn]);
-
-
-  // 로그아웃
-  const handleLogout = async () => {
-    if (!userId) {
-      alert('로그인 후 이용해주세요.');
-      return;
-    } else {
-      dispatch(logout()); // 로그아웃 상태로 변경
-      localStorage.removeItem('access_token');
-      cookies.remove('refresh_token');
-      alert('로그아웃 되었습니다.');
     }
   }
 
@@ -97,7 +78,7 @@ function App() {
         <Route path="/write/" element={<Wtite userId={userId} />} />
         <Route path="/write/:id/:mod" element={<Wtite userId={userId} />} />
         <Route path="/read/:id" element={<Read userId={userId} />} />
-
+        <Route path="*" element={<List />} />
 
 
       </Routes>

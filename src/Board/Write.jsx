@@ -55,8 +55,9 @@ function Write({userId}) {
     const formData = new FormData();
     formData.append('writer', userId);
     formData.append('content', content);
-    formData.append('reg_date', new Date());
     formData.append('title', title);
+
+    console.log(formData);
 
     if(mod === 'modify'){
       formData.append('id', id);
