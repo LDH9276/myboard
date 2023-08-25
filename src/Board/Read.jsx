@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useTransition } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -13,17 +13,13 @@ function Read({userId}) {
   const { id } = useParams();
   const content = useSelector(state => state.content);
   const writer = useSelector(state => state.writer);
+  const [isPending, startTransition] = useTransition();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
   // Link
   const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php"
   const contentChek = "http://localhost/myboard_server/Board/Post_Read.php"
-
-
-  useEffect(() => {
-    readContent();
-  }, []);
 
   const readContent = async () => {
     try {
@@ -37,6 +33,12 @@ function Read({userId}) {
       console.error(error);
     }
   };
+  
+  useEffect(() => {
+    startTransition(() => {
+      readContent();
+    });
+  }, []);
 
   const onDleteBtnClick = () => {
     if(window.confirm('정말로 삭제하시겠습니까?')){
@@ -94,8 +96,12 @@ function Read({userId}) {
       <button onClick={() => navigate('/')}>목록으로</button>
 
       <div className="comment">
-          <CommentList id={id} /> 
-          <WriteComment id={id}/>
+        {isPending ? (
+          <p>Loading...</p>
+        ) : (
+          <CommentList id={id} />
+        )}
+        <WriteComment id={id}/>
       </div>
     </div>
   );

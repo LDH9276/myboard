@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-function Write({userId}) {
+function Write({userId, userName}) {
 
   // State, Props
   const { id } = useParams();
@@ -54,6 +54,7 @@ function Write({userId}) {
   const onUpdateClick = () => {
     const formData = new FormData();
     formData.append('writer', userId);
+    formData.append('nickname', userName);
     formData.append('content', content);
     formData.append('title', title);
 

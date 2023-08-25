@@ -58,7 +58,7 @@ function CommentList({ id }) {
       parentComments.forEach(parent => {
         parent.children = firstDepthComments.filter(child => child.comment_parent === parent.id);
         parent.children.forEach(child => {
-          child.children = secondDepthComments.filter(grandChild => grandChild.comment_parent === child.comment_parent);
+          child.children = secondDepthComments.filter(grandChild => grandChild.comment_parent === child.id);
         });
       });
 

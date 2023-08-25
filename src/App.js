@@ -18,6 +18,8 @@ function App() {
   const tokenChek = 'http://localhost/myboard_server/JWT_Verify.php';
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const userId = useSelector(state => state.userId);
+  const userName = useSelector(state => state.userName);
+  const userInfo = useSelector(state => state.userInfo);
   const cookies = new Cookies();
   const dispatch = useDispatch();
 
@@ -37,7 +39,7 @@ function App() {
         withCredentials: true,
       });
       if (response.data.success === true) {
-        dispatch(login(response.data.user_id)); // 로그인 상태로 변경
+        dispatch(login(response.data.user_id, response.data.user_name, response.data.user_info)); // 로그인 상태로 변경
         localStorage.setItem('access_token', response.data.access_token);
       }
       else {
@@ -75,9 +77,9 @@ function App() {
           <Mypage userId={userId} />
         } />
 
-        <Route path="/write/" element={<Wtite userId={userId} />} />
-        <Route path="/write/:id/:mod" element={<Wtite userId={userId} />} />
-        <Route path="/read/:id" element={<Read userId={userId} />} />
+        <Route path="/write/" element={<Wtite userId={userId} userName={userName} />} />
+        <Route path="/write/:id/:mod" element={<Wtite userId={userId} userName={userName} />} />
+        <Route path="/read/:id" element={<Read userId={userId} userName={userName} />} />
         <Route path="*" element={<List />} />
 
 

@@ -64,7 +64,7 @@ function List(props) {
       parentComments.forEach(parent => {
         parent.children = firstDepthComments.filter(child => child.comment_parent === parent.id);
         parent.children.forEach(child => {
-          child.children = secondDepthComments.filter(grandChild => grandChild.comment_parent === child.comment_parent);
+          child.children = secondDepthComments.filter(grandChild => grandChild.comment_parent === child.id);
         });
       })
 
@@ -124,7 +124,7 @@ function List(props) {
             <Link to={`/read/${item.id}`} className={ListStyle.item}>
             <p>{item.id}</p>
             <p>{item.title} [{item.comment_count}]</p>
-            <p>{item.writer}</p>
+            <p>{item.nickname}</p>
             <p>{item.reg_date}</p>
             </Link>
           </li>

@@ -56,12 +56,12 @@ function CommnetChild({commentId, children, id, handleModify, handleDelete, hand
 
           <div className="comment-answer-wrap">
             {userId !== '' && editAnswerParent === commentId && editAnswerId  === child.id ? (
-                <WriteComment commentId={commentId} answer={true} modify={false} id = {id} depth={child.comment_depth}/>
+                <WriteComment commentId={child.id} answer={true} modify={false} id = {id} depth={child.comment_depth}/>
             ) : ''}
           </div>
           <ul>
             <CommentGrandChild 
-            commentId={commentId}
+            commentId={child.id}
             children={child.children}
             id={id}
             handleModify={handleModify}

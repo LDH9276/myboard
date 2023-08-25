@@ -21,7 +21,7 @@ function Login(props) {
       localStorage.setItem('access_token', data.access_token);
       cookie.set('refresh_token', data.refresh_token, {path: '/'}, {sameSite: 'strict'}, {httpOnly: true});
       if (data.success === true) {
-        dispatch(login(data.user_id));
+        dispatch(login(data.user_id, data.user_name, data.user_info));
         navigate('/');
       } else {
         setError(data.message);
@@ -35,8 +35,6 @@ function Login(props) {
 
   return (
     <div>
-        <p>{id}</p>
-        <p>{password}</p>
         <form onSubmit={onLoginClick}>
             <input type="text" name="id" id="id" placeholder="id" onChange={(e) => setId(e.target.value)} />
             <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />

@@ -6,6 +6,8 @@ import { COMMENT_LIST } from './CommentList';
 const initialState = {
   isLoggedIn: false,
   userId: '',
+  userName: '',
+  userInfo: '',
   writer: '',
   content: '',
   uploadedComment: false,
@@ -26,6 +28,8 @@ function rootReducer(state = initialState, action) {
         ...state,
         isLoggedIn: true,
         userId: action.payload.userId,
+        userName: action.payload.userName,
+        userInfo: action.payload.userInfo,
       };
     case LOGOUT:
       clearLocalStorageAndCache();
@@ -33,6 +37,8 @@ function rootReducer(state = initialState, action) {
         ...state,
         isLoggedIn: false,
         userId: '',
+        userName: '',
+        userInfo: ''
       };
     case READ:
       return {
