@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { useSelector, useDispatch } from 'react-redux';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomEditor from '@ckeditor/ckeditor5-custom';
 import WriteComment from './WriteComment';
 import './css/read.css';
 import CommentList from './CommentList';
@@ -73,7 +73,7 @@ function Read({userId}) {
             <p>Writer: {item.writer}</p>
             <div className="read">
               <CKEditor
-                editor={ClassicEditor}
+                editor={CustomEditor}
                 data={item.content}
                 readOnly={true}
                 toolbar={[]}

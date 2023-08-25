@@ -4,14 +4,33 @@
 }
 
 .header-wrap{
-    width: 1200px;
+    width: 800px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
 }
 
+.header-userbtn{
+    position: relative;
+}
+.header-userprofile{
+    width: 48px;
+    height: 48px;
+    border: 1px solid #f1c232;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 10px;
+}
+
 .header-usermenu{
+    position: absolute;
+    top: 48px;
+    right: 0px;
+    width: 120px;
     display: none;
+    position: absolute;
+    background: #fff;
+    text-align: right;
 }
 
 .header-usermenu.active{

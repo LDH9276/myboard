@@ -68,7 +68,7 @@ function Sign(props) {
   };
 
   return (
-    <div className='sign'>
+    <div className='board-container'>
       <form onSubmit={onSubmit} encType="multipart/form-data">
 
         <label htmlFor="Id">

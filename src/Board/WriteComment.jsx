@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomEditor from '@ckeditor/ckeditor5-custom';
 import { useSelector, useDispatch } from 'react-redux';
 
 function WriteComment( {id, commentId, modify, answer, depth} ) {
@@ -124,7 +124,7 @@ function WriteComment( {id, commentId, modify, answer, depth} ) {
   return (
     <div>
         <CKEditor
-            editor={ClassicEditor}
+            editor={CustomEditor}
             config={{
             extraPlugins: [uploadPlugin]
             }}

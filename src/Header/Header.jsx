@@ -17,8 +17,8 @@ function Header(props) {
                     </Link>
                 </div>
                 <div className="header-userbtn">
-                    <button onClick={menu ? () => setMenu(false) : () => setMenu(true)}>
-                        {userId ? userId : '로그인'}
+                    <button onClick={menu ? () => setMenu(false) : () => setMenu(true)} className='header-userprofile'>
+                        {userId ? userId : '프로필'}
                     </button>
                     {menu ? (
                         <div className="header-usermenu active">

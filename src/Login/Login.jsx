@@ -34,7 +34,7 @@ function Login(props) {
   };
 
   return (
-    <div>
+    <div className='board-container'>
         <form onSubmit={onLoginClick}>
             <input type="text" name="id" id="id" placeholder="id" onChange={(e) => setId(e.target.value)} />
             <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />

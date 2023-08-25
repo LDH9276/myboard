@@ -3,7 +3,7 @@ import axios from 'axios';
 import Pagination from './Pagination';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ListStyle from './css/list.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { totalCommentLists } from '../Redux/CommentList';
 
 function List(props) {
@@ -19,6 +19,7 @@ function List(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
   const [postsPerPage] = useState(10);
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
   const dispatch = useDispatch();
 
   const totalList = async () => {
@@ -114,9 +115,9 @@ function List(props) {
       <ul>
         <li className={ListStyle.listItem}>
           <p>ID</p>
-          <p>Title</p>
-          <p>Writer</p>
-          <p>Reg Date</p>
+          <p>제목</p>
+          <p>작성자</p>
+          <p>작성일</p>
         </li>
         {newPost ? <li><button onClick={()=>newPostReset()}>갱신하기</button></li> : ''}
         {Array.isArray(boardList) && boardList.map(item => (
@@ -130,7 +131,7 @@ function List(props) {
           </li>
         ))}
       </ul>
-      <button onClick={() => navigate('/write')}>글쓰기</button>
+      {isLoggedIn ? (<button onClick={() => navigate('/write')}>글쓰기</button>) : ''}
 
       <Pagination
         total={totalPosts}

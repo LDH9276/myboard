@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomEditor from '@ckeditor/ckeditor5-custom';
+import './css/write.css'
 
 function Write({userId, userName}) {
 
@@ -106,13 +107,13 @@ function Write({userId, userName}) {
   }, []);
 
   return (
-    <div>
-      <input type="text" onChange={(e) => setTitle(e.target.value)} value={title}/>
+    <div className='board-container post-write'>
+      <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} className='write-title-input' placeholder='제목을 입력해주세요'/>
 
       <CKEditor
-        editor={ClassicEditor}
+        editor={CustomEditor}
         config={{
-          extraPlugins: [uploadPlugin]
+          extraPlugins: [uploadPlugin],
         }}
         data={content}
         onChange={(event, editor) => {
@@ -120,7 +121,11 @@ function Write({userId, userName}) {
           setContent(data);
         }}
       />
+      <div className="write-btn-wrap">
+      <button onClick={() => navigate('/')}>작성취소</button>
       <button onClick={() => onUpdateClick()}>업로드</button>
+      </div>
+
     </div>
   );
 }

@@ -16,3 +16,9 @@
   width: 100%;
   line-height: 40px;
 }
+
+.listItem p:last-of-type,
+.item p:last-of-type{
+  width: 100%;
+  text-align: right;
+}

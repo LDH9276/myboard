@@ -1,15 +1,33 @@
+/* input 기본 스타일 초기화 */
+input {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+/* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
+input::-ms-clear { display: none; }
+
+/* input type number 에서 화살표 제거 */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
 :root {
-  --var-color1: #333;
-  --var-main-color01: #333;
-  --var-main-color02: #333;
-  --var-main-color03: #fff;
-  --var-m-auto: 0 auto;
+  --base-color: #333;
+  --main-main-color01: #f1c232;
+  --main-main-color02: #333;
+  --main-main-color03: #fff;
+  --main-m-auto: 0 auto;
 }
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--var-color1);
+  color: var(--base-color);
   text-decoration: none;
 }
 ul, ol, li {
@@ -22,7 +40,7 @@ ul, ol, li {
 }
 .board-container{
   max-width: 800px;
-  margin: var(--var-m-auto);
+  margin: var(--main-m-auto);
 }
 .page-item button{
   display: block;

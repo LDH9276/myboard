@@ -1,0 +1,51 @@
+.post-write .ck-editor__editable,
+.post-write .ck-source-editing-area,
+.post-write .ck.ck-editor {
+    min-height: 400px;
+    max-height: 600px;
+    outline: none;
+}
+
+.ck-focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.write-title-input{
+    border : none;
+    border-bottom: 1px solid #f1c232;
+    width: 100%;
+    line-height: 38px;
+    font-size: 24px;
+    box-shadow: none;
+    margin-bottom: 30px; 
+    outline: none;    
+}
+.write-title-input::placeholder{
+    color: #b6b6b6;
+}
+
+.write-btn-wrap{
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.write-btn-wrap button:first-of-type{
+    width: 80px;
+    height: 32px;
+    background: #fff;
+    border: 2px solid #555;
+    font-size: 12px;
+    color: #555;
+}
+
+.write-btn-wrap button:last-of-type{
+    width: 120px;
+    height: 32px;
+    background: #f1c232;
+    border: none;
+    font-size: 12px;
+    color: #fff;
+}

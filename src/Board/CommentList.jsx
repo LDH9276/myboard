@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomEditor from '@ckeditor/ckeditor5-custom';
 import WriteComment from './WriteComment';
 import { editAnswer } from '../Redux/UploadComment';
 import CommnetChild from './CommnetChild';
@@ -98,8 +98,7 @@ function CommentList({ id }) {
 
       axios.post(postCommentLink, formdata)
         .then((response) => {
-          console.log(response.data);
-          // readContent();
+          readContent();
         })
         .catch((error) => {
           console.log(error);
@@ -144,7 +143,7 @@ function CommentList({ id }) {
               </div>
               <div className="comment-right-wrap">
                   <CKEditor 
-                    editor={ClassicEditor} 
+                    editor={CustomEditor} 
                     data={child.content} 
                     disabled={true}
                     config={{

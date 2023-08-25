@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CustomEditor from '@ckeditor/ckeditor5-custom';
 import WriteComment from './WriteComment';
 import CommentGrandChild from './CommentGrandChild';
 
@@ -39,7 +39,7 @@ function CommnetChild({commentId, children, id, handleModify, handleDelete, hand
               </div>
               <div className="comment-right-wrap">
                   <CKEditor 
-                    editor={ClassicEditor} 
+                    editor={CustomEditor} 
                     data={child.content} 
                     disabled={true}
                     config={{

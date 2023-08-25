@@ -25,10 +25,10 @@ function UserMenu(props) {
                 ) : (
                     <>
                         <li>
-                            <button onClick={() => navigate('/login')}>로그인</button>
+                            <p>비회원입니다.</p>
                         </li>
                         <li>
-                            <p>비회원입니다.</p>
+                            <button onClick={() => navigate('/login')}>로그인</button>
                         </li>
                     </>
                 )}
