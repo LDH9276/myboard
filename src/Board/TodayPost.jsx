@@ -13,7 +13,7 @@ function TodayPost({postCategory, PostUpdateDate, newPost, newPostReset}) {
 
   const navigate = useNavigate();
   const todayPost = "http://localhost/myboard_server/Board/Post_TodayPost.php";
-  const boardId = useSelector(state => state.boardId);
+  const boardId = sessionStorage.getItem('boardId');
   const [slidesTotal, setSlidesTotal] = useState(true);
 
   const [todayList, setTodayList] = useState([]);
@@ -35,7 +35,7 @@ function TodayPost({postCategory, PostUpdateDate, newPost, newPostReset}) {
 
   useEffect(() => {
     readTodayPost();
-  }, []);
+  }, [boardId]);
 
   return (
     <div>
