@@ -4,7 +4,7 @@ import axios from 'axios';
 import Login from './Login/Login';
 import Signup from './Login/Signup';
 import Wtite from './Board/Write';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
 import List from './Board/List';
 import Read from './Board/Read';
 import { Cookies } from 'react-cookie';
@@ -12,6 +12,8 @@ import Mypage from './Login/Mypage';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from './Redux/Loginout';
 import Header from './Header/Header';
+import Board from './Board/Board';
+import Main from './Main/Main';
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
   const userId = useSelector(state => state.userId);
   const userName = useSelector(state => state.userName);
   const userInfo = useSelector(state => state.userInfo);
+  const loginMenu = useSelector(state => state.loginMenu);
+  const signupMenu = useSelector(state => state.signupMenu);
   const cookies = new Cookies();
   const dispatch = useDispatch();
 
@@ -39,7 +43,8 @@ function App() {
         withCredentials: true,
       });
       if (response.data.success === true) {
-        dispatch(login(response.data.user_id, response.data.user_name, response.data.user_info)); // 로그인 상태로 변경
+        const userProfile = response.data.user_profile_name + '.' + response.data.user_profile_ext;
+        dispatch(login(response.data.user_id, response.data.user_name, response.data.user_info, userProfile)); // 로그인 상태로 변경
         localStorage.setItem('access_token', response.data.access_token);
       }
       else {
@@ -63,22 +68,18 @@ function App() {
   return (
     <Router>
       <Header />
-
+      {loginMenu ? <Login /> : null}
+      {signupMenu ? <Signup /> : null}
       <Routes>
-        <Route exact path="/" element={<List />} />
+        <Route exact path="/" element={<Main />} />
         <Route exact path="/:boardname" element={<List />} />
-        <Route path="/login" element={
-          <Login />
-        } />
-        <Route path="/signup" element={
-          <Signup />
-        } />
         <Route path="/mypage" element={
           <Mypage userId={userId} />
         } />
 
         <Route path="/write/" element={<Wtite userId={userId} userName={userName} />} />
         <Route path="/write/:id/:mod" element={<Wtite userId={userId} userName={userName} />} />
+        <Route path="/Board/:id" element={<Board userId={userId} userName={userName} />} />
         <Route path="/read/:id" element={<Read userId={userId} userName={userName} />} />
         <Route path="*" element={<List />} />
 

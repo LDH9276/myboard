@@ -4,8 +4,8 @@
   "private": true,
   "homepage": "http://leedh9276.dothome.co.kr/",
   "dependencies": {
-    "@ckeditor/ckeditor5-custom": "^39.0.1",
     "@ckeditor/ckeditor5-build-decoupled-document": "^39.0.1",
+    "@ckeditor/ckeditor5-custom": "^39.0.1",
     "@ckeditor/ckeditor5-editor-classic": "^39.0.1",
     "@ckeditor/ckeditor5-html-embed": "^39.0.1",
     "@ckeditor/ckeditor5-media-embed": "^39.0.1",
@@ -25,6 +25,7 @@
     "react-router-dom": "^6.15.0",
     "react-scripts": "^5.0.1",
     "redux": "^4.2.1",
+    "swiper": "^8.4.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

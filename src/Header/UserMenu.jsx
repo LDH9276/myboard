@@ -1,11 +1,22 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { loginMenuOn, loginMenuOff } from '../Redux/MenuToggle';
 
 function UserMenu(props) {
     const userId = useSelector(state => state.userId);
+    const loinMenu = useSelector(state => state.loginMenu);
+    const signupMenu = useSelector(state => state.signupMenu);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const handleLoginMenuClick = () => {
+        if(!loinMenu) {
+            dispatch(loginMenuOn());
+        } else {
+            dispatch(loginMenuOff());
+        }
+    };
 
     return (
         <div>
@@ -28,7 +39,7 @@ function UserMenu(props) {
                             <p>비회원입니다.</p>
                         </li>
                         <li>
-                            <button onClick={() => navigate('/login')}>로그인</button>
+                            <button onClick={() => handleLoginMenuClick()}>로그인</button>
                         </li>
                     </>
                 )}

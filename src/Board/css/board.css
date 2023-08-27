@@ -1,0 +1,70 @@
+.board-index{
+  width: 100%;
+}
+
+.board-thumb{
+  width: 100%;
+  height: 200px;
+  background: #f1c232;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+.board-detail{
+  padding: 25px 0px;
+}
+.board-module-wrap{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.board-module-category{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #f1c232;
+}
+
+.board-category-btn > button{
+  position: relative;
+  width: auto; height: 28px;
+  line-height: 14px;
+  padding-right: 15px;
+  display: inline-block;
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.board-category-btn.active button{
+  font-weight: 800;
+}
+.board-category-btn.active button::after{
+  position: absolute;
+  bottom: 0; left: 0;
+  content:""; display: block;
+  width: calc(100% - 15px);
+  height: 2px;
+  background: var(--main-color01);
+}
+
+.board-module-autorefresh{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #f1c232;
+}
+
+.board-module-autorefresh button{
+  display: block;
+  width: 40px; height: 24px;
+  border: 2px solid var(--main-color01);
+  background: transparent;
+  color: var(--main-color01);
+  cursor: pointer;
+  border-radius: 16px;
+}

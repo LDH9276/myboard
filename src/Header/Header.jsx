@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import UserMenu from './UserMenu';
 import './css/header.css';
 
 function Header(props) {
     const userId = useSelector(state => state.userId);
+    const userProfile = useSelector(state => state.userProfile);
+    
     const [menu, setMenu] = useState(false);
 
     return (
@@ -18,7 +20,7 @@ function Header(props) {
                 </div>
                 <div className="header-userbtn">
                     <button onClick={menu ? () => setMenu(false) : () => setMenu(true)} className='header-userprofile'>
-                        {userId ? userId : '프로필'}
+                        {userId ? <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} />   : '프로필'}
                     </button>
                     {menu ? (
                         <div className="header-usermenu active">

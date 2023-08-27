@@ -45,6 +45,8 @@ function CommentList({ id }) {
       const firstDepthComments = [];
       const secondDepthComments = [];
 
+      console.log(list);
+
       list.forEach(item => {
         if (item.comment_parent === null) {
           parentComments.push(item);
@@ -67,6 +69,8 @@ function CommentList({ id }) {
 
       setFilteredCommentList(hierarchicalComments);
 
+      console.log(hierarchicalComments);
+
       dispatch({ type: 'UPLOADED_COMMENT' });
     } catch (error) {
       console.error(error);
@@ -87,6 +91,10 @@ function CommentList({ id }) {
 
   const handleModify = (id) => {
     dispatch({ type: 'EDIT_COMMENT', payload: { editCommentId: id } });
+  }
+
+  const handleLike = (id) => {
+    dispatch({ type: 'LIKE_COMMENT', payload: { likeCommentId: id } });
   }
 
   const handleDelete = (id) => {
@@ -113,12 +121,12 @@ function CommentList({ id }) {
 
 
   return (
-    <div>
-      <ul className='firstchild-comment'>
-      {Array.isArray(filteredCommentList) &&
-          filteredCommentList.map(child => (
+<div>
+  <ul className='firstchild-comment'>
+    {Array.isArray(filteredCommentList) &&
+      filteredCommentList.map(child => (
         <li key={child.id}>
-          {editCommentId !== child.id ? (
+          {child.is_deleted !== 1 ? (
             <div className='comment-content'>
               <div className="comment-left-wrap">
                 <div className="comment-img-wrap">
@@ -141,41 +149,52 @@ function CommentList({ id }) {
                 ) : ''}
 
               </div>
-              <div className="comment-right-wrap">
+              <div className="comment-content-wrap">
+                {userId !== '' && editCommentId === child.id ? (
+                  <WriteComment commentId={child.id} answer={false} modify={true} id = {id} depth={child.comment_depth}/>) : (  
                   <CKEditor 
-                    editor={CustomEditor} 
-                    data={child.content} 
-                    disabled={true}
-                    config={{
-                      toolbar: [],
-                    }}
-                    readOnly={true}
-                  />
+                  editor={CustomEditor} 
+                  data={child.content} 
+                  disabled={true}
+                  config={{
+                    toolbar: [],
+                  }}
+                  readOnly={true}
+                />
+                )}
               </div>
-            </div>) : (
+              <div className="comment-like-wrap">
+                <img src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`} alt='댓글수' className='comment-item-icon'/>
+                <img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt='댓글수' className='comment-item-icon'/>
+                <span className='comment-like-count'>{child.total_like}</span>
+              </div>
+            </div>
+          ) : (
             <div className='comment-content modify'>
-              <WriteComment id={child.id} modify={true} commentId={child.id} content={child.content} />
+              삭제된 댓글입니다.
             </div>
           )}
 
           <div className="comment-answer-wrap">
             {userId !== '' && editAnswerParent === child.id && editAnswerId  === child.id ? (
-                <WriteComment commentId={child.id} answer={true} modify={false} id = {id} depth={child.comment_depth}/>
+              <WriteComment commentId={child.id} answer={true} modify={false} id = {id} depth={child.comment_depth}/>
             ) : ''}
           </div>
+
           <ul>
             <CommnetChild 
-            commentId={child.id}
-            children={child.children}
-            id={id}
-            handleModify={handleModify}
-            handleDelete={handleDelete}
-            handelAnswer={handelAnswer}
+              commentId={child.id}
+              children={child.children}
+              id={id}
+              handleModify={handleModify}
+              handleDelete={handleDelete}
+              handelAnswer={handelAnswer}
             />
           </ul>
-        </li>))}
-    </ul>
-    </div>
+        </li>
+      ))}
+  </ul>
+</div>
   );
 }
 

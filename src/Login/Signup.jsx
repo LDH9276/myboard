@@ -1,9 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { sendSignRequest } from '../API/sendSignRequest';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import './css/loginsign.css';
+import { loginMenuOn } from '../Redux/MenuToggle';
 
 function Sign(props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 입력값 State
   const [id, setId] = useState('');
@@ -68,36 +72,39 @@ function Sign(props) {
   };
 
   return (
-    <div className='board-container'>
-      <form onSubmit={onSubmit} encType="multipart/form-data">
+    <div className='loginform-wrap'>
+      <div className="loginform-box">
+        <form onSubmit={onSubmit} encType="multipart/form-data">
 
-        <label htmlFor="Id">
-          ID
-        </label>
-        <input type="text" id="id" name="id" value={id} onChange={(event) => setId(event.target.value)} />
-        <label htmlFor="password">
-          비밀번호
-        </label>
-        <input type="password" id="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+          <label htmlFor="Id">
+            ID
+          </label>
+          <input type="text" id="id" name="id" value={id} onChange={(event) => setId(event.target.value)} className='loginform-idform'/>
+          <label htmlFor="password">
+            비밀번호
+          </label>
+          <input type="password" id="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)}  className='loginform-idform' />
 
-        <label htmlFor="passwordCheck">
-          비밀번호 확인
-        </label>
-        <input type="password" id="passwordCheck" name="passwordCheck" value={passwordCheck} onChange={(event) => setPasswordCheck(event.target.value)} />
+          <label htmlFor="passwordCheck">
+            비밀번호 확인
+          </label>
+          <input type="password" id="passwordCheck" name="passwordCheck" value={passwordCheck} onChange={(event) => setPasswordCheck(event.target.value)} className='loginform-idform' />
 
-        <label htmlFor="email">
-          이름
-        </label>
-        <input type="text" id="name" name="name" value={name} onChange={(event) => setName(event.target.value)} />
+          <label htmlFor="email">
+            이름
+          </label>
+          <input type="text" id="name" name="name" value={name} onChange={(event) => setName(event.target.value)} className='loginform-idform' />
 
-        <label htmlFor="email">
-          이메일
-        </label>
-        <input type="text" id="email" name="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+          <label htmlFor="email">
+            이메일
+          </label>
+          <input type="text" id="email" name="email" value={email} onChange={(event) => setEmail(event.target.value)} className='loginform-idform' />
 
-        <button type="submit">Submit!</button>
-      </form>
-      {!success && <div>{error}</div>}
+          <button type="submit">Submit!</button>
+          <button type="button" onClick={() => dispatch(loginMenuOn())}>로그인하기</button>
+        </form>
+        {!success && <div>{error}</div>}
+      </div>
     </div>
   );
 }

@@ -4,11 +4,15 @@ import { sendLoginRequest } from '../API/sendLoginRequest';
 import { Cookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import { login } from '../Redux/Loginout';
+import './css/loginsign.css';
+import { signupMenuOn } from '../Redux/MenuToggle';
 
 function Login(props) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [idForm, setIdForm] = useState(false);
+  const [passwordForm, setPasswordForm] = useState(false);
   const cookie = new Cookies();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -21,10 +25,11 @@ function Login(props) {
       localStorage.setItem('access_token', data.access_token);
       cookie.set('refresh_token', data.refresh_token, {path: '/'}, {sameSite: 'strict'}, {httpOnly: true});
       if (data.success === true) {
-        dispatch(login(data.user_id, data.user_name, data.user_info));
+        const userProfile = data.user_profile_name + '.' + data.user_profile_ext;
+        dispatch(login(data.user_id, data.user_name, data.user_info, userProfile));
         navigate('/');
       } else {
-        setError(data.message);
+        setError(data.error);
       }
 
     } catch (error) {
@@ -33,15 +38,31 @@ function Login(props) {
     }
   };
 
+  const handleIdEvent = () => {
+    setIdForm(true);
+    setPasswordForm(false);
+  };
+
+  const handlePasswordEvent = () => {
+    setIdForm(false);
+    setPasswordForm(true);
+  };
+
   return (
-    <div className='board-container'>
+    <div className='loginform-wrap'>
+      <div className="loginform-box">
         <form onSubmit={onLoginClick}>
-            <input type="text" name="id" id="id" placeholder="id" onChange={(e) => setId(e.target.value)} />
-            <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-            <input type="submit" value="Login" />
+          <input type="text" name="id" id="id" placeholder="id" onChange={(e) => setId(e.target.value)} className={idForm ? 'loginform-idform active' : 'loginform-idform'} onClick={()=> handleIdEvent()}/>
+          <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}  className={passwordForm ? 'loginform-idform active' : 'loginform-idform'} onClick={()=>handlePasswordEvent()}/>
+
+          <p>{error}</p>
+
+          <input type="submit" value="Login" className='loginform-loginbtn'/>
         </form>
-        <p>{error}</p>
-        <Link to="/signup">회원가입</Link>
+        <button className='loginform-signupbtn' onClick={() => dispatch(signupMenuOn())}>Sign Up</button>
+      </div>
+
+
     </div>
   );
 }

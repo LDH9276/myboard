@@ -4,3 +4,6 @@
   border: none !important;
   outline-color: transparent !important;
 }
+.comment-content.modify{
+  line-height: 40px;
+}

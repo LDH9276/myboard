@@ -1,10 +1,36 @@
-.read .ck-reset_all {
+
+/* 제목, 프로필 영역 */
+.board_title{
+  margin-bottom: 20px;
+}
+
+.read-writer-profile{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.read-profile-img{
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+.read-profile-time{
+  font-size: 12px;
+  line-height: 22px;
+  color: #d9d9d9;
+}
+
+
+.read-content-wrap .ck-reset_all {
   display: none !important;
 }
-.read .ck,
-.read .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected,
-.read .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover {
+.read-content-wrap .ck,
+.read-content-wrap .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected,
+.read-content-wrap .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover {
   border: none !important;
+  padding: 0px !important;
   outline-color: transparent !important;
 }
 
@@ -12,13 +38,16 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  height: 100px;
+  padding: 24px 0px;
 }
 .comment-left-wrap{
   width: 240px;
 }
-.comment-right-wrap{
+.comment-content-wrap{
   width: 100%;
+}
+.comment-like-wrap{
+  width: 100px;
 }
 .comment-item-writer{
   display: block;
@@ -56,7 +85,6 @@
   line-height: 22px;
   padding: 0px 5px;
 }
-
 .comment-asnwer-wrap{
   width: 100%;
   background: #333;
@@ -74,7 +102,6 @@
 .comment-content .ck-reset_all {
   display: none !important;
 }
-
 .comment-content.modify .ck{
   background: #f8f8f8 !important;
 }

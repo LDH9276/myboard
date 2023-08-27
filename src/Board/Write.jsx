@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import CustomEditor from '@ckeditor/ckeditor5-custom';
 import './css/write.css'
@@ -9,6 +10,7 @@ function Write({userId, userName}) {
 
   // State, Props
   const { id } = useParams();
+  const boardId = useSelector(state => state.boardId);
   const { mod } = useParams();
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
@@ -58,6 +60,7 @@ function Write({userId, userName}) {
     formData.append('nickname', userName);
     formData.append('content', content);
     formData.append('title', title);
+    formData.append('board', boardId);
 
     console.log(formData);
 
@@ -67,7 +70,7 @@ function Write({userId, userName}) {
       axios.post(postWriteLink, formData)
       .then((res) => {
         alert('수정 완료');
-        navigate('/');
+        navigate(`/board/${boardId}`);
       })
       .catch((err) => {
         console.error(err);
@@ -76,8 +79,9 @@ function Write({userId, userName}) {
     } else {
     axios.post(postWriteLink, formData)
       .then((res) => {
+        console.log(res.data);
         alert('업로드 완료');
-        navigate('/');
+        navigate(`/board/${boardId}`);
       })
       .catch((err) => {
         console.error(err);

@@ -1,0 +1,44 @@
+.loginform-wrap{
+  position: fixed;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  top: 0; left: 0;
+  z-index: 10000;
+}
+
+.loginform-box{
+  position: absolute;
+  min-width: 400px;
+  max-width: 500px;
+  padding: 60px 40px;
+  background: #fff;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginform-idform{
+  width: 100%;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid #d9d9d9;
+  line-height: 32px;
+  font-size: 16px;
+  margin-bottom: 32px;
+}
+.loginform-idform.active{
+  border-bottom: 2px solid #000;
+}
+
+.loginform-loginbtn{
+  width: 100%;
+  height: 40px;
+  background: var(--main-color01);
+  border: none;
+  color: #fff;
+  margin-bottom: 32px;
+}

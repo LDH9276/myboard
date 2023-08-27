@@ -7,16 +7,17 @@ import BottomNav from './BottomNav';
 import TodayPost from './TodayPost';
 import './css/list.css';
 
-function List({boardId, postCategory, boardCate, autoRefresh}) {
+function ListModules({postCategory, boardCate, autoRefresh}) {
 
-  const pagination = "http://localhost/myboard_server/Board/Post_Pagination.php";
-  const listCheck  = "http://localhost/myboard_server/Board/Post_List.php";
+  const pagination = "http://localhost/myboard_server/Board/Module/Post_Pagination.php";
+  const listCheck  = "http://localhost/myboard_server/Board/Module/Post_List.php";
 
+  const boardId = sessionStorage.getItem('boardId');
   const [boardList, setBoardList] = useState([]);
   const [newPost, setNewPost] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
-  const [postsPerPage] = useState(10);
+  const [postsPerPage] = useState(5);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
 
   const totalList = async () => {
@@ -43,16 +44,14 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
   };
 
   useEffect(() => {
-    list();
-  }, [boardCate]);
-
-  useEffect(() => {
+    setCurrentPage(1);
     totalList();
   }, []);
 
   useEffect(() => {
     list();
-  }, [currentPage]);
+  }, [boardCate, boardId, currentPage]);
+
 
   // 실시간 갱신하기
   const refreshPage = async () => {
@@ -108,7 +107,6 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
 
   return (
     <div className='board-container'>
-      <TodayPost postCategory={postCategory} newPost={newPost} newPostReset={newPostReset} PostUpdateDate={PostUpdateDate}/>
       <ul>
         {newPost ? <li className='board-list-newpost'><button onClick={()=>newPostReset()}>새 글이 추가 되었습니다! <br/> <span>갱신하기</span></button></li> : ''}
         {boardList.length === 0 ? <li className='board-list-newpost'>게시글이 없습니다.</li> : ''}
@@ -133,9 +131,8 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
         page={currentPage}
         setPage={setCurrentPage}
       />
-      {isLoggedIn ? (<BottomNav />) : ''}
     </div>
   );
 }
 
-export default List;
+export default ListModules;
