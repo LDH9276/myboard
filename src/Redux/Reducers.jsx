@@ -25,8 +25,13 @@ const initialState = {
 };
 
 function rootReducer(state = initialState, action) {
+  function insetSessionId(userId) {
+    sessionStorage.setItem('userId', userId);
+  }
+
   function clearLocalStorageAndCache() {
     localStorage.clear();
+    sessionStorage.clear();
   }
 
   function boardInfoSave(boardId) {
@@ -59,6 +64,7 @@ function rootReducer(state = initialState, action) {
         loginMenu: false
       };
     case LOGIN:
+      insetSessionId(action.payload.userId);
       return {
         ...state,
         isLoggedIn: true,
@@ -83,7 +89,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         boardId: action.payload.boardId,
-        boardName: action.payload.boardName
+        userId: action.payload.userId
       };
     case READ:
       return {

@@ -6,6 +6,7 @@
 .todayboard-list-wrap{
   display: flex;
   margin-bottom: 20px;
+  padding-left: 16px;
 }
 .todayboard-list-wrap .swiper-slide{
   position: relative;
@@ -16,7 +17,6 @@
   border: 1px solid #FFBE7C;
   padding: 14px;
   box-sizing: border-box;
-  transform: translateX(1px);
 }
 .today-item-category{
   color: var(--main-color02);

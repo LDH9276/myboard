@@ -10,6 +10,7 @@ import CommentList from './CommentList';
 import List from './List';
 import ListModules from './ListModules';
 import ListModule from './ListModule';
+import BestCommentList from './BestCommentList';
 
 function Read() {
   
@@ -263,6 +264,7 @@ function Read() {
       {/* <button onClick={() => navigate(`/board/${boardId}`)}>목록으로</button> */}
       
       <div className="comment">
+        <BestCommentList id={id} />
         {isPending ? (
           <p>Loading...</p>
         ) : (

@@ -34,6 +34,51 @@
   outline-color: transparent !important;
 }
 
+/* 베댓 영역 */
+.comment-best-area{
+  width: 100%;
+  padding: 24px 16px;
+  background: #f8f8f8;
+  box-sizing: border-box;
+}
+
+.comment-best-wrap{
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0px;
+}
+
+.comment-bset-writer{
+  width: 100px;
+}
+.comment-best-content{
+  width: 100%;
+  padding-left: 20px;
+}
+.comment-best-content .ck{
+  border: none !important;
+  outline-color: transparent !important;
+  background: transparent !important;
+}
+.comment-best-content p{
+  margin-top: 0px !important;
+}
+
+.comment-best-icon{
+  width:80px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+.comment-best-icon-img{
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+
+/* 댓글 영역 */
+
 .comment-content{
   width: 100%;
   display: flex;
@@ -48,7 +93,61 @@
 }
 .comment-like-wrap{
   width: 100px;
+  display: flex;
+  gap: 5px;
 }
+.comment-like-icon_wrap{
+  width: 14px;
+  height: 14px;
+  position: relative;
+}
+.comment-item-icon{
+  display: block;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px; height: 14px;
+  object-fit: contain;
+  opacity: 0;
+  transition: .5s;
+  animation: dislike 0.5s ease-in-out;
+}
+.comment-item-icon.active{
+  opacity: 1;
+  animation: like 0.5s ease-in-out;
+}
+.comment-item-back{
+  display: block;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px; height: 14px;
+  object-fit: contain;
+}
+
+@keyframes like {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes dislike {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+}
+
 .comment-item-writer{
   display: block;
   font-weight: 600;

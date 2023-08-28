@@ -1,5 +1,7 @@
 .board-index{
   width: 100%;
+  padding: 0px 16px;
+  box-sizing: border-box;
 }
 
 .board-thumb{
@@ -16,6 +18,8 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
+  padding: 0px 16px;
+  box-sizing: border-box;
 }
 
 .board-module-category{

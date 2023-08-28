@@ -20,7 +20,7 @@ function Header(props) {
                 </div>
                 <div className="header-userbtn">
                     <button onClick={menu ? () => setMenu(false) : () => setMenu(true)} className='header-userprofile'>
-                        {userId ? <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} />   : '프로필'}
+                        {userId ? <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} />   : <img src={`http://localhost/myboard_server/Users/Profile/menu.png`} alt='not login' />}
                     </button>
                     {menu ? (
                         <div className="header-usermenu active">

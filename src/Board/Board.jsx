@@ -10,7 +10,8 @@ import { boardOppend } from '../Redux/Board';
 
 function Board() {
 
-  const boardLink = "http://localhost/myboard_server/Board/Board_ListCheck.php";
+  const userId = useSelector(state => state.userId);
+  const boardLink = process.env.REACT_APP_BOARD_LIST_CHECK;
   const dispatch = useDispatch();
   const [boardCate, setBoardCate] = useState('*');
   const [boardList, setBoardList] = useState([]);
@@ -21,12 +22,11 @@ function Board() {
 
   const readBoard = async () => {
     try {
+      console.log(id);
+      dispatch(boardOppend(id, userId));
       const response = await axios.post(`${boardLink}?id=${id}`);
-      console.log(response.data.boardlist);
-      console.log(response.data.boardlist.board_category);
       setBoardList(response.data.boardlist);
       setPostCategory(response.data.boardlist[0].board_category);
-      dispatch(boardOppend(id, response.data.boardlist[0].board_name));
     } catch (error) {
       console.error(error);
     }
@@ -34,13 +34,8 @@ function Board() {
 
   useEffect(() => {
     readBoard();
-    console.log(boardCate);
-  }, []);
+  }, [id]);
     
-  useEffect(() => {
-    console.log(boardCate);
-  }, [boardCate]);
-
   return (
     <div className='board-container'>
       {Array.isArray(boardList) && boardList.map((board, index) => (

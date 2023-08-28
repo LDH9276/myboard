@@ -63,7 +63,7 @@ function Sign(props) {
       setSuccess(true);
       if(data.success === true) {
         alert('회원가입이 완료되었습니다.');
-        navigate('/login');
+        dispatch(loginMenuOn());
       }
     } catch (error) {
       console.error(error);

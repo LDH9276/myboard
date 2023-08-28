@@ -56,7 +56,6 @@ function ListModules({postCategory, boardCate, autoRefresh}) {
   // 실시간 갱신하기
   const refreshPage = async () => {
     const response = await axios.post(`${pagination}?board=${boardId}`);
-    console.log(totalPosts + ',' + response.data.total);
     if(totalPosts < response.data.total){
       setNewPost(true);
     }
@@ -74,7 +73,6 @@ function ListModules({postCategory, boardCate, autoRefresh}) {
     if (autoRefresh && currentPage < 11) {
       const interval = setInterval(() => {
         refreshPage();
-        console.log('실시간 갱신');
       }, 5000);
       return () => clearInterval(interval);
     } else {

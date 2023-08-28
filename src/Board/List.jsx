@@ -35,7 +35,6 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
   const list = async () => {
     try {
       const response = await axios.post(`${listCheck}?page=${currentPage}&board=${boardId}&boardCate=${boardCate}`);
-      console.log(response.data.list);
       setBoardList(response.data.list);
     } catch (error) {
       console.error(error);
@@ -57,7 +56,6 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
   // 실시간 갱신하기
   const refreshPage = async () => {
     const response = await axios.post(`${pagination}?board=${boardId}`);
-    console.log(totalPosts + ',' + response.data.total);
     if(totalPosts < response.data.total){
       setNewPost(true);
     }
@@ -70,12 +68,9 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
   };
 
   useEffect(() => {
-    console.log(totalPosts);
-    console.log(autoRefresh);
     if (autoRefresh && currentPage < 11) {
       const interval = setInterval(() => {
         refreshPage();
-        console.log('실시간 갱신');
       }, 5000);
       return () => clearInterval(interval);
     } else {
@@ -109,8 +104,28 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
   return (
     <div className='board-container'>
       <TodayPost postCategory={postCategory} newPost={newPost} newPostReset={newPostReset} PostUpdateDate={PostUpdateDate}/>
-      <ul>
+      {userId === 'Admin' ? (
+        <ul>
         {newPost ? <li className='board-list-newpost'><button onClick={()=>newPostReset()}>새 글이 추가 되었습니다! <br/> <span>갱신하기</span></button></li> : ''}
+        {boardList.length === 0 ? <li className='board-list-newpost'>게시글이 없습니다.</li> : ''}
+        {Array.isArray(boardList) && boardList.map(item => (
+          <li key={item.id}>
+            <checkbox className='board-list-item' />
+            <Link to={`/read/${item.id}`} className='board-list-item'>
+            <p className='board-item-category'>{postCategory[item.cat]}</p>
+            <p className='board-item-title'>{item.title} </p>
+            <p className='board-item-date'>{PostUpdateDate(item.reg_date)}</p>
+            <p className='board-item-writer'><img src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`} alt={item.nickname}  className='board-item-profile'/>{item.nickname}</p>
+            <p className='board-badge-wrap'>
+              <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt='댓글수' className='board-item-icon'/>{item.total_like}</span>
+              <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/comment.svg`} alt='댓글수' className='board-item-icon'/>{item.comment_count}</span>
+            </p>
+            </Link>
+          </li>
+        ))}
+        </ul>) : (
+          <ul>
+                    {newPost ? <li className='board-list-newpost'><button onClick={()=>newPostReset()}>새 글이 추가 되었습니다! <br/> <span>갱신하기</span></button></li> : ''}
         {boardList.length === 0 ? <li className='board-list-newpost'>게시글이 없습니다.</li> : ''}
         {Array.isArray(boardList) && boardList.map(item => (
           <li key={item.id}>
@@ -126,7 +141,11 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
             </Link>
           </li>
         ))}
-      </ul>
+        </ul>)}
+
+
+    
+    }
       <Pagination
         total={totalPosts}
         limit={postsPerPage}
