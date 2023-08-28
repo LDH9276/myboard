@@ -28,6 +28,7 @@ function Read() {
   const [totalLike, setTotalLike] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [contents, setContents] = useState([]);
   const [boardCate, setBoardCate] = useState('*');
   const [boardList, setBoardList] = useState([]);
   const [autoRefresh, setAutoRefresh] = useState(true);
@@ -244,7 +245,7 @@ function Read() {
             <div className="read-content-wrap">
               <CKEditor
                 editor={CustomEditor}
-                data={item.content}
+                data={contents}
                 readOnly={true}
                 toolbar={[]}
                 disabled={true}

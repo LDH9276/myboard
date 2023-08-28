@@ -53,6 +53,25 @@
 
 
 /* 게시물 서식 */
+.board-delete-chkbox{
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--main-color02);
+  position: relative;
+}
+.board-delete-chkbox.checked::after{
+  content: '✓';
+  font-size: 22px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.board-admin-list{
+  display: flex;
+  align-items: center;
+}
 .board-list-legend{
   display: flex;
   justify-content: space-around;

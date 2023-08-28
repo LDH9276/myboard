@@ -149,6 +149,7 @@ function CommentList({ id }) {
       } else {
         if(commentLike){
           const formdata = new FormData();
+          formdata.append("post_id", id);
           formdata.append("comment_id", commentId);
           formdata.append("user_id", userId);
           formdata.append("like", false);
@@ -183,6 +184,12 @@ function CommentList({ id }) {
         {Array.isArray(filteredCommentList) &&
           filteredCommentList.map((child) => (
             <li key={child.id}>
+              {userId === 'Admin' ? (
+                <div className="comment-checkbox-wrap">
+                  <button className=".board-delete-chkbox" onClick={() => handleDelete(child.id)}>&nbsp;</button>
+                </div>
+              ) : ''}
+
               {child.is_deleted !== 1 ? (
                 <div className="comment-content">
                   <div className="comment-left-wrap">
@@ -243,14 +250,26 @@ function CommentList({ id }) {
                       />
                     )}
                   </div>
-                  {/* 좋아요 부분 */}
+                  {child.writer === userId ? (
                   <div className="comment-like-wrap">
-                    <span
-                      className="comment-like-icon_wrap"
-                      onClick={() =>
-                        handleLikeAction(child.id, child.like)
-                      }
-                    >
+                      <span className="comment-like-icon_wrap">
+                      <img
+                        src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`}
+                        alt="댓글수"
+                        className="comment-item-back"
+                      />
+                      <img
+                        src={`${process.env.PUBLIC_URL}/btn/like.svg`}
+                        alt="댓글수"
+                        className='comment-item-icon active'
+                      />
+                    </span>
+                    <span className="comment-like-count">
+                      {child.total_like}
+                    </span>
+                  </div>) : (
+                  <div className="comment-like-wrap"  onClick={() => handleLikeAction(child.id, child.like)}>
+                    <span className="comment-like-icon_wrap">
                       <img
                         src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`}
                         alt="댓글수"
@@ -267,8 +286,8 @@ function CommentList({ id }) {
                     <span className="comment-like-count">
                       {child.total_like}
                     </span>
-                  </div>
-                </div>
+                  </div>)}
+              </div>
               ) : (
                 <div className="comment-content modify">삭제된 댓글입니다.</div>
               )}

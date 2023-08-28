@@ -12,11 +12,13 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
   const pagination = "http://localhost/myboard_server/Board/Post_Pagination.php";
   const listCheck  = "http://localhost/myboard_server/Board/Post_List.php";
 
+  const userId = useSelector(state => state.userId);
   const [boardList, setBoardList] = useState([]);
   const [newPost, setNewPost] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
   const [postsPerPage] = useState(10);
+  const [adminDelete, setAdminDelete] = useState([]);
   const isLoggedIn = useSelector(state => state.isLoggedIn);
 
   const totalList = async () => {
@@ -78,6 +80,20 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
     }
   }, [currentPage, totalPosts, autoRefresh]);
 
+  const handelDeleteCheck = (id) => {
+    console.log(adminDelete);
+    if(adminDelete.includes(id)){
+      setAdminDelete(adminDelete.filter(item => item !== id));
+    } else {
+      setAdminDelete([...adminDelete, id]);
+      
+    }
+  };
+
+  const deleteSubmit = async () => {
+    console.log(adminDelete);
+  };
+
   const PostUpdateDate = (date) => {
     const now = new Date();
     const postDate = new Date(date);
@@ -109,8 +125,10 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
         {newPost ? <li className='board-list-newpost'><button onClick={()=>newPostReset()}>새 글이 추가 되었습니다! <br/> <span>갱신하기</span></button></li> : ''}
         {boardList.length === 0 ? <li className='board-list-newpost'>게시글이 없습니다.</li> : ''}
         {Array.isArray(boardList) && boardList.map(item => (
-          <li key={item.id}>
-            <checkbox className='board-list-item' />
+          <li key={item.id} className='board-admin-list'>
+            <button name="delete" id={item.id} className={adminDelete.includes(item.id) ? 'board-delete-chkbox checked' : 'board-delete-chkbox'} onClick={() => handelDeleteCheck(item.id)}>
+              &nbsp;
+            </button>
             <Link to={`/read/${item.id}`} className='board-list-item'>
             <p className='board-item-category'>{postCategory[item.cat]}</p>
             <p className='board-item-title'>{item.title} </p>
@@ -124,28 +142,30 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
           </li>
         ))}
         </ul>) : (
-          <ul>
-                    {newPost ? <li className='board-list-newpost'><button onClick={()=>newPostReset()}>새 글이 추가 되었습니다! <br/> <span>갱신하기</span></button></li> : ''}
-        {boardList.length === 0 ? <li className='board-list-newpost'>게시글이 없습니다.</li> : ''}
-        {Array.isArray(boardList) && boardList.map(item => (
-          <li key={item.id}>
-            <Link to={`/read/${item.id}`} className='board-list-item'>
-            <p className='board-item-category'>{postCategory[item.cat]}</p>
-            <p className='board-item-title'>{item.title} </p>
-            <p className='board-item-date'>{PostUpdateDate(item.reg_date)}</p>
-            <p className='board-item-writer'><img src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`} alt={item.nickname}  className='board-item-profile'/>{item.nickname}</p>
-            <p className='board-badge-wrap'>
-              <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt='댓글수' className='board-item-icon'/>{item.total_like}</span>
-              <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/comment.svg`} alt='댓글수' className='board-item-icon'/>{item.comment_count}</span>
-            </p>
-            </Link>
-          </li>
-        ))}
+        <ul>
+          {newPost ? <li className='board-list-newpost'><button onClick={()=>newPostReset()}>새 글이 추가 되었습니다! <br/> <span>갱신하기</span></button></li> : ''}
+          {boardList.length === 0 ? <li className='board-list-newpost'>게시글이 없습니다.</li> : ''}
+          {Array.isArray(boardList) && boardList.map(item => (
+            <li key={item.id}>
+              <Link to={`/read/${item.id}`} className='board-list-item'>
+              <p className='board-item-category'>{postCategory[item.cat]}</p>
+              <p className='board-item-title'>{item.title} </p>
+              <p className='board-item-date'>{PostUpdateDate(item.reg_date)}</p>
+              <p className='board-item-writer'><img src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`} alt={item.nickname}  className='board-item-profile'/>{item.nickname}</p>
+              <p className='board-badge-wrap'>
+                <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt='댓글수' className='board-item-icon'/>{item.total_like}</span>
+                <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/comment.svg`} alt='댓글수' className='board-item-icon'/>{item.comment_count}</span>
+              </p>
+              </Link>
+            </li>
+          ))}
         </ul>)}
-
-
-    
-    }
+      {userId === 'Admin' ? (
+        <div className='board-admin-btn-wrap'>
+          <button className='board-admin-btn' onClick={() => {deleteSubmit()}}>삭제</button>
+        </div>
+      ) : ''}
+      
       <Pagination
         total={totalPosts}
         limit={postsPerPage}
