@@ -4,6 +4,7 @@ import { UPLOAD_COMMENT, UPLOADED_COMMENT, EDIT_COMMENT, EDIT_ANSWER } from './U
 import { COMMENT_LIST } from './CommentList';
 import { LOGINMENUON, LOGINMENUOFF, SIGNUPMENUON, SIGNUPMENUOFF } from './MenuToggle';
 import { BOARD_OPENED } from './Board';
+import { HEADERMENUON } from './Loginout';
 
 const initialState = {
   isLoggedIn: false,
@@ -21,7 +22,8 @@ const initialState = {
   editAnswerParent: null,
   totalCommentLists: [],
   loginMenu: false,
-  signupMenu: false
+  signupMenu: false,
+  headerMenu: false,
 };
 
 function rootReducer(state = initialState, action) {
@@ -34,11 +36,17 @@ function rootReducer(state = initialState, action) {
     sessionStorage.clear();
   }
 
-  function boardInfoSave(boardId) {
+  function boardInfoSave(boardId, boardName) {
     sessionStorage.setItem('boardId', boardId);
+    sessionStorage.setItem('boardName', boardName);
   }
 
   switch (action.type) {
+    case HEADERMENUON:
+      return {
+        ...state,
+        headerMenu: action.payload.headerMenu
+      };
     case LOGINMENUON:
       return {
         ...state,
@@ -73,6 +81,7 @@ function rootReducer(state = initialState, action) {
         userName: action.payload.userName,
         userProfile: action.payload.userProfile,
         userInfo: action.payload.userInfo,
+        headerMenu: false
       };
     case LOGOUT:
       clearLocalStorageAndCache();
@@ -85,10 +94,11 @@ function rootReducer(state = initialState, action) {
         userInfo: ''
       };
     case BOARD_OPENED:
-      boardInfoSave(action.payload.boardId);
+      boardInfoSave(action.payload.boardId, action.payload.boardName);
       return {
         ...state,
         boardId: action.payload.boardId,
+        boardName: action.payload.boardName,
         userId: action.payload.userId
       };
     case READ:

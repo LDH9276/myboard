@@ -8,6 +8,7 @@ function CommentGrandChild({
   commentId,
   children,
   id,
+  userId,
   handleModify,
   handleDelete,
   handelAnswer,
@@ -16,7 +17,6 @@ function CommentGrandChild({
   const editCommentId = useSelector((state) => state.editCommentId);
   const editAnswerParent = useSelector((state) => state.editAnswerParent);
   const editAnswerId = useSelector((state) => state.editAnswerId);
-  const userId = useSelector((state) => state.userId);
 
   return (
     <ul className="thirdchild-comment">

@@ -10,7 +10,7 @@ function Write({userId, userName}) {
 
   // State, Props
   const { id } = useParams();
-  const boardId = useSelector(state => state.boardId);
+  const boardId = sessionStorage.getItem('boardId');
   const { mod } = useParams();
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');

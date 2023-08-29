@@ -26,7 +26,9 @@ function BestCommentList({id}) {
   }, [id]);
 
   return (
-    <div className='comment-best-area'>
+    <div>
+      {bestComment.length > 0 ? (
+      <div className='comment-best-area'>
       {Array.isArray(bestComment) && bestComment.map((comment, index) => (
         <div key={index} className='comment-best-wrap'>
           <div className='comment-best-writer'>{comment.writer}</div>
@@ -47,7 +49,7 @@ function BestCommentList({id}) {
           </div>
         </div>
       ))}
-      
+      </div>) : ''}
     </div>
   );
 }

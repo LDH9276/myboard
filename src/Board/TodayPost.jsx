@@ -8,9 +8,8 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 
 
-function TodayPost({postCategory, PostUpdateDate, newPost, newPostReset}) {
+function TodayPost({newPost, newPostReset}) {
 
-  const navigate = useNavigate();
   const todayPost = "http://localhost/myboard_server/Board/Post_TodayPost.php";
   const boardId = sessionStorage.getItem('boardId');
   const [slidesTotal, setSlidesTotal] = useState(true);

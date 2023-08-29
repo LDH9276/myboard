@@ -53,6 +53,11 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
 
   useEffect(() => {
     list();
+    totalList();
+  }, [boardId]);
+
+  useEffect(() => {
+    list();
   }, [currentPage]);
 
   // 실시간 갱신하기

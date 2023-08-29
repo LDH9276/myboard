@@ -1,25 +1,23 @@
 import React, { useEffect, useTransition, useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { useSelector, useDispatch } from 'react-redux';
 import CustomEditor from '@ckeditor/ckeditor5-custom';
 import WriteComment from './WriteComment';
-import './css/read.css';
 import CommentList from './CommentList';
-import List from './List';
 import ListModules from './ListModules';
 import ListModule from './ListModule';
 import BestCommentList from './BestCommentList';
+import './css/read.css';
 
-function Read() {
+function Read( {userId} ) {
   
   const { id } = useParams();
   const isLoggedIn = useSelector(state => state.isLoggedIn);
-  const userId = useSelector(state => state.userId);
   const content = useSelector(state => state.content);
   const boardId = sessionStorage.getItem('boardId');
-  const boardName = useSelector(state => state.boardName);
+  const boardName = sessionStorage.getItem('boardName');
   const writer = useSelector(state => state.writer);
   const [like, setLike] = useState(false);
   const [likeClickTime, setLikeClickTime] = useState(0);
@@ -37,8 +35,6 @@ function Read() {
   const readBoard = async () => {
     try {
       const response = await axios.post(`${boardLink}?id=${boardId}`);
-      console.log(response.data.boardlist);
-      console.log(response.data.boardlist.board_category);
       setBoardList(response.data.boardlist);
       setPostCategory(response.data.boardlist[0].board_category);
     } catch (error) {
@@ -61,7 +57,7 @@ function Read() {
 
   useEffect(() => {
     readBoard();
-  }, []);
+  }, [userId]);
 
   const readContent = async () => {
     try {
@@ -70,7 +66,9 @@ function Read() {
         item.content = item.content.replace(/\\/g, '');
         return item;
       });
+      console.log(list);
       dispatch({type: 'READ', payload: {writer : list[0].writer, content: list}});
+      setContents(list[0].content);
       setUpdateDate(list[0].reg_date);
       setTotalLike(list[0].total_like);
     } catch (error) {
@@ -84,7 +82,6 @@ function Read() {
       formdata.append('id', id);
       formdata.append('user_id', userId);
       const response = await axios.post(postLikeChek, formdata);
-      console.log(response.data);
       if(response.data.like_status) {
         setLike(true);
       } else {
@@ -99,10 +96,7 @@ function Read() {
     try {
       const formdata = new FormData();
       formdata.append('writer', writer);
-
       const response = await axios.post(writerInfo, formdata);
-      console.log(response.data);
-
       setWriterName(response.data.name);
       setWriterProfile(response.data.profile);
       setWriterProfileImg(response.data.profile_name + '.' + response.data.profile_ext);
@@ -124,7 +118,6 @@ function Read() {
   }, [id]);
 
   useEffect(() => {
-    console.log(writer);
     readWriterInfo();
   }, [writer]);
 
@@ -227,7 +220,9 @@ function Read() {
     <div className='board-container'>
       <ul>
           <li className='board_title'>
-            <h2>{boardName}</h2>
+            <Link to ={`/board/${boardId}`}>
+              <h2>{boardName}</h2>
+            </Link>
           </li>
           <li>
             <div className="read-writer-wrap">
@@ -238,11 +233,14 @@ function Read() {
                   <p className='read-profile-time'>{PostUpdateDate(updateDate)}</p>
                 </div>
               </div>
+              <div className="read-title-wrap">
+                <h3>{content ? content[0].title : ''}</h3>
+              </div>
               
 
             </div>
         {Array.isArray(content) && content.map(item => (
-            <div className="read-content-wrap">
+            <div className="read-content-wrap" key={item.id}>
               <CKEditor
                 editor={CustomEditor}
                 data={contents}
@@ -269,7 +267,7 @@ function Read() {
         {isPending ? (
           <p>Loading...</p>
         ) : (
-          <CommentList id={id} />
+          <CommentList id={id} userId={userId} />
         )}
         {isLoggedIn ? (
           <WriteComment id={id} />

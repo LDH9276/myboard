@@ -5,11 +5,10 @@ import CustomEditor from '@ckeditor/ckeditor5-custom';
 import WriteComment from './WriteComment';
 import CommentGrandChild from './CommentGrandChild';
 
-function CommnetChild({commentId, children, id, handleModify, handleDelete, handelAnswer, handleLikeAction}) {
+function CommnetChild({commentId, children, id, handleModify, handleDelete, handelAnswer, handleLikeAction, userId}) {
   const editAnswerParent = useSelector(state => state.editAnswerParent);
   const editCommentId = useSelector(state => state.editCommentId);
   const editAnswerId = useSelector(state => state.editAnswerId);
-  const userId = useSelector(state => state.userId);
 
   return (
 <ul className='secondchild-comment'>
@@ -97,6 +96,7 @@ function CommnetChild({commentId, children, id, handleModify, handleDelete, hand
       </div>
       <ul>
         <CommentGrandChild 
+          userId={userId}
           commentId={child.id}
           children={child.children}
           id={id}

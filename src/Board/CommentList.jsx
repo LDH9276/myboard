@@ -5,15 +5,15 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import CustomEditor from "@ckeditor/ckeditor5-custom";
 import WriteComment from "./WriteComment";
 import { editAnswer } from "../Redux/UploadComment";
+import CryptoJS from "crypto-js";
 import CommnetChild from "./CommnetChild";
 import "./css/comment.css";
 
-function CommentList({ id }) {
+function CommentList({ id, userId }) {
   const uploadedComment = useSelector((state) => state.uploadedComment);
   const editCommentId = useSelector((state) => state.editCommentId);
   const editAnswerId = useSelector((state) => state.editAnswerId);
   const editAnswerParent = useSelector((state) => state.editAnswerParent);
-  const userId = sessionStorage.getItem("userId");
   const [likeClickTime, setLikeClickTime] = useState("");
   const [likeStatus, setLikeStatus] = useState({});
   const [totalLikes, setTotalLikes] = useState({});
@@ -39,7 +39,6 @@ function CommentList({ id }) {
 
   useEffect(() => {
     readContent();
-    console.log("좋아요 상태 변경");
   }, [likeStatus]);
 
   useEffect(() => {
@@ -48,6 +47,7 @@ function CommentList({ id }) {
 
   const readContent = async () => {
     try {
+      
       const sessionUserID = sessionStorage.getItem("userId");
       const formData = new FormData();
       formData.append("post_id", id ? id : sessionStorage.getItem("postId"));
@@ -87,8 +87,6 @@ function CommentList({ id }) {
       const hierarchicalComments = parentComments;
 
       setFilteredCommentList(hierarchicalComments);
-
-      console.log(hierarchicalComments);
 
       dispatch({ type: "UPLOADED_COMMENT" });
     } catch (error) {
@@ -144,7 +142,6 @@ function CommentList({ id }) {
       // 이전 함수가 실행된지 3초 이내라면 실행하지 않음
       const now = new Date();
       if (now - likeClickTime < 1500) {
-        console.log("3초 이내에는 실행할 수 없습니다.");
         return;
       } else {
         if(commentLike){
@@ -310,6 +307,7 @@ function CommentList({ id }) {
 
               <ul>
                 <CommnetChild
+                  userId={userId}
                   commentId={child.id}
                   children={child.children}
                   id={id}

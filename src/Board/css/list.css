@@ -18,12 +18,19 @@
   padding: 14px;
   box-sizing: border-box;
 }
+
+.swiper-slide:not(.swiper-slide-prev){
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
 .today-item-category{
   color: var(--main-color02);
   font-weight: 800;
   font-size: 14px;
 }
 .today-item-title{
+  position: absolute;
+  bottom: 50px;
   font-weight: 600;
   font-size: 22px;
   margin-top: 5px;
@@ -32,8 +39,11 @@
 
 .today-item-bottom_wrap{
   display: flex;
+  border-top: 1px solid #eeeeee;
   width: calc(100% - 28px);
+  padding-top: 10px;
   justify-content: space-between;
+  align-items: center;
   position: absolute;
   bottom: 10px;
 }
@@ -48,6 +58,14 @@
   align-items: center;
   gap: 5px;
   font-size: 14px;
+}
+.today-badge-wrap{
+  display: flex;
+  gap: 10px;
+}
+.today-badge-like{
+  display: flex;
+  gap: 5px;
 }
 
 
