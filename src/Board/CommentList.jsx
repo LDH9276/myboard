@@ -47,11 +47,10 @@ function CommentList({ id, userId }) {
 
   const readContent = async () => {
     try {
-      
       const sessionUserID = sessionStorage.getItem("userId");
       const formData = new FormData();
       formData.append("post_id", id ? id : sessionStorage.getItem("postId"));
-      formData.append("user_id", userId ? userId : sessionUserID);
+      formData.append("user_id", userId ? userId : sessionUserID); // 새로고침시 로그인 정보가 사라지는 것을 방지하기 위해 sessionStorage에 저장된 userId를 사용
 
       const response = await axios.post(contentChek, formData);
       const list = response.data.list.map((item) => {
@@ -133,9 +132,9 @@ function CommentList({ id, userId }) {
     dispatch(editAnswer(parent, id));
   };
 
-  const handleLikeAction = useCallback(
-    (commentId, commentLike) => {
-      if (userId === "") {
+  const handleLikeAction = useCallback( // useCallback을 사용하여 렌더링 최적화
+    (commentId, commentLike) => { // commentLike는 현재 댓글의 좋아요 상태
+      if (userId === "") { // 로그인이 되어있지 않다면 실행하지 않음
         return;
       }
 
@@ -144,11 +143,11 @@ function CommentList({ id, userId }) {
       if (now - likeClickTime < 1500) {
         return;
       } else {
-        if(commentLike){
+        if(commentLike){ // 현재 댓글의 좋아요 상태가 true라면
           const formdata = new FormData();
           formdata.append("post_id", id);
           formdata.append("comment_id", commentId);
-          formdata.append("user_id", userId);
+          formdata.append("user_id", userId); // 현재 로그인한 유저의 아이디
           formdata.append("like", false);
           axios.post (postLikeLink, formdata)
           .then((response) => {

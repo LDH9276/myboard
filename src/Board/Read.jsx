@@ -9,6 +9,7 @@ import CommentList from './CommentList';
 import ListModules from './ListModules';
 import ListModule from './ListModule';
 import BestCommentList from './BestCommentList';
+import Dompurify from "dompurify";
 import './css/read.css';
 
 function Read( {userId} ) {
@@ -62,6 +63,8 @@ function Read( {userId} ) {
   const readContent = async () => {
     try {
       const response = await axios.get(`${contentChek}?id=${id}`);;
+      console.log(response.data);
+
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
         return item;

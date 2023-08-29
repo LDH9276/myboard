@@ -3,7 +3,7 @@ import List from './List';
 import axios from 'axios';
 import dompurify from 'dompurify';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, json } from 'react-router-dom';
 import './css/board.css';
 import ListModule from './ListModule';
 import { boardOppend } from '../Redux/Board';
@@ -23,6 +23,7 @@ function Board() {
 
   const boardVisitedLink = "http://localhost/myboard_server/Board/Board_VisitedCheck.php"
   const boardVisitedCheck = "http://localhost/myboard_server/Board/Board_VisitedModule.php";
+  const passenger = "http://localhost/myboard_server/Board/Board_VisitedCheckPassinger.php";
 
   const { id } = useParams();
 
@@ -37,15 +38,34 @@ function Board() {
     }
   }
   const visitedCheck = async () => {
-    const formData = new FormData();
-    formData.append('user_id', sessionStorage.getItem('userId'));
-    const visitedCheck = await axios.post(boardVisitedCheck, formData);
-    setBoardVisited(visitedCheck.data.result);
-    console.log(visitedCheck.data.result);
+    if (userId === '') {
+      
+      const visited = JSON.parse(localStorage.getItem('visited')) || [];
+      if (visited.includes(id)) {
+        visited.splice(visited.indexOf(id), 1);
+        visited.unshift(id);
+      } else {
+        visited.unshift(id);
+      }
+      localStorage.setItem('visited', JSON.stringify([...new Set(visited)]));
+      const postData = localStorage.getItem('visited');
+
+      const formData = new FormData();
+      formData.append('user_id', postData);
+      const visitedCheck = await axios.post(passenger, formData);
+      setBoardVisited(visitedCheck.data.result);
+    }
+    else {
+      const formData = new FormData();
+      formData.append('user_id', sessionStorage.getItem('userId'));
+      const visitedCheck = await axios.post(boardVisitedCheck, formData);
+      setBoardVisited(visitedCheck.data.result);
+    }
   }
   
   useEffect(() => {
     readBoard();
+    visitedCheck();
   }, [id]);
     
   useEffect(() => {
@@ -76,7 +96,7 @@ function Board() {
         </div>
 
       ))}
-      {userId ? (<VisitedModule boardVisited={boardVisited}/>) : ''}
+      <VisitedModule boardVisited={boardVisited}/>
       
 
       <ListModule setBoardCate={setBoardCate} postCategory={postCategory} boardCate={boardCate} setAutoRefresh={setAutoRefresh} autoRefresh={autoRefresh}/>

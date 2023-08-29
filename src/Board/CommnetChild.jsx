@@ -57,31 +57,43 @@ function CommnetChild({commentId, children, id, handleModify, handleDelete, hand
                   />
                 )}
             </div>
-            {/* 좋아요 부분 */}
-            <div className="comment-like-wrap">
-              <span
-                className="comment-like-icon_wrap"
-                onClick={() =>
-                  handleLikeAction(child.id, child.like)
-                }
-              >
-                <img
-                  src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`}
-                  alt="댓글수"
-                  className="comment-item-back"
-                />
-                <img
-                  src={`${process.env.PUBLIC_URL}/btn/like.svg`}
-                  alt="댓글수"
-                  className={
-                    child.like ? "comment-item-icon active" : "comment-item-icon"
-                  }
-                />
-              </span>
-              <span className="comment-like-count">
-                {child.total_like}
-              </span>
-            </div>
+            {child.writer === userId ? (
+              <div className="comment-like-wrap">
+                <span className="comment-like-icon_wrap">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`}
+                    alt="댓글수"
+                    className="comment-item-back"
+                  />
+                  <img
+                    src={`${process.env.PUBLIC_URL}/btn/like.svg`}
+                    alt="댓글수"
+                    className='comment-item-icon active'
+                  />
+                </span>
+                <span className="comment-like-count">
+                  {child.total_like}
+                </span>
+              </div>) : (
+              <div className="comment-like-wrap"  onClick={() => handleLikeAction(child.id, child.like)}>
+                <span className="comment-like-icon_wrap">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`}
+                    alt="댓글수"
+                    className="comment-item-back"
+                  />
+                  <img
+                    src={`${process.env.PUBLIC_URL}/btn/like.svg`}
+                    alt="댓글수"
+                    className={
+                      child.like ? "comment-item-icon active" : "comment-item-icon"
+                    }
+                  />
+                </span>
+                <span className="comment-like-count">
+                  {child.total_like}
+                </span>
+              </div>)}
           </div>
       ) : (
         <div className='comment-content modify'>

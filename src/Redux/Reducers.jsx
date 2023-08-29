@@ -32,7 +32,7 @@ function rootReducer(state = initialState, action) {
   }
 
   function clearLocalStorageAndCache() {
-    localStorage.clear();
+    localStorage.removeItem('accessToken');
     sessionStorage.clear();
   }
 
