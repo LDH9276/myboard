@@ -30,7 +30,6 @@ function App() {
   // 토큰 검증
   const verifyUser = async () => {
     const access_token = localStorage.getItem('access_token');
-    const refresh_token = cookies.get('refresh_token');
 
     try {
       const response = await axios(tokenChek, {
@@ -38,24 +37,21 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${access_token}`,
-          'Refresh': refresh_token,
         },
         withCredentials: true,
       });
       if (response.data.success === true) {
+        console.log(response.data.message);
         const userProfile = response.data.user_profile_name + '.' + response.data.user_profile_ext;
         dispatch(login(response.data.user_id, response.data.user_name, response.data.user_info, userProfile)); // 로그인 상태로 변경
         localStorage.setItem('access_token', response.data.access_token);
       }
       else {
-        console.log(response.data);
         dispatch(logout()); // 로그아웃 상태로 변경
-        localStorage.removeItem('access_token');
         cookies.remove('refresh_token');
       }
     } catch (err) {
       console.log(err);
-      dispatch(logout()); // 로그아웃 상태로 변경
       localStorage.removeItem('access_token');
       cookies.remove('refresh_token');
     }

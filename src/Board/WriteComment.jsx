@@ -103,7 +103,6 @@ function WriteComment( {id, commentId, modify, answer, depth} ) {
       console.log(commentId);
       console.log(`${postCommentRead}?id=${commentId}`);
       const response = await axios.get(`${postCommentRead}?id=${commentId}`);
-      console.log(response.data);
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
         return item;

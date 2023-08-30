@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './css/loginsign.css';
 import { loginMenuOn } from '../Redux/MenuToggle';
+import { signupMenuOff } from '../Redux/MenuToggle';
 
 function Sign(props) {
   const navigate = useNavigate();
@@ -74,6 +75,8 @@ function Sign(props) {
   return (
     <div className='loginform-wrap'>
       <div className="loginform-box">
+        <button onClick={() => dispatch(signupMenuOff())}>X</button>
+
         <form onSubmit={onSubmit} encType="multipart/form-data">
 
           <label htmlFor="Id">

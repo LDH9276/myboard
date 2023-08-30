@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import axios from 'axios';
 
 function Mypage( {userId} ) {
@@ -8,6 +8,11 @@ function Mypage( {userId} ) {
     const [email, setEmail] = useState('');
     const [profile, setProfile] = useState('');
     const [modify, setModify] = useState(false);
+
+    const [profileImg, setProfileImg] = useState('');
+    const [profileImgName, setProfileImgName] = useState('');
+    const imgRef = useRef();
+
 
     // FormData로 POST 전송을 보낸다. ID, PW
     const profileCheck = () => {
@@ -21,6 +26,7 @@ function Mypage( {userId} ) {
             setName(res.data.name);
             setEmail(res.data.email);
             setProfile(res.data.profile);
+            setProfileImg(res.data.profile_img);
         })
         .catch((err) => {
             console.error(err);
@@ -60,6 +66,10 @@ function Mypage( {userId} ) {
         <div>
             {!modify ? (
                 <ul>
+                    <li>
+                        <img src={profileImg} alt="프로필사진"/>
+                    </li>
+
                     <li>
                         <p>유저ID</p>
                         <p>{id}</p>

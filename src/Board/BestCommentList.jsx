@@ -14,7 +14,6 @@ function BestCommentList({id}) {
       const formdata = new FormData();
       formdata.append('id', id);
       const response = await axios.post(bestCommentLink, formdata);
-      console.log(response.data);
       setBestComment(response.data.list);
     } catch (error) {
       console.error(error);

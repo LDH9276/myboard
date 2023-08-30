@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../Redux/Loginout';
 import './css/loginsign.css';
 import { signupMenuOn } from '../Redux/MenuToggle';
+import { loginMenuOff } from '../Redux/MenuToggle';
 
 function Login(props) {
   const [id, setId] = useState('');
@@ -51,6 +52,7 @@ function Login(props) {
   return (
     <div className='loginform-wrap'>
       <div className="loginform-box">
+        <button onClick={() => dispatch(loginMenuOff())}>X</button>
         <form onSubmit={onLoginClick}>
           <input type="text" name="id" id="id" placeholder="id" onChange={(e) => setId(e.target.value)} className={idForm ? 'loginform-idform active' : 'loginform-idform'} onClick={()=> handleIdEvent()}/>
           <input type="password" name="password" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}  className={passwordForm ? 'loginform-idform active' : 'loginform-idform'} onClick={()=>handlePasswordEvent()}/>

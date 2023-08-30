@@ -1,3 +1,4 @@
+import { Cookies } from 'react-cookie';
 import { LOGIN, LOGOUT } from './Loginout';
 import { READ, READ_WRITER } from './Read';
 import { UPLOAD_COMMENT, UPLOADED_COMMENT, EDIT_COMMENT, EDIT_ANSWER } from './UploadComment';
@@ -32,7 +33,7 @@ function rootReducer(state = initialState, action) {
   }
 
   function clearLocalStorageAndCache() {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('access_token');
     sessionStorage.clear();
   }
 
@@ -51,7 +52,8 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         loginMenu: true,
-        signupMenu: false
+        signupMenu: false,
+        headerMenu: false
       };
     case LOGINMENUOFF:
       return {
@@ -63,7 +65,8 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         signupMenu: true,
-        loginMenu: false
+        loginMenu: false,
+        headerMenu: false
       };
     case SIGNUPMENUOFF:
       return {

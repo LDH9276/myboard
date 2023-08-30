@@ -63,7 +63,6 @@ function Read( {userId} ) {
   const readContent = async () => {
     try {
       const response = await axios.get(`${contentChek}?id=${id}`);;
-      console.log(response.data);
 
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');

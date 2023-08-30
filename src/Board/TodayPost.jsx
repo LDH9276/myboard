@@ -19,7 +19,6 @@ function TodayPost({newPost, newPostReset}) {
   const readTodayPost = async () => {
     try {
       const response = await axios.get(`${todayPost}?board=${boardId}`);
-      console.log(response.data);
       if(response.data.today_postlist.length < 3){
         setSlidesTotal(false);
       } else {

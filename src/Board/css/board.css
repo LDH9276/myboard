@@ -66,6 +66,7 @@
   box-sizing: border-box;
   padding: 0px 16px;
   margin: 12px 0px 24px;
+  position: relative;
 }
 .board-visitlist-wrap{
   display: flex;
@@ -73,7 +74,6 @@
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   border-radius: 16px;
 }
-
 .board-visitlist-legend{
   background: var(--main-color02);
   color: #fff;
@@ -93,7 +93,31 @@
   font-size: 14px;
 }
 
+/* 게시판 구독 서식 */
+.board-subscribelist-btn{
+  width: 48px;
+  height: 48px;
+  border: none;
+  background-color: transparent;
+}
+.board-subscribelist-wrap{
+  width:calc(100% - 107px);
+  box-sizing: border-box;
+  padding: 0px 16px;
+  margin: 12px 0px 24px;
+  position: absolute;
+  right: 0; top: -12px;
+  z-index: 100;
+  text-align: right;
+  display: none;
+}
+.board-subscribe-list{
+  background: #fff;
+}
 
+
+
+/*  */
 .board-module-autorefresh{
   display: flex;
   align-items: center;

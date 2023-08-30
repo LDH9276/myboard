@@ -4,6 +4,7 @@
     position: fixed;
     top: 0px;
     background: #fff;
+    z-index: 9999;
 }
 
 .header-wrap{

@@ -82,7 +82,6 @@ function CommentList({ id }) {
 
       axios.post(postCommentLink, formdata)
         .then((response) => {
-          console.log(response.data);
           readContent();
         })
         .catch((error) => {

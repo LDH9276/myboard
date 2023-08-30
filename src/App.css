@@ -96,7 +96,7 @@ ul, ol, li {
 }
 .board-container{
   max-width: 800px;
-  margin: var(--main-m-auto);
+  margin: 60px auto 0px;
 }
 .bottom-like-wrap{
   display: block;

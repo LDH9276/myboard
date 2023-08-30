@@ -36,7 +36,6 @@ function ListModules({postCategory, boardCate, autoRefresh}) {
   const list = async () => {
     try {
       const response = await axios.post(`${listCheck}?page=${currentPage}&board=${boardId}&boardCate=${boardCate}`);
-      console.log(response.data.list);
       setBoardList(response.data.list);
     } catch (error) {
       console.error(error);
