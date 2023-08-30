@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Pagination from './Pagination';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import BottomNav from './BottomNav';
-import TodayPost from './TodayPost';
 import './css/list.css';
 
 function ListModules({postCategory, boardCate, autoRefresh}) {
@@ -12,13 +10,13 @@ function ListModules({postCategory, boardCate, autoRefresh}) {
   const pagination = "http://localhost/myboard_server/Board/Module/Post_Pagination.php";
   const listCheck  = "http://localhost/myboard_server/Board/Module/Post_List.php";
 
-  const boardId = sessionStorage.getItem('boardId');
+  const boardId = useSelector(state => state.boardId);
   const [boardList, setBoardList] = useState([]);
   const [newPost, setNewPost] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
   const [postsPerPage] = useState(5);
-  const isLoggedIn = useSelector(state => state.isLoggedIn);
+
 
   const totalList = async () => {
     try {

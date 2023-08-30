@@ -7,11 +7,11 @@ import { FreeMode } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 
-function VisitedModule({boardVisited, userSubscribe}) {
+function VisitedModule({boardVisited = [], userSubscribe = []}) {
     
     return (
         <div className='board-visitlist-box'>
-            {boardVisited.length === 1 ? (
+            {boardVisited.length === 0 ? (
                 <div className="board-visitlist-wrap">
                     <div className="board-visitlist-legend">
                         방문한 게시판

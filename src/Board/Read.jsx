@@ -17,8 +17,8 @@ function Read( {userId} ) {
   const { id } = useParams();
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const content = useSelector(state => state.content);
-  const boardId = sessionStorage.getItem('boardId');
-  const boardName = sessionStorage.getItem('boardName');
+  const boardId = useSelector(state => state.boardId);
+  const boardName = useSelector(state => state.boardName);
   const writer = useSelector(state => state.writer);
   const [like, setLike] = useState(false);
   const [likeClickTime, setLikeClickTime] = useState(0);

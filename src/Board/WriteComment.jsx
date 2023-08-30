@@ -7,12 +7,13 @@ import { useSelector, useDispatch } from 'react-redux';
 function WriteComment( {id, commentId, modify, answer, depth} ) {
 
   // State, Props
+  const uploadedComment = useSelector(state => state.uploadedComment);
+  const editCommentId = useSelector(state => state.editCommentId);
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
   const [flag, setFlag] = useState(false);
   const userId = useSelector(state => state.userId);
-  const uploadedComment = useSelector(state => state.uploadedComment);
   const dispatch = useDispatch();
 
   // Link

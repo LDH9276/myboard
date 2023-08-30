@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { loginMenuOn, loginMenuOff } from '../Redux/MenuToggle';
+import { logout } from '../Redux/Loginout';
 
 function UserMenu(props) {
     const userId = useSelector(state => state.userId);
@@ -30,7 +31,7 @@ function UserMenu(props) {
                             <button onClick={() => navigate('/mypage')}>내 프로필</button>
                         </li>
                         <li>
-                            <button onClick={() => dispatch({type: 'LOGOUT'})}>로그아웃</button>
+                            <button onClick={() => dispatch(logout())}>로그아웃</button>
                         </li>
                     </>
                 ) : (

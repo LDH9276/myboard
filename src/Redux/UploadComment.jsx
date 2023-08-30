@@ -31,7 +31,7 @@ export function editAnswer(parent, id) {
     };
 }
 
-export function uploadedComment() {
+export function refreshComment() {
     return {
         type: UPLOADED_COMMENT,
         payload: {

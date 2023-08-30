@@ -92,6 +92,51 @@
   line-height: 48px;
   font-size: 14px;
 }
+.board-index-wrap{
+  display: flex;
+  justify-content: space-between;
+}
+.board-subscribe{
+  padding: 25px 0px;
+}
+.board-subscribe-btn{
+  width: 64px;
+  font-size: 14px;
+  font-weight: 700;
+  background: transparent;
+  border-radius: 6px;
+  line-height: 28px;
+  color: #b4b4b4;
+  border: 3px solid #b4b4b4;
+  margin-bottom: 14px;
+}
+.board-subscribe-btn.active{
+  color: var(--main-color01);
+  border: 3px solid var(--main-color01);
+}
+.board-subscribe-total{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3px 0px;
+  text-align: center;
+  border-radius: 5px;
+  width: 64px;
+  border: 3px solid var(--main-color02);
+}
+.board-subscribe-total span:first-of-type{
+  color: var(--main-color02);
+  font-size: 14px;
+  display: block;
+  font-weight: 800;
+}
+.board-subscribe-total span:last-of-type{
+  color: var(--main-color02);
+  font-size: 12px;
+  display: block;
+  font-weight: 500;
+}
 
 /* 게시판 구독 서식 */
 .board-subscribelist-btn{

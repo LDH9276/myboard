@@ -6,12 +6,13 @@ import axios from 'axios';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
+import { useSelector } from 'react-redux';
 
 
 function TodayPost({newPost, newPostReset}) {
 
   const todayPost = "http://localhost/myboard_server/Board/Post_TodayPost.php";
-  const boardId = sessionStorage.getItem('boardId');
+  const boardId = useSelector(state => state.boardId);
   const [slidesTotal, setSlidesTotal] = useState(true);
 
   const [todayList, setTodayList] = useState([]);

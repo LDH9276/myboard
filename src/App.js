@@ -11,6 +11,7 @@ import { Cookies } from 'react-cookie';
 import Mypage from './Login/Mypage';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from './Redux/Loginout';
+import { boardLimit } from './Redux/Board';
 import Header from './Header/Header';
 import Board from './Board/Board';
 import Main from './Main/Main';
@@ -18,6 +19,8 @@ import Main from './Main/Main';
 function App() {
 
   const tokenChek = 'http://localhost/myboard_server/JWT_Verify.php';
+  const boardLimitCheck = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
+
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const userId = useSelector(state => state.userId);
   const userName = useSelector(state => state.userName);
@@ -56,9 +59,19 @@ function App() {
       cookies.remove('refresh_token');
     }
   }
+  
+  const readBoardList = async () => {
+    try {
+      const response = await axios.get(boardLimitCheck);
+      dispatch(boardLimit(response.data.list[0].last_board, response.data.list[0].last_post));
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     verifyUser();
+    readBoardList();
   }, []);
 
   return (

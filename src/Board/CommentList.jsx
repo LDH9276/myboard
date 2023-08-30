@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import CustomEditor from "@ckeditor/ckeditor5-custom";
 import WriteComment from "./WriteComment";
-import { editAnswer } from "../Redux/UploadComment";
-import CryptoJS from "crypto-js";
+import { editAnswer, uploadComment, editComment, refreshComment } from "../Redux/UploadComment";
 import CommnetChild from "./CommnetChild";
 import "./css/comment.css";
+
 
 function CommentList({ id, userId }) {
   const uploadedComment = useSelector((state) => state.uploadedComment);
@@ -47,10 +47,9 @@ function CommentList({ id, userId }) {
 
   const readContent = async () => {
     try {
-      const sessionUserID = sessionStorage.getItem("userId");
       const formData = new FormData();
-      formData.append("post_id", id ? id : sessionStorage.getItem("postId"));
-      formData.append("user_id", userId ? userId : sessionUserID); // 새로고침시 로그인 정보가 사라지는 것을 방지하기 위해 sessionStorage에 저장된 userId를 사용
+      formData.append("post_id", id);
+      formData.append("user_id", userId);
 
       const response = await axios.post(contentChek, formData);
       const list = response.data.list.map((item) => {
@@ -86,8 +85,7 @@ function CommentList({ id, userId }) {
       const hierarchicalComments = parentComments;
 
       setFilteredCommentList(hierarchicalComments);
-
-      dispatch({ type: "UPLOADED_COMMENT" });
+      dispatch(refreshComment());
     } catch (error) {
       console.error(error);
     }
@@ -125,7 +123,7 @@ function CommentList({ id, userId }) {
           console.log(error);
         });
     }
-    dispatch({ type: "UPLOADED_COMMENT", payload: { editCommentId: id } });
+    dispatch({ type: "UPLOADED_COMMENT" });
   };
 
   const handelAnswer = (parent, id) => {

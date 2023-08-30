@@ -6,6 +6,7 @@ import CustomEditor from '@ckeditor/ckeditor5-custom';
 import WriteComment from './WriteComment';
 import { editAnswer } from '../Redux/UploadComment';
 import CommnetChild from './CommnetChild';
+import { uploadComment, editComment } from '../Redux/UploadComment';
 
 function CommentList({ id }) {
   const [commentList, setCommentList] = useState([]);
@@ -63,14 +64,14 @@ function CommentList({ id }) {
 
       setCommentList(hierarchicalComments);
 
-      dispatch({ type: 'UPLOADED_COMMENT' });
+      dispatch(uploadComment());
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleModify = (id) => {
-    dispatch({ type: 'EDIT_COMMENT', payload: { editCommentId: id } });
+    dispatch(editComment(id));
   }
 
   const handleDelete = (id) => {
@@ -88,7 +89,7 @@ function CommentList({ id }) {
           console.log(error);
         });
     }
-    dispatch({ type: 'UPLOADED_COMMENT', payload: { editCommentId: id } });
+    dispatch(uploadedComment(id));
   }
 
   const handelAnswer = (parent, id) => {

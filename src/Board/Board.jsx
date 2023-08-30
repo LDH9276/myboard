@@ -3,7 +3,7 @@ import List from './List';
 import axios from 'axios';
 import dompurify from 'dompurify';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link, json } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './css/board.css';
 import ListModule from './ListModule';
 import { boardOppend } from '../Redux/Board';
@@ -13,7 +13,6 @@ function Board() {
 
   const userId = useSelector(state => state.userId);
   const boardLink = process.env.REACT_APP_BOARD_LIST_CHECK;
-  const dispatch = useDispatch();
   const [boardCate, setBoardCate] = useState('*');
   const [boardList, setBoardList] = useState([]);
   const [autoRefresh, setAutoRefresh] = useState(true);
@@ -22,6 +21,7 @@ function Board() {
   const [subscribe, setSubscribe] = useState(false);
   const [totalBoardSubscribe, setTotalBoardSubscribe] = useState(0);
   const [userSubscribe, setUserSubscribe] = useState([]);
+  const boardLimit = useSelector(state => state.boardLimit);
 
   const boardVisitedLink = "http://localhost/myboard_server/Board/Board_VisitedCheck.php"
   const boardVisitedCheck = "http://localhost/myboard_server/Board/Board_VisitedModule.php";
@@ -29,6 +29,9 @@ function Board() {
   const boardSubscribe = "http://localhost/myboard_server/Board/Board_Subscribe.php";
 
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   const readBoard = async () => {
     try {
@@ -41,33 +44,36 @@ function Board() {
     }
   }
 
-  const readSubscribe = async () => { 
+  const readSubscribe = async () => {
     const formData = new FormData();
     formData.append('board_id', id);
-    formData.append('user_id', userId ? userId : sessionStorage.getItem('userId'));
+    formData.append('user_id', userId);
     formData.append('mode', 'read');
 
-    const subscribeCheck = await axios.post(boardSubscribe, formData);
-    console.log(subscribeCheck.data);
-    setSubscribe(subscribeCheck.data.is_subscribe);
-    setTotalBoardSubscribe(subscribeCheck.data.board_subscriber);
+    try {
+      const subscribeCheck = await axios.post(boardSubscribe, formData);
+      setSubscribe(subscribeCheck.data.is_subscribe);
+      setTotalBoardSubscribe(subscribeCheck.data.board_subscriber);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
 
   const readUserSubscribe = async () => {
     const formData = new FormData();
     formData.append('board_id', id);
-    formData.append('user_id', sessionStorage.getItem('userId'));
+    formData.append('user_id', userId);
     formData.append('mode', 'list_read');
 
     const subscribeCheck = await axios.post(boardSubscribe, formData);
     setUserSubscribe(subscribeCheck.data.user_subscribe_list);
-    console.log(userSubscribe);
   }
 
 
   const visitedCheck = async () => {
     if (userId === '') {
-      
+
       const visited = JSON.parse(localStorage.getItem('visited')) || [];
       if (visited.includes(id)) {
         visited.splice(visited.indexOf(id), 1);
@@ -85,89 +91,99 @@ function Board() {
     }
     else {
       const formData = new FormData();
-      formData.append('user_id', sessionStorage.getItem('userId'));
+      formData.append('user_id', userId);
       const visitedCheck = await axios.post(boardVisitedCheck, formData);
       setBoardVisited(visitedCheck.data.result);
     }
   }
 
   useEffect(() => {
-    if(id !== undefined || id !== null){
-      readSubscribe();
-    }
-  }, [subscribe]);
-  
-  useEffect(() => {
-    readSubscribe();
     readBoard();
-    if(userId === '') {
+    readSubscribe();
+
+    if (isNaN(id)) {
+      navigate('/');
+    } else if (boardLimit < id) {
+      navigate('/');
+    }
+    if (userId === '') {
+      visitedCheck();
+    } else {
+      visitedAdd();
       visitedCheck();
     }
-  }, [id]);
-    
-  useEffect(() => {
-    readUserSubscribe();
-    visitedAdd();
-    visitedCheck();
-  }, [userId, id]);
-  
+  }, [id, boardLimit]);
+
   const visitedAdd = async () => {
     const formData = new FormData();
-    formData.append('user_id', sessionStorage.getItem('userId'));
+    formData.append('user_id', userId);
     formData.append('board_id', id);
     const visitedAdd = await axios.post(boardVisitedLink, formData);
     visitedCheck();
   }
 
   const handleSubscribe = async (mode) => {
-    console.log(mode);
+
+    if (mode) {
+      setTotalBoardSubscribe(totalBoardSubscribe + 1);
+    } else {
+      setTotalBoardSubscribe(totalBoardSubscribe - 1);
+    }
+
     const formData = new FormData();
-    formData.append('user_id', userId? userId : sessionStorage.getItem('userId'));
+    formData.append('user_id', userId ? userId : userId);
     formData.append('board_id', id);
     formData.append('mode', mode ? 'subscribe' : 'unsubscribe');
-    const subscribeCheck = await axios.post(boardSubscribe, formData);
-    setSubscribe(subscribeCheck.data.is_subscribe);
-    console.log(subscribeCheck.data);
+
+    try {
+      const subscribeCheck = await axios.post(boardSubscribe, formData);
+      setSubscribe(subscribeCheck.data.is_subscribe);
+      console.log(subscribeCheck.data);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
     <div className='board-container'>
       {Array.isArray(boardList) && boardList.map((board, index) => (
         <div key={index} className='board-index'>
-          <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className='board-thumb'/>
-          <div className="board-detail">
-            <h2>
-              {board.board_name}
-            </h2>
-            <p dangerouslySetInnerHTML={{__html: dompurify.sanitize(board.board_detail)}}></p>
-          </div>
-          {userId === '' ? (
-            <div className="board-subscribe">
-              <p>
-                <span>{totalBoardSubscribe}</span>
-                <span>구독중</span>
-              </p>
+          <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className='board-thumb' />
+          <div className="board-index-wrap">
+            <div className="board-detail">
+              <h2>
+                {board.board_name}
+              </h2>
+              <p dangerouslySetInnerHTML={{ __html: dompurify.sanitize(board.board_detail) }}></p>
             </div>
-          ) : (
-          <div className="board-subscribe">
-            <button onClick={subscribe ? () => handleSubscribe(false) : () => handleSubscribe(true)}>
-              {subscribe ? '구독중' : '구독하기'}
-            </button>
-            <p>
-              <span>{totalBoardSubscribe}</span>
-              <span>구독중</span>
-            </p>
+            {userId === '' ? (
+              <div className="board-subscribe">
+                <p className='board-subscribe-total'>
+                  <span>{totalBoardSubscribe}</span>
+                  <span>구독중</span>
+                </p>
+              </div>
+            ) : (
+              <div className="board-subscribe">
+                <button onClick={subscribe ? () => handleSubscribe(false) : () => handleSubscribe(true)} className={subscribe ? 'board-subscribe-btn active' : 'board-subscribe-btn'}>
+                  {subscribe ? '구독중' : '구독하기'}
+                </button>
+                <p className='board-subscribe-total'>
+                  <span>{totalBoardSubscribe}</span>
+                  <span>구독중</span>
+                </p>
+              </div>
+            )}
           </div>
-          )}
         </div>
 
       ))}
-      <VisitedModule boardVisited={boardVisited} userSubscribe={userSubscribe}/>
-      
+      <VisitedModule boardVisited={boardVisited} userSubscribe={userSubscribe} />
 
-      <ListModule setBoardCate={setBoardCate} postCategory={postCategory} boardCate={boardCate} setAutoRefresh={setAutoRefresh} autoRefresh={autoRefresh}/>
 
-      <List boardId={id} postCategory={postCategory} boardCate={boardCate} autoRefresh={autoRefresh}/>
+      <ListModule setBoardCate={setBoardCate} postCategory={postCategory} boardCate={boardCate} setAutoRefresh={setAutoRefresh} autoRefresh={autoRefresh} />
+
+      <List boardId={id} postCategory={postCategory} boardCate={boardCate} autoRefresh={autoRefresh} />
     </div>
   );
 }

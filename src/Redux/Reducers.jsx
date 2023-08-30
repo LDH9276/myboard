@@ -1,11 +1,18 @@
-import { Cookies } from 'react-cookie';
+import { persistReducer } from "redux-persist";
 import { LOGIN, LOGOUT } from './Loginout';
-import { READ, READ_WRITER } from './Read';
+import { READ } from './Read';
 import { UPLOAD_COMMENT, UPLOADED_COMMENT, EDIT_COMMENT, EDIT_ANSWER } from './UploadComment';
 import { COMMENT_LIST } from './CommentList';
 import { LOGINMENUON, LOGINMENUOFF, SIGNUPMENUON, SIGNUPMENUOFF } from './MenuToggle';
-import { BOARD_OPENED } from './Board';
+import { BOARD_OPENED, BOARD_LIMIT } from './Board';
 import { HEADERMENUON } from './Loginout';
+import storage from "redux-persist/lib/storage/session";
+
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ['isLoggedIn', 'userId', 'userName', 'userProfile', 'userInfo', 'boardId', 'boardName', 'writer', 'content', 'totalCommentLists', 'loginMenu', 'signupMenu', 'headerMenu', 'boardLimit', 'postLimit', 'uploadedComment', 'editCommentId', 'editAnswerId', 'editAnswerParent']
+};
 
 const initialState = {
   isLoggedIn: false,
@@ -17,6 +24,8 @@ const initialState = {
   content: '',
   boardId: null,
   boardName: '',
+  boardLimit: 0,
+  postLimit: 0,
   uploadedComment: false,
   editCommentId: null,
   editAnswerId: null,
@@ -28,19 +37,19 @@ const initialState = {
 };
 
 function rootReducer(state = initialState, action) {
-  function insetSessionId(userId) {
-    sessionStorage.setItem('userId', userId);
-  }
+  // function insetSessionId(userId) {
+  //   sessionStorage.setItem('userId', userId);
+  // }
 
   function clearLocalStorageAndCache() {
     localStorage.removeItem('access_token');
     sessionStorage.clear();
   }
 
-  function boardInfoSave(boardId, boardName) {
-    sessionStorage.setItem('boardId', boardId);
-    sessionStorage.setItem('boardName', boardName);
-  }
+  // function boardInfoSave(boardId, boardName) {
+  //   sessionStorage.setItem('boardId', boardId);
+  //   sessionStorage.setItem('boardName', boardName);
+  // }
 
   switch (action.type) {
     case HEADERMENUON:
@@ -75,7 +84,7 @@ function rootReducer(state = initialState, action) {
         loginMenu: false
       };
     case LOGIN:
-      insetSessionId(action.payload.userId);
+      // insetSessionId(action.payload.userId);
       return {
         ...state,
         isLoggedIn: true,
@@ -97,12 +106,18 @@ function rootReducer(state = initialState, action) {
         userInfo: ''
       };
     case BOARD_OPENED:
-      boardInfoSave(action.payload.boardId, action.payload.boardName);
+      // boardInfoSave(action.payload.boardId, action.payload.boardName);
       return {
         ...state,
         boardId: action.payload.boardId,
         boardName: action.payload.boardName,
         userId: action.payload.userId
+      };
+    case BOARD_LIMIT:
+      return {
+        ...state,
+        boardLimit: action.payload.boardLimit,
+        postLimit: action.payload.postLimit
       };
     case READ:
       return {
@@ -148,4 +163,4 @@ function rootReducer(state = initialState, action) {
   }
 }
 
-export default rootReducer;
+export default persistReducer(persistConfig, rootReducer);
