@@ -9,8 +9,8 @@ import './css/list.css';
 
 function List({boardId, postCategory, boardCate, autoRefresh}) {
 
-  const pagination = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Pagination.php";
-  const listCheck  = "http://leedh9276.dothome.co.kr/board_api/Board/Post_List.php";
+  const pagination = "http://localhost/myboard_server/Board/Post_Pagination.php";
+  const listCheck  = "http://localhost/myboard_server/Board/Post_List.php";
 
   const userId = useSelector(state => state.userId);
   const [boardList, setBoardList] = useState([]);
@@ -138,7 +138,7 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
             <p className='board-item-category'>{postCategory[item.cat]}</p>
             <p className='board-item-title'>{item.title} </p>
             <p className='board-item-date'>{PostUpdateDate(item.reg_date)}</p>
-            <p className='board-item-writer'><img src={`http://leedh9276.dothome.co.kr/board_api/Users/Profile/${item.profile_imgname}.${item.profile_img}`} alt={item.nickname}  className='board-item-profile'/>{item.nickname}</p>
+            <p className='board-item-writer'><img src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`} alt={item.nickname}  className='board-item-profile'/>{item.nickname}</p>
             <p className='board-badge-wrap'>
               <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt='댓글수' className='board-item-icon'/>{item.total_like}</span>
               <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/comment.svg`} alt='댓글수' className='board-item-icon'/>{item.comment_count}</span>
@@ -156,7 +156,7 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
               <p className='board-item-category'>{postCategory[item.cat]}</p>
               <p className='board-item-title'>{item.title} </p>
               <p className='board-item-date'>{PostUpdateDate(item.reg_date)}</p>
-              <p className='board-item-writer'><img src={`http://leedh9276.dothome.co.kr/board_api/Users/Profile/${item.profile_imgname}.${item.profile_img}`} alt={item.nickname}  className='board-item-profile'/>{item.nickname}</p>
+              <p className='board-item-writer'><img src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`} alt={item.nickname}  className='board-item-profile'/>{item.nickname}</p>
               <p className='board-badge-wrap'>
                 <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt='댓글수' className='board-item-icon'/>{item.total_like}</span>
                 <span className='board-badge-like'><img src={`${process.env.PUBLIC_URL}/btn/comment.svg`} alt='댓글수' className='board-item-icon'/>{item.comment_count}</span>

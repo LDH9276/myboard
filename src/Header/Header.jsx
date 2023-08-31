@@ -22,7 +22,7 @@ function Header(props) {
                 </div>
                 <div className="header-userbtn">
                     <button onClick={headerMenu ? () => dispatch(headerMenuOn(false)) : () => dispatch(headerMenuOn(true))} className='header-userprofile'>
-                        {userId ? <img src={`http://leedh9276.dothome.co.kr/board_api/Users/Profile/${userProfile}`} alt={userId} />   : <img src={`http://leedh9276.dothome.co.kr/board_api/Users/Profile/menu.png`} alt='not login' />}
+                        {userId ? <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} />   : <img src={`http://localhost/myboard_server/Users/Profile/menu.png`} alt='not login' />}
                     </button>
                     {headerMenu ? (
                         <div className="header-usermenu active">

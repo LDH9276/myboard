@@ -24,9 +24,9 @@ function Write({userId, userName}) {
   const quillRef = useRef();
 
   // Link
-  const postWriteLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Write.php"
-  const postRead = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Read.php"
-  const imageUploadLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Upload.php"
+  const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php"
+  const postRead = "http://localhost/myboard_server/Board/Post_Read.php"
+  const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
 
   // Quill
   Quill.register("modules/imageResize", ImageResize);
@@ -62,7 +62,7 @@ function Write({userId, userName}) {
         }
   
         const data = await response.json();
-        const imageUrl = `http://leedh9276.dothome.co.kr/board_api/Upload/${data.filename}`;
+        const imageUrl = `http://localhost/myboard_server/Upload/${data.filename}`;
   
         // 이미지를 에디터에 삽입
         const range = quillRef.current.getEditor().getSelection();

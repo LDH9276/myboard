@@ -20,10 +20,10 @@ function Write({userId, userName}) {
   const [flag, setFlag] = useState(false);
 
   // Link
-  const imgLink = "http://leedh9276.dothome.co.kr/board_api/Upload"
-  const postUploadLink = "http://leedh9276.dothome.co.kr/board_api/Post_Upload.php"
-  const postWriteLink = "http://leedh9276.dothome.co.kr/board_api/Post_Write.php"
-  const postRead = "http://leedh9276.dothome.co.kr/board_api/Post_Read.php"
+  const imgLink = "http://localhost/myboard_server/Upload"
+  const postUploadLink = "http://localhost/myboard_server/Post_Upload.php"
+  const postWriteLink = "http://localhost/myboard_server/Post_Write.php"
+  const postRead = "http://localhost/myboard_server/Post_Read.php"
 
   const navigate = useNavigate();
 

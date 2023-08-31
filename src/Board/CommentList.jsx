@@ -23,11 +23,11 @@ function CommentList({ id, userId }) {
 
   // Link
   const contentChek =
-    "http://leedh9276.dothome.co.kr/board_api/Board/Post_ReadComment.php";
+    "http://localhost/myboard_server/Board/Post_ReadComment.php";
   const postCommentLink =
-    "http://leedh9276.dothome.co.kr/board_api/Board/Post_WriteComment.php";
+    "http://localhost/myboard_server/Board/Post_WriteComment.php";
   const postLikeLink =
-    "http://leedh9276.dothome.co.kr/board_api/Board/Post_CommentLike.php";
+    "http://localhost/myboard_server/Board/Post_CommentLike.php";
 
   useEffect(() => {
     if (Array.isArray(totalCommentLists)) {

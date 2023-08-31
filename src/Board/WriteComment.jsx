@@ -17,9 +17,9 @@ function WriteComment( {id, commentId, modify, answer, depth} ) {
   const commentQuillRef = useRef();
 
   // Link
-  const imageUploadLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Upload.php"
-  const postCommentLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_WriteComment.php"
-  const postCommentRead = "http://leedh9276.dothome.co.kr/board_api/Board/Post_ReWriteComment.php"
+  const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
+  const postCommentLink = "http://localhost/myboard_server/Board/Post_WriteComment.php"
+  const postCommentRead = "http://localhost/myboard_server/Board/Post_ReWriteComment.php"
 
   // Quill
   Quill.register('modules/imageResize', ImageResize)
@@ -54,7 +54,7 @@ function WriteComment( {id, commentId, modify, answer, depth} ) {
         }
   
         const data = await response.json();
-        const imageUrl = `http://leedh9276.dothome.co.kr/board_api/Board/Upload/${data.filename}`;
+        const imageUrl = `http://localhost/myboard_server/Board/Upload/${data.filename}`;
   
         // 이미지를 에디터에 삽입
         const range = commentQuillRef.current.getEditor().getSelection();

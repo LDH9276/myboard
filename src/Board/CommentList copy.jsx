@@ -18,8 +18,8 @@ function CommentList({ id }) {
   const dispatch = useDispatch();
 
   // Link
-  const contentChek = "http://leedh9276.dothome.co.kr/board_api/Post_ReadComment.php";
-  const postCommentLink = "http://leedh9276.dothome.co.kr/board_api/Post_WriteComment.php";
+  const contentChek = "http://localhost/myboard_server/Post_ReadComment.php";
+  const postCommentLink = "http://localhost/myboard_server/Post_WriteComment.php";
 
   useEffect(() => {
     readContent();

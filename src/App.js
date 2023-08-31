@@ -19,8 +19,8 @@ import ErrorWindow from './Header/ErrorWindow';
 
 function App() {
 
-  const tokenChek = 'http://leedh9276.dothome.co.kr/board_api/JWT_Verify.php';
-  const boardLimitCheck = "http://leedh9276.dothome.co.kr/board_api/Board/Board_LimiteCheck.php";
+  const tokenChek = 'http://localhost/myboard_server/JWT_Verify.php';
+  const boardLimitCheck = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
 
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const userId = useSelector(state => state.userId);
