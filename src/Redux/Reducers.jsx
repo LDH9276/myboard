@@ -7,6 +7,7 @@ import { LOGINMENUON, LOGINMENUOFF, SIGNUPMENUON, SIGNUPMENUOFF } from './MenuTo
 import { BOARD_OPENED, BOARD_LIMIT } from './Board';
 import { HEADERMENUON } from './Loginout';
 import storage from "redux-persist/lib/storage/session";
+import { WRITING } from "./Write";
 
 const persistConfig = {
   key: "root",
@@ -124,6 +125,11 @@ function rootReducer(state = initialState, action) {
         ...state,
         writer: action.payload.writer,
         content: action.payload.content,
+      };
+    case WRITING:
+      return {
+        ...state,
+        content: action.payload.content
       };
     case COMMENT_LIST :
       return {

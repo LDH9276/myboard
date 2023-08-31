@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import CustomEditor from '@ckeditor/ckeditor5-custom';
+import CustomEditor from '@ckeditor/ckeditor5-custom/src/ckeditor';
 import WriteComment from './WriteComment';
 import { editAnswer } from '../Redux/UploadComment';
 import CommnetChild from './CommnetChild';
@@ -18,8 +18,8 @@ function CommentList({ id }) {
   const dispatch = useDispatch();
 
   // Link
-  const contentChek = "http://localhost/myboard_server/Board/Post_ReadComment.php";
-  const postCommentLink = "http://localhost/myboard_server/Board/Post_WriteComment.php";
+  const contentChek = "http://localhost/myboard_server/Post_ReadComment.php";
+  const postCommentLink = "http://localhost/myboard_server/Post_WriteComment.php";
 
   useEffect(() => {
     readContent();

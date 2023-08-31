@@ -62,13 +62,16 @@ function Read( {userId} ) {
 
   const readContent = async () => {
     try {
-      const response = await axios.get(`${contentChek}?id=${id}`);;
+      const response = await axios.get(`${contentChek}?id=${id}`);
+      console.log('원본테스트' + response.data);
 
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
         return item;
       });
-      console.log(list);
+
+      console.log('수정테스트' + response.data);
+
       dispatch({type: 'READ', payload: {writer : list[0].writer, content: list}});
       setContents(list[0].content);
       setUpdateDate(list[0].reg_date);
@@ -243,14 +246,8 @@ function Read( {userId} ) {
             </div>
         {Array.isArray(content) && content.map(item => (
             <div className="read-content-wrap" key={item.id}>
-              <CKEditor
-                editor={CustomEditor}
-                data={contents}
-                readOnly={true}
-                toolbar={[]}
-                disabled={true}
-              />
-            </div>
+              <div dangerouslySetInnerHTML={{__html : Dompurify.sanitize(item.content, { ADD_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] })}} className='read-content' />
+           </div>
         ))}
         </li>
       </ul>

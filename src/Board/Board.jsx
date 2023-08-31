@@ -148,7 +148,7 @@ function Board() {
     <div className='board-container'>
       {Array.isArray(boardList) && boardList.map((board, index) => (
         <div key={index} className='board-index'>
-          <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className='board-thumb' />
+          <img src={`http://localhost/myboard_server/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className='board-thumb' />
           <div className="board-index-wrap">
             <div className="board-detail">
               <h2>

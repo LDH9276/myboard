@@ -50,6 +50,7 @@ function App() {
         localStorage.setItem('access_token', response.data.access_token);
       }
       else {
+        console.log(response.data.message);
         dispatch(logout()); // 로그아웃 상태로 변경
         cookies.remove('refresh_token');
       }

@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef, useMemo} from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import CustomEditor from '@ckeditor/ckeditor5-custom';
+import ReactQuill, {Quill} from "react-quill";
+import ImageResize from "quill-image-resize-module-react";
+import "react-quill/dist/quill.snow.css";
+import { formats, toolbarOptions } from "./boardmodules/Module";
 import './css/write.css'
 
 function Write({userId, userName}) {
@@ -13,46 +15,76 @@ function Write({userId, userName}) {
   const boardId = useSelector(state => state.boardId);
   const { mod } = useParams();
   const [content, setContent] = useState('');
-  const [image, setImage] = useState('');
+  const [modContent, setModContent] = useState('');
   const [title, setTitle] = useState('');
-  const [flag, setFlag] = useState(false);
+  const navigate = useNavigate();
+  const quillRef = useRef();
 
   // Link
-  const imgLink = "http://localhost/myboard_server/Board/Upload"
-  const postUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
   const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php"
   const postRead = "http://localhost/myboard_server/Board/Post_Read.php"
+  const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
 
-  const navigate = useNavigate();
+  // Quill
+  Quill.register("modules/imageResize", ImageResize);
 
-  const customUploadAdapter = (loader) => {
-    return {
-      async upload() {
-        const data = new FormData();
-        const file = await loader.file;
-        data.append("name", file.name);
-        data.append("file", file);
-        try {
-          const res = await axios.post(
-            postUploadLink, data
-          );
-          if (!flag) {
-            setFlag(true);
-            setImage(res.data.filename);
-          }
-          return { default: `${imgLink}/${res.data.filename}` };
-        } catch (err) {
-          throw err;
-        }
-      },
-    };
-  };
 
-  function uploadPlugin (editor){ // (3)
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-        return customUploadAdapter(loader);
-    }
+  function handleContentChange(value) {
+    setContent(value);
   }
+
+  useEffect(() => {
+    setContent(modContent);
+  }, [modContent]);
+
+  function handleImageUpload() {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+  
+    input.onchange = async () => {
+      const file = input.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+  
+      try {
+        const response = await fetch(imageUploadLink, {
+          method: "POST",
+          body: formData,
+        });
+  
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+  
+        const data = await response.json();
+        const imageUrl = `http://localhost/myboard_server/Upload/${data.filename}`;
+  
+        // 이미지를 에디터에 삽입
+        const range = quillRef.current.getEditor().getSelection();
+        if (range) {
+          quillRef.current.getEditor().insertEmbed(range.index, "image", imageUrl);
+        } else {
+          quillRef.current.getEditor().insertEmbed(0, "image", imageUrl);
+        }
+      } catch (error) {
+        console.error("Error uploading image", error);
+      }
+    };
+  }
+
+  const modules = useMemo(() => ({
+  toolbar: {
+      handlers: {
+      image: handleImageUpload,
+      },
+      container: toolbarOptions,
+  },
+  imageResize: {
+      parchment: Quill.import("parchment"),
+      modules: ["Resize", "DisplaySize", "Toolbar"],
+  }}), []);
 
   const onUpdateClick = () => {
     const formData = new FormData();
@@ -61,8 +93,6 @@ function Write({userId, userName}) {
     formData.append('content', content);
     formData.append('title', title);
     formData.append('board', boardId);
-
-    console.log(formData);
 
     if(mod === 'modify'){
       formData.append('id', id);
@@ -97,7 +127,7 @@ function Write({userId, userName}) {
         item.content = item.content.replace(/\\/g, '');
         return item;
       });
-      setContent(list[0].content);
+      setModContent(list[0].content);
       setTitle(list[0].title);
     } catch (error) {
       console.error(error);
@@ -114,20 +144,21 @@ function Write({userId, userName}) {
     <div className='board-container post-write'>
       <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} className='write-title-input' placeholder='제목을 입력해주세요'/>
 
-      <CKEditor
-        editor={CustomEditor}
-        config={{
-          extraPlugins: [uploadPlugin],
-        }}
-        data={content}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          setContent(data);
-        }}
-      />
+      <ReactQuill
+            ref={quillRef}
+            onChange={handleContentChange}
+            placeholder={"내용을 입력해주세요"}
+            theme="snow" 
+            modules={modules}
+            formats={formats}
+            value={content}
+      ></ReactQuill>
+
       <div className="write-btn-wrap">
-      <button onClick={() => navigate('/')}>작성취소</button>
-      <button onClick={() => onUpdateClick()}>업로드</button>
+          <div className="write-btn-wrap">
+            <button onClick={() => navigate(`/board/${boardId}`)}>작성취소</button>
+            <button onClick={onUpdateClick}>작성완료</button>
+          </div>
       </div>
 
     </div>

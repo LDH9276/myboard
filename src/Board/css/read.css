@@ -3,7 +3,6 @@
 .board_title{
   margin-bottom: 20px;
 }
-
 .read-writer-profile{
   display: flex;
   align-items: center;
@@ -49,7 +48,6 @@ blockquote.twitter-tweet a {
   text-decoration: none;
   outline: 0 none;
 }
-
 blockquote.twitter-tweet a:hover,
 blockquote.twitter-tweet a:focus {
   text-decoration: underline;
@@ -58,12 +56,11 @@ blockquote.twitter-tweet a:focus {
 .read-content-wrap .ck-reset_all {
   display: none !important;
 }
-.read-content-wrap .ck,
-.read-content-wrap .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected,
-.read-content-wrap .ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover {
-  border: none !important;
-  padding: 0px !important;
-  outline-color: transparent !important;
+.content-youtube{
+  position: relative; width: 100%; height: auto; padding-top: 50%;
+}
+.content-youtube iframe{
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
 }
 
 /* 베댓 영역 */
