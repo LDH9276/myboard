@@ -17,10 +17,10 @@ function WriteComment( {id, commentId, modify, answer, depth} ) {
   const dispatch = useDispatch();
 
   // Link
-  const imgLink = "http://localhost/myboard_server/Board/Upload"
-  const postUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
-  const postCommentLink = "http://localhost/myboard_server/Board/Post_WriteComment.php"
-  const postCommentRead = "http://localhost/myboard_server/Board/Post_ReWriteComment.php"
+  const imgLink = "http://leedh9276.dothome.co.kr/board_api/Board/Upload"
+  const postUploadLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Upload.php"
+  const postCommentLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_WriteComment.php"
+  const postCommentRead = "http://leedh9276.dothome.co.kr/board_api/Board/Post_ReWriteComment.php"
 
   const customUploadAdapter = (loader) => {
     return {

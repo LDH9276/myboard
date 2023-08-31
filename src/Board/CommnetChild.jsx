@@ -5,7 +5,7 @@ import CustomEditor from '@ckeditor/ckeditor5-custom';
 import WriteComment from './WriteComment';
 import CommentGrandChild from './CommentGrandChild';
 
-function CommnetChild({commentId, children, id, handleModify, handleDelete, handelAnswer, handleLikeAction, userId}) {
+function CommnetChild({commentId, children, id, handleModify, handleDelete, handelAnswer, handleLikeAction, userId, parentWriter}) {
   const editAnswerParent = useSelector(state => state.editAnswerParent);
   const editCommentId = useSelector(state => state.editCommentId);
   const editAnswerId = useSelector(state => state.editAnswerId);
@@ -37,6 +37,7 @@ function CommnetChild({commentId, children, id, handleModify, handleDelete, hand
             ) : ''}
           </div>
           <div className="comment-content-wrap">
+            <p>@{parentWriter}</p>
               {userId !== "" && editCommentId === child.id ? (
                   <WriteComment
                     commentId={child.id}
@@ -111,6 +112,7 @@ function CommnetChild({commentId, children, id, handleModify, handleDelete, hand
           userId={userId}
           commentId={child.id}
           children={child.children}
+          parentWriter={child.writer}
           id={id}
           handleModify={handleModify}
           handleDelete={handleDelete}

@@ -5,12 +5,13 @@ import CustomEditor from "@ckeditor/ckeditor5-custom";
 import WriteComment from "./WriteComment";
 
 function CommentGrandChild({
+  commentId,
   children,
   id,
   userId,
   handleModify,
   handleDelete,
-  parentWriter,
+  handelAnswer,
   handleLikeAction,
 }) {
   const editCommentId = useSelector((state) => state.editCommentId);
@@ -31,12 +32,12 @@ function CommentGrandChild({
                 </div>
                 {userId !== "" ? (
                   <div className="comment-btn-wrap">
-                    {/* <button
+                    <button
                       onClick={() => handelAnswer(commentId, child.id)}
                       className="comment-reply-btn"
                     >
                       답글
-                    </button> */}
+                    </button>
                     {userId === child.writer ? (
                       <div className="comment-modbtn-wrap">
                         <button
@@ -60,7 +61,6 @@ function CommentGrandChild({
               </div>
 
               <div className="comment-content-wrap">
-                <p>@{parentWriter}</p>
                 {userId !== "" && editCommentId === child.id ? (
                   <WriteComment
                     commentId={child.id}
@@ -123,7 +123,7 @@ function CommentGrandChild({
             <div className="comment-content modify">삭제된 댓글입니다.</div>
           )}
 
-          {/* <div className="comment-answer-wrap">
+          <div className="comment-answer-wrap">
             {userId !== "" &&
             editAnswerParent === commentId &&
             editAnswerId === child.id ? (
@@ -137,7 +137,7 @@ function CommentGrandChild({
             ) : (
               ""
             )}
-          </div> */}
+          </div>
         </li>
       ))}
     </ul>

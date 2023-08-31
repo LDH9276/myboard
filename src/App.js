@@ -15,11 +15,12 @@ import { boardLimit } from './Redux/Board';
 import Header from './Header/Header';
 import Board from './Board/Board';
 import Main from './Main/Main';
+import ErrorWindow from './Header/ErrorWindow';
 
 function App() {
 
-  const tokenChek = 'http://localhost/myboard_server/JWT_Verify.php';
-  const boardLimitCheck = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
+  const tokenChek = 'http://leedh9276.dothome.co.kr/board_api/JWT_Verify.php';
+  const boardLimitCheck = "http://leedh9276.dothome.co.kr/board_api/Board/Board_LimiteCheck.php";
 
   const isLoggedIn = useSelector(state => state.isLoggedIn);
   const userId = useSelector(state => state.userId);
@@ -77,6 +78,7 @@ function App() {
 
   return (
     <Router>
+      <ErrorWindow />
       <Header />
       {loginMenu ? <Login /> : null}
       {signupMenu ? <Signup /> : null}

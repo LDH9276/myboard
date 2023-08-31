@@ -5,7 +5,7 @@ import CustomEditor from '@ckeditor/ckeditor5-custom';
 
 function BestCommentList({id}) {
 
-  const bestCommentLink = "http://localhost/myboard_server/Board/Post_BestCommentList.php";
+  const bestCommentLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_BestCommentList.php";
 
   const [bestComment, setBestComment] = useState([]);
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 export const sendSignRequest = async (id, password, name, email, profile) => {
 
   // 로그인 체크 PHP 파일의 경로 (빌드 전 수정할 것.)
-  const SignCheckPHP = 'http://localhost/myboard_server/Sign_Check.php';
+  const SignCheckPHP = 'http://leedh9276.dothome.co.kr/board_api/Sign_Check.php';
 
   // FormData로 POST 전송을 보낸다. ID, PW
   const formData = new FormData();

@@ -11,6 +11,7 @@ import ListModule from './ListModule';
 import BestCommentList from './BestCommentList';
 import Dompurify from "dompurify";
 import './css/read.css';
+import { Tweet } from 'react-twitter-widgets';
 
 function Read( {userId} ) {
   
@@ -32,6 +33,7 @@ function Read( {userId} ) {
   const [boardList, setBoardList] = useState([]);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [postCategory, setPostCategory] = useState([]);
+  const [twitterNumber, setTwitterNumber] = useState([]);
 
   const readBoard = async () => {
     try {
@@ -49,12 +51,12 @@ function Read( {userId} ) {
   const [WriterProfileImg, setWriterProfileImg] = useState('');
   
   // Link
-  const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php"
-  const contentChek = "http://localhost/myboard_server/Board/Post_Read.php"
-  const postLikeLink = "http://localhost/myboard_server/Board/Post_Like.php"
-  const postLikeChek = "http://localhost/myboard_server/Board/Post_CheckLike.php"
-  const writerInfo = "http://localhost/myboard_server/Board/Post_WriterInfo.php"
-  const boardLink = "http://localhost/myboard_server/Board/Board_ListCheck.php";
+  const postWriteLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Write.php"
+  const contentChek = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Read.php"
+  const postLikeLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Like.php"
+  const postLikeChek = "http://leedh9276.dothome.co.kr/board_api/Board/Post_CheckLike.php"
+  const writerInfo = "http://leedh9276.dothome.co.kr/board_api/Board/Post_WriterInfo.php"
+  const boardLink = "http://leedh9276.dothome.co.kr/board_api/Board/Board_ListCheck.php";
 
   useEffect(() => {
     readBoard();
@@ -63,15 +65,27 @@ function Read( {userId} ) {
   const readContent = async () => {
     try {
       const response = await axios.get(`${contentChek}?id=${id}`);
-      console.log('원본테스트' + response.data);
 
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
         return item;
       });
 
-      console.log('수정테스트' + response.data);
-
+      const searchContent = list[0].content;
+      const regex = /https:\/\/twitter\.com\/\w+\/status\/(\d+)/g;
+      const twitterNumbers = [];
+      const spanRegex = /<span[^>]*>(.*?)<\/span>/g;
+      let match;
+      let spanContent = searchContent;
+      while ((match = spanRegex.exec(searchContent)) !== null) {
+        spanContent = spanContent.replace(match[0], match[1]);
+      }
+      while ((match = regex.exec(spanContent)) !== null) {
+        twitterNumbers.push(match[1]);
+      }
+      console.log(twitterNumbers);
+      setTwitterNumber(twitterNumbers);
+      
       dispatch({type: 'READ', payload: {writer : list[0].writer, content: list}});
       setContents(list[0].content);
       setUpdateDate(list[0].reg_date);
@@ -80,6 +94,10 @@ function Read( {userId} ) {
       console.error(error);
     }
   };
+
+  // useEffect(() => {
+  //   console.log(twitterNumber);
+  // }, [twitterNumber]);
 
   const readLike = async () => {
     try {
@@ -232,7 +250,7 @@ function Read( {userId} ) {
           <li>
             <div className="read-writer-wrap">
               <div className="read-writer-profile">
-                <img src={`http://localhost/myboard_server/Users/Profile/${WriterProfileImg}`} alt="profile" className='read-profile-img'/>
+                <img src={`http://leedh9276.dothome.co.kr/board_api/Users/Profile/${WriterProfileImg}`} alt="profile" className='read-profile-img'/>
                 <div className="read-wtire-text">
                   <p className='read-profile-name'>{WriterName}</p>
                   <p className='read-profile-time'>{PostUpdateDate(updateDate)}</p>
@@ -245,9 +263,18 @@ function Read( {userId} ) {
 
             </div>
         {Array.isArray(content) && content.map(item => (
-            <div className="read-content-wrap" key={item.id}>
-              <div dangerouslySetInnerHTML={{__html : Dompurify.sanitize(item.content, { ADD_TAGS: ["iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] })}} className='read-content' />
-           </div>
+          <div className="read-content-wrap" key={item.id}>
+            <div dangerouslySetInnerHTML={{__html : Dompurify.sanitize(item.content, { ADD_TAGS: ["iframe", "script"], ADD_ATTR: [ 'async', 'allow', 'allowfullscreen', 'frameborder', 'scrolling', 'src', 'charset'] })}} className='read-content' />
+            {twitterNumber.length > 0 ? (
+            <div className="read-twitter-wrap">
+            {twitterNumber.map((tweet, index) => (
+              <div key={index}>
+                <Tweet  tweetId={tweet} />
+              </div>
+            ))}
+            </div>
+          ) : ''}
+          </div>
         ))}
         </li>
       </ul>

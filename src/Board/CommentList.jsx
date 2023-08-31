@@ -23,11 +23,11 @@ function CommentList({ id, userId }) {
 
   // Link
   const contentChek =
-    "http://localhost/myboard_server/Board/Post_ReadComment.php";
+    "http://leedh9276.dothome.co.kr/board_api/Board/Post_ReadComment.php";
   const postCommentLink =
-    "http://localhost/myboard_server/Board/Post_WriteComment.php";
+    "http://leedh9276.dothome.co.kr/board_api/Board/Post_WriteComment.php";
   const postLikeLink =
-    "http://localhost/myboard_server/Board/Post_CommentLike.php";
+    "http://leedh9276.dothome.co.kr/board_api/Board/Post_CommentLike.php";
 
   useEffect(() => {
     if (Array.isArray(totalCommentLists)) {
@@ -308,6 +308,7 @@ function CommentList({ id, userId }) {
                   commentId={child.id}
                   children={child.children}
                   id={id}
+                  parentWriter={child.writer}
                   handleModify={handleModify}
                   handleDelete={handleDelete}
                   handelAnswer={handelAnswer}

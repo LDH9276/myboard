@@ -1,12 +1,14 @@
 import React, {useEffect, useState, useRef, useMemo} from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ReactQuill, {Quill} from "react-quill";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import { formats, toolbarOptions } from "./boardmodules/Module";
 import './css/write.css'
+import { errorWindowOn } from '../Redux/Error';
+
 
 function Write({userId, userName}) {
 
@@ -18,12 +20,13 @@ function Write({userId, userName}) {
   const [modContent, setModContent] = useState('');
   const [title, setTitle] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const quillRef = useRef();
 
   // Link
-  const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php"
-  const postRead = "http://localhost/myboard_server/Board/Post_Read.php"
-  const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
+  const postWriteLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Write.php"
+  const postRead = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Read.php"
+  const imageUploadLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Upload.php"
 
   // Quill
   Quill.register("modules/imageResize", ImageResize);
@@ -59,7 +62,7 @@ function Write({userId, userName}) {
         }
   
         const data = await response.json();
-        const imageUrl = `http://localhost/myboard_server/Upload/${data.filename}`;
+        const imageUrl = `http://leedh9276.dothome.co.kr/board_api/Upload/${data.filename}`;
   
         // 이미지를 에디터에 삽입
         const range = quillRef.current.getEditor().getSelection();
@@ -94,30 +97,38 @@ function Write({userId, userName}) {
     formData.append('title', title);
     formData.append('board', boardId);
 
-    if(mod === 'modify'){
-      formData.append('id', id);
-      formData.append('modify', true);
-      axios.post(postWriteLink, formData)
-      .then((res) => {
-        alert('수정 완료');
-        navigate(`/board/${boardId}`);
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('수정 실패');
-      });
+    if(title === ''){
+    dispatch(errorWindowOn('제목을 입력해주세요'));
+    return;
+    } else if (content === '') {
+    dispatch(errorWindowOn('내용을 입력해주세요'));
+    return;
     } else {
-    axios.post(postWriteLink, formData)
-      .then((res) => {
-        console.log(res.data);
-        alert('업로드 완료');
-        navigate(`/board/${boardId}`);
-      })
-      .catch((err) => {
-        console.error(err);
-        alert('업로드 실패');
-      });
-    };
+      if(mod === 'modify'){
+        formData.append('id', id);
+        formData.append('modify', true);
+        axios.post(postWriteLink, formData)
+        .then((res) => {
+          alert('수정 완료');
+          navigate(`/board/${boardId}`);
+        })
+        .catch((err) => {
+          console.error(err);
+          alert('수정 실패');
+        });
+      } else {
+      axios.post(postWriteLink, formData)
+        .then((res) => {
+          console.log(res.data);
+          alert('업로드 완료');
+          navigate(`/board/${boardId}`);
+        })
+        .catch((err) => {
+          console.error(err);
+          alert('업로드 실패');
+        });
+      };
+    }
   };
 
   const updateContent = async () => {

@@ -19,7 +19,7 @@ function Mypage( {userId} ) {
         const formData = new FormData();
         formData.append('id', userId);
     
-        axios.post('http://localhost/myboard_server/Users/mypage.php', formData)
+        axios.post('http://leedh9276.dothome.co.kr/board_api/Users/mypage.php', formData)
         .then((res) => {
             console.log(res.data);
             setId(res.data.id);
@@ -39,7 +39,7 @@ function Mypage( {userId} ) {
         formData.append('name', name);
         formData.append('email', email);
         formData.append('profile', profile);
-        axios.post('http://localhost/myboard_server/Users/mypage_update.php', formData)
+        axios.post('http://leedh9276.dothome.co.kr/board_api/Users/mypage_update.php', formData)
         .then((res) => {
             if(res.data.success === false){
                 alert(res.data.message);

@@ -1,5 +1,6 @@
 import { persistReducer } from "redux-persist";
 import { LOGIN, LOGOUT } from './Loginout';
+import { ERROR_WINDOW_ON, ERROR_WINDOW_OFF } from "./Error";
 import { READ } from './Read';
 import { UPLOAD_COMMENT, UPLOADED_COMMENT, EDIT_COMMENT, EDIT_ANSWER } from './UploadComment';
 import { COMMENT_LIST } from './CommentList';
@@ -12,7 +13,7 @@ import { WRITING } from "./Write";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ['isLoggedIn', 'userId', 'userName', 'userProfile', 'userInfo', 'boardId', 'boardName', 'writer', 'content', 'totalCommentLists', 'loginMenu', 'signupMenu', 'headerMenu', 'boardLimit', 'postLimit', 'uploadedComment', 'editCommentId', 'editAnswerId', 'editAnswerParent']
+  whitelist: ['isLoggedIn', 'userId', 'userName', 'userProfile', 'userInfo', 'boardId', 'boardName', 'writer', 'content', 'totalCommentLists', 'loginMenu', 'signupMenu', 'headerMenu', 'boardLimit', 'postLimit', 'uploadedComment', 'editCommentId', 'editAnswerId', 'editAnswerParent', 'errorWindow', 'error']
 };
 
 const initialState = {
@@ -35,24 +36,29 @@ const initialState = {
   loginMenu: false,
   signupMenu: false,
   headerMenu: false,
+  errorWindow: false,
+  error: ''
 };
 
 function rootReducer(state = initialState, action) {
-  // function insetSessionId(userId) {
-  //   sessionStorage.setItem('userId', userId);
-  // }
 
   function clearLocalStorageAndCache() {
     localStorage.removeItem('access_token');
     sessionStorage.clear();
   }
 
-  // function boardInfoSave(boardId, boardName) {
-  //   sessionStorage.setItem('boardId', boardId);
-  //   sessionStorage.setItem('boardName', boardName);
-  // }
-
   switch (action.type) {
+    case ERROR_WINDOW_ON:
+      return {
+        ...state,
+        errorWindow: true,
+        error: action.payload.error
+      };
+    case ERROR_WINDOW_OFF:
+      return {
+        ...state,
+        errorWindow: false,
+      };
     case HEADERMENUON:
       return {
         ...state,

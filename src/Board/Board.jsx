@@ -23,10 +23,10 @@ function Board() {
   const [userSubscribe, setUserSubscribe] = useState([]);
   const boardLimit = useSelector(state => state.boardLimit);
 
-  const boardVisitedLink = "http://localhost/myboard_server/Board/Board_VisitedCheck.php"
-  const boardVisitedCheck = "http://localhost/myboard_server/Board/Board_VisitedModule.php";
-  const passenger = "http://localhost/myboard_server/Board/Board_VisitedCheckPassinger.php";
-  const boardSubscribe = "http://localhost/myboard_server/Board/Board_Subscribe.php";
+  const boardVisitedLink = "http://leedh9276.dothome.co.kr/board_api/Board/Board_VisitedCheck.php"
+  const boardVisitedCheck = "http://leedh9276.dothome.co.kr/board_api/Board/Board_VisitedModule.php";
+  const passenger = "http://leedh9276.dothome.co.kr/board_api/Board/Board_VisitedCheckPassinger.php";
+  const boardSubscribe = "http://leedh9276.dothome.co.kr/board_api/Board/Board_Subscribe.php";
 
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -148,7 +148,7 @@ function Board() {
     <div className='board-container'>
       {Array.isArray(boardList) && boardList.map((board, index) => (
         <div key={index} className='board-index'>
-          <img src={`http://localhost/myboard_server/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className='board-thumb' />
+          <img src={`http://leedh9276.dothome.co.kr/board_api/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className='board-thumb' />
           <div className="board-index-wrap">
             <div className="board-detail">
               <h2>

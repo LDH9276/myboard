@@ -7,7 +7,7 @@ import { formats, toolbarOptions } from "./boardmodules/Module";
 function PostWrite({modContent}) {
     const quillRef = useRef();
     const [content, setContent] = useState("");
-    const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
+    const imageUploadLink = "http://leedh9276.dothome.co.kr/board_api/Board/Post_Upload.php"
 
     function handleContentChange(value) {
       setContent(value);
@@ -42,7 +42,7 @@ function PostWrite({modContent}) {
           }
     
           const data = await response.json();
-          const imageUrl = `http://localhost/myboard_server/Upload/${data.filename}`;
+          const imageUrl = `http://leedh9276.dothome.co.kr/board_api/Upload/${data.filename}`;
     
           // 이미지를 에디터에 삽입
           const range = quillRef.current.getEditor().getSelection();
