@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper';
@@ -14,12 +14,13 @@ function TodayPost(props) {
   const todayPost = "http://localhost/myboard_server/Board/Post_TodayPost.php";
   const boardId = useSelector(state => state.boardId);
   const [slidesTotal, setSlidesTotal] = useState(true);
-
   const [todayList, setTodayList] = useState([]);
+  const todaySlide = useRef(null);
 
   const readTodayPost = async () => {
     try {
       const response = await axios.get(`${todayPost}?board=${boardId}`);
+      console.log(response.data);
       if(response.data.today_postlist.length < 3){
         setSlidesTotal(false);
       } else {
@@ -33,11 +34,13 @@ function TodayPost(props) {
 
   useEffect(() => {
     readTodayPost();
+    todaySlide.current.swiper.slideTo(3);
   }, [boardId]);
 
   return (
     <div>
       <Swiper
+        ref={todaySlide}
         spaceBetween={16}
         slidesPerView={'auto'}
         modules={[FreeMode]}
