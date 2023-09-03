@@ -8,11 +8,13 @@ import './css/board.css';
 import ListModule from './ListModule';
 import { boardOppend } from '../Redux/Board';
 import VisitedModule from './VisitedModule';
+import TodayPost from './TodayPost';
 
 function Board() {
 
+  // State
   const userId = useSelector(state => state.userId);
-  const boardLink = process.env.REACT_APP_BOARD_LIST_CHECK;
+  const boardLimit = useSelector(state => state.boardLimit);
   const [boardCate, setBoardCate] = useState('*');
   const [boardList, setBoardList] = useState([]);
   const [autoRefresh, setAutoRefresh] = useState(true);
@@ -21,13 +23,15 @@ function Board() {
   const [subscribe, setSubscribe] = useState(false);
   const [totalBoardSubscribe, setTotalBoardSubscribe] = useState(0);
   const [userSubscribe, setUserSubscribe] = useState([]);
-  const boardLimit = useSelector(state => state.boardLimit);
 
+  // Link
   const boardVisitedLink = "http://localhost/myboard_server/Board/Board_VisitedCheck.php"
   const boardVisitedCheck = "http://localhost/myboard_server/Board/Board_VisitedModule.php";
   const passenger = "http://localhost/myboard_server/Board/Board_VisitedCheckPassinger.php";
   const boardSubscribe = "http://localhost/myboard_server/Board/Board_Subscribe.php";
+  const boardLink = process.env.REACT_APP_BOARD_LIST_CHECK;
 
+  // Dispatch, 
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,7 +39,10 @@ function Board() {
 
   const readBoard = async () => {
     try {
-      const response = await axios.post(`${boardLink}?id=${id}`);
+      const formData = new FormData();
+      formData.append('id', id);
+
+      const response = await axios.post(boardLink, formData);
       dispatch(boardOppend(id, response.data.boardlist[0].board_name, userId));
       setBoardList(response.data.boardlist);
       setPostCategory(response.data.boardlist[0].board_category);
@@ -59,19 +66,7 @@ function Board() {
     }
   }
 
-
-  const readUserSubscribe = async () => {
-    const formData = new FormData();
-    formData.append('board_id', id);
-    formData.append('user_id', userId);
-    formData.append('mode', 'list_read');
-
-    const subscribeCheck = await axios.post(boardSubscribe, formData);
-    setUserSubscribe(subscribeCheck.data.user_subscribe_list);
-  }
-
-
-  const visitedCheck = async () => {
+  const readVisited = async () => {
     if (userId === '') {
 
       const visited = JSON.parse(localStorage.getItem('visited')) || [];
@@ -97,29 +92,12 @@ function Board() {
     }
   }
 
-  useEffect(() => {
-    readBoard();
-    readSubscribe();
-
-    if (isNaN(id)) {
-      navigate('/');
-    } else if (boardLimit < id) {
-      navigate('/');
-    }
-    if (userId === '') {
-      visitedCheck();
-    } else {
-      visitedAdd();
-      visitedCheck();
-    }
-  }, [id, boardLimit]);
-
   const visitedAdd = async () => {
     const formData = new FormData();
     formData.append('user_id', userId);
     formData.append('board_id', id);
     const visitedAdd = await axios.post(boardVisitedLink, formData);
-    visitedCheck();
+    readVisited();
   }
 
   const handleSubscribe = async (mode) => {
@@ -143,12 +121,30 @@ function Board() {
       console.error(error);
     }
   }
+  
+  useEffect(() => {
+    readBoard();
+    readSubscribe();
+
+    if (isNaN(id)) {
+      navigate('/');
+    } else if (boardLimit < id) {
+      navigate('/');
+    }
+    if (userId === '') {
+      readVisited();
+    } else {
+      visitedAdd();
+      readVisited();
+    }
+  }, [id, boardLimit]);
+
 
   return (
     <div className='board-container'>
       {Array.isArray(boardList) && boardList.map((board, index) => (
         <div key={index} className='board-index'>
-          <img src={`http://localhost/myboard_server/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className='board-thumb' />
+          <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className='board-thumb' />
           <div className="board-index-wrap">
             <div className="board-detail">
               <h2>
@@ -180,6 +176,7 @@ function Board() {
       ))}
       <VisitedModule boardVisited={boardVisited} userSubscribe={userSubscribe} />
 
+      <TodayPost postCategory={postCategory}/>
 
       <ListModule setBoardCate={setBoardCate} postCategory={postCategory} boardCate={boardCate} setAutoRefresh={setAutoRefresh} autoRefresh={autoRefresh} />
 

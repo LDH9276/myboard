@@ -7,7 +7,7 @@
 .board-thumb{
   width: 100%;
   height: 200px;
-  background: #f1c232;
+  background: #A7C636;
   margin-bottom: 10px;
   object-fit: cover;
 }
@@ -32,7 +32,7 @@
   align-items: center;
   gap: 5px;
   font-size: 14px;
-  color: #f1c232;
+  color: #A7C636;
 }
 
 .board-category-btn > button{
@@ -43,7 +43,6 @@
   display: inline-block;
   background: transparent;
   border: none;
-  border-radius: 5px;
   font-size: 14px;
   text-align: left;
   cursor: pointer;
@@ -72,7 +71,6 @@
   display: flex;
   justify-content: left;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-  border-radius: 16px;
 }
 .board-visitlist-legend{
   background: var(--main-color02);
@@ -80,7 +78,6 @@
   line-height: 48px;
   padding: 0px 10px;
   background: var(--main-color02);
-  border-radius: 16px 0px 0px 16px;
 }
 .board-visitlist{
   display: flex;
@@ -104,7 +101,6 @@
   font-size: 14px;
   font-weight: 700;
   background: transparent;
-  border-radius: 6px;
   line-height: 28px;
   color: #b4b4b4;
   border: 3px solid #b4b4b4;
@@ -121,7 +117,6 @@
   align-items: center;
   padding: 3px 0px;
   text-align: center;
-  border-radius: 5px;
   width: 64px;
   border: 3px solid var(--main-color02);
 }
@@ -168,7 +163,7 @@
   align-items: center;
   gap: 5px;
   font-size: 14px;
-  color: #f1c232;
+  color: #A7C636;
 }
 
 .board-module-autorefresh button{
@@ -178,5 +173,4 @@
   background: transparent;
   color: var(--main-color01);
   cursor: pointer;
-  border-radius: 16px;
 }

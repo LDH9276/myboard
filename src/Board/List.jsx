@@ -15,6 +15,7 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
   const userId = useSelector(state => state.userId);
   const [boardList, setBoardList] = useState([]);
   const [newPost, setNewPost] = useState(false);
+  const [notice, setNotice] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
   const [postsPerPage] = useState(10);
@@ -43,6 +44,17 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
     }
   };
 
+  const readNotice = async () => {
+    try {
+      const response = await axios.post(`${listCheck}?page=1&board=${boardId}&boardCate=0`);
+      const notice = response.data.list;
+      setNotice(notice);
+      console.log(notice);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     list();
   }, [boardCate]);
@@ -58,6 +70,7 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
 
   useEffect(() => {
     list();
+    readNotice();
   }, [currentPage]);
 
   // 실시간 갱신하기
@@ -123,8 +136,19 @@ function List({boardId, postCategory, boardCate, autoRefresh}) {
 
 
   return (
-    <div className='board-container'>
-      <TodayPost postCategory={postCategory} newPost={newPost} newPostReset={newPostReset} PostUpdateDate={PostUpdateDate}/>
+    <div>
+      <ul className="board-notice-list">
+        {notice.map(item => (
+          <li key={item.id}>
+            <Link to={`/read/${item.id}`} className='board-list-item'>
+            <p className='board-item-category'>{postCategory[item.cat]}</p>
+            <p className='board-item-title'>{item.title} </p>
+            <p className='board-item-date'>{PostUpdateDate(item.reg_date)}</p>
+            </Link> 
+          </li>
+        ))}
+      </ul>
+
       {userId === 'Admin' ? (
         <ul>
         {newPost ? <li className='board-list-newpost'><button onClick={()=>newPostReset()}>새 글이 추가 되었습니다! <br/> <span>갱신하기</span></button></li> : ''}

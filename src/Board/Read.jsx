@@ -8,7 +8,6 @@ import WriteComment from './WriteComment';
 import CommentList from './CommentList';
 import ListModules from './ListModules';
 import ListModule from './ListModule';
-import BestCommentList from './BestCommentList';
 import Dompurify from "dompurify";
 import './css/read.css';
 import { Tweet } from 'react-twitter-widgets';
@@ -21,6 +20,9 @@ function Read( {userId} ) {
   const boardId = useSelector(state => state.boardId);
   const boardName = useSelector(state => state.boardName);
   const writer = useSelector(state => state.writer);
+  const uploadedComment = useSelector(state => state.uploadedComment);
+  const [commentCount, setCommentCount] = useState(0);
+
   const [like, setLike] = useState(false);
   const [likeClickTime, setLikeClickTime] = useState(0);
   const [isPending, startTransition] = useTransition();
@@ -64,40 +66,69 @@ function Read( {userId} ) {
 
   const readContent = async () => {
     try {
-      const response = await axios.get(`${contentChek}?id=${id}`);
-
+      const formData = new FormData();
+      formData.append('id', id);
+      const response = await axios.post(contentChek, formData);
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
         return item;
       });
+      console.log(list);
 
       const searchContent = list[0].content;
-      const regex = /https:\/\/twitter\.com\/\w+\/status\/(\d+)/g;
+      const regex = /https:\/\/twitter\.com\/\w+\/status\/(\d+)(\?\S+)?/g;
       const twitterNumbers = [];
+      const contentParts = [];
       const spanRegex = /<span[^>]*>(.*?)<\/span>/g;
       let match;
       let spanContent = searchContent;
-      while ((match = spanRegex.exec(searchContent)) !== null) {
-        spanContent = spanContent.replace(match[0], match[1]);
+      while ((match = spanRegex.exec(searchContent)) !== null) { // exec는 매칭되는 것을 찾으면 배열로 반환하고, 매칭되는 것이 없으면 null을 반환한다.
+        spanContent = spanContent.replace(match[0], match[1]); // match[0]은 매칭되는 전체 문자열, match[1]은 매칭되는 문자열 중 첫번째 그룹
       }
+  
+      let lastIndex = 0;
       while ((match = regex.exec(spanContent)) !== null) {
-        twitterNumbers.push(match[1]);
+        const matchedNumber = match[1];
+        twitterNumbers.push(matchedNumber);
+      
+        let part = spanContent.slice(lastIndex, match.index);
+        const openTags = (part.match(/<p>/g) || []).length;
+        const closeTags = (part.match(/<\/p>/g) || []).length;
+        
+        if (openTags > closeTags) {
+          part += '</p>';
+        }
+        
+        contentParts.push(part);
+        contentParts.push(`"${matchedNumber}"`);
+        lastIndex = regex.lastIndex;
       }
-      console.log(twitterNumbers);
+      
+      let part = spanContent.slice(lastIndex);
+      const openTags = (part.match(/<p>/g) || []).length;
+      const closeTags = (part.match(/<\/p>/g) || []).length;
+      
+      if (closeTags < openTags) {
+        part = '<p>' + part;
+      }
+      
+      contentParts.push(part);
+  
+      console.log(contentParts);
       setTwitterNumber(twitterNumbers);
+  
       
       dispatch({type: 'READ', payload: {writer : list[0].writer, content: list}});
-      setContents(list[0].content);
+      setContents(contentParts)
+      console.log(contents)
       setUpdateDate(list[0].reg_date);
       setTotalLike(list[0].total_like);
+      setCommentCount(list[0].comment_count);
+      
     } catch (error) {
       console.error(error);
     }
   };
-
-  // useEffect(() => {
-  //   console.log(twitterNumber);
-  // }, [twitterNumber]);
 
   const readLike = async () => {
     try {
@@ -120,6 +151,7 @@ function Read( {userId} ) {
       const formdata = new FormData();
       formdata.append('writer', writer);
       const response = await axios.post(writerInfo, formdata);
+      console.log(response.data);
       setWriterName(response.data.name);
       setWriterProfile(response.data.profile);
       setWriterProfileImg(response.data.profile_name + '.' + response.data.profile_ext);
@@ -133,6 +165,11 @@ function Read( {userId} ) {
       readContent();
     });
   }, []);
+
+  useEffect(() => {
+    readContent();
+  }, [uploadedComment]);
+
 
   useEffect(() => {
     startTransition(() => {
@@ -250,32 +287,36 @@ function Read( {userId} ) {
           <li>
             <div className="read-writer-wrap">
               <div className="read-writer-profile">
-                <img src={`http://localhost/myboard_server/Users/Profile/${WriterProfileImg}`} alt="profile" className='read-profile-img'/>
-                <div className="read-wtire-text">
-                  <p className='read-profile-name'>{WriterName}</p>
-                  <p className='read-profile-time'>{PostUpdateDate(updateDate)}</p>
+                <div className="read-writer-info">
+                  <img src={`http://localhost/myboard_server/Users/Profile/${WriterProfileImg}`} alt="profile" className='read-profile-img'/>
+                  <div className="read-wtire-text">
+                    <p className='read-profile-name'>{WriterName}</p>
+                    <p className='read-profile-time'>{PostUpdateDate(updateDate)}</p>
+                  </div>
+                </div>
+                <div className="read-post-status">
+                  <p>
+                    <img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt="like" className='read-profile-icon'/>
+                    {totalLike}
+                  </p>
+                  <p>
+                    <img src={`${process.env.PUBLIC_URL}/btn/comment.svg`} alt="comment" className='read-profile-icon'/>
+                    {commentCount}
+                  </p>
                 </div>
               </div>
               <div className="read-title-wrap">
                 <h3>{content ? content[0].title : ''}</h3>
               </div>
               
-
+              {contents.map((part, index) => {
+                if (part.startsWith('"') && part.endsWith('"')) {
+                  const tweetId = part.replace(/"/g, '');
+                  return <Tweet key={index} tweetId={tweetId} />;
+                }
+                return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+              })}
             </div>
-        {Array.isArray(content) && content.map(item => (
-          <div className="read-content-wrap" key={item.id}>
-            <div dangerouslySetInnerHTML={{__html : Dompurify.sanitize(item.content, { ADD_TAGS: ["iframe", "script"], ADD_ATTR: [ 'async', 'allow', 'allowfullscreen', 'frameborder', 'scrolling', 'src', 'charset'] })}} className='read-content' />
-            {twitterNumber.length > 0 ? (
-            <div className="read-twitter-wrap">
-            {twitterNumber.map((tweet, index) => (
-              <div key={index}>
-                <Tweet  tweetId={tweet} />
-              </div>
-            ))}
-            </div>
-          ) : ''}
-          </div>
-        ))}
         </li>
       </ul>
 
@@ -289,7 +330,6 @@ function Read( {userId} ) {
       {/* <button onClick={() => navigate(`/board/${boardId}`)}>목록으로</button> */}
       
       <div className="comment">
-        <BestCommentList id={id} />
         {isPending ? (
           <p>Loading...</p>
         ) : (

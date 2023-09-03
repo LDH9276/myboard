@@ -18,8 +18,8 @@ input[type='number']::-webkit-outer-spin-button {
 
 :root {
   --base-color: #333;
-  --main-color01: #f1c232;
-  --main-color02: #66411C;
+  --main-color01: #A7C636;
+  --main-color02: #8DA82B;
   --main-color03: #fff;
   --main-m-auto: 0 auto;
 }
@@ -33,13 +33,6 @@ input[type='number']::-webkit-outer-spin-button {
 }
 ul, ol, li {
   list-style-type: none;
-}
-
-.firstchild-comment{
-  margin-left: 20px;
-}
-.secondchild-comment{
-  margin-left: 40px;
 }
 
 .main-bottom-wrap{
@@ -64,7 +57,6 @@ ul, ol, li {
 .main-write-btn{
   display: block;
   padding: 12px;
-  border-radius: 10px;
   border: none;
   background: var(--main-color02);
 }
@@ -82,17 +74,28 @@ ul, ol, li {
   padding: 12px;
   border: none;
   background: var(--main-color03);
-  border-radius: 10px;
 }
+
 .board-bottom-wrap{
   position: fixed;
   display: flex;
-  bottom: 80px; left: 50%;
-  transform: translateX(350px);
+  bottom: 80px; 
   background: #fff;
-  border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   z-index: 9999;
+}
+@media screen and (max-width: 799px){
+  .board-bottom-wrap{
+    bottom: 30px; 
+    right: 16px;
+  }
+}
+@media screen and (min-width: 800px) {
+  .board-bottom-wrap{
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(350px);
+  }  
 }
 .board-container{
   max-width: 800px;

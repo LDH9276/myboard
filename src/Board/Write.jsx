@@ -8,6 +8,7 @@ import "react-quill/dist/quill.snow.css";
 import { formats, toolbarOptions } from "./boardmodules/Module";
 import './css/write.css'
 import { errorWindowOn } from '../Redux/Error';
+Quill.register("modules/imageResize", ImageResize);
 
 
 function Write({userId, userName}) {
@@ -19,6 +20,9 @@ function Write({userId, userName}) {
   const [content, setContent] = useState('');
   const [modContent, setModContent] = useState('');
   const [title, setTitle] = useState('');
+  const [boardCate, setBoardCate] = useState([]);
+  const [boardMaster , setBoardMaster] = useState([]);
+  const [postCate, setPostCate] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const quillRef = useRef();
@@ -27,10 +31,28 @@ function Write({userId, userName}) {
   const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php"
   const postRead = "http://localhost/myboard_server/Board/Post_Read.php"
   const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
+  const boardLink = "http://localhost/myboard_server/Board/Board_ListCheck.php";
+
 
   // Quill
-  Quill.register("modules/imageResize", ImageResize);
 
+  const readBoard = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('id', boardId);
+
+      const response = await axios.post(boardLink, formData);
+      
+      const cate = response.data.boardlist[0].board_category;
+      cate.shift();
+
+      setBoardCate(cate);
+      setBoardMaster(response.data.boardlist[0].board_admin);
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   function handleContentChange(value) {
     setContent(value);
@@ -62,7 +84,7 @@ function Write({userId, userName}) {
         }
   
         const data = await response.json();
-        const imageUrl = `http://localhost/myboard_server/Upload/${data.filename}`;
+        const imageUrl = `http://localhost/myboard_server/Board/Upload/${data.filename}`;
   
         // 이미지를 에디터에 삽입
         const range = quillRef.current.getEditor().getSelection();
@@ -96,6 +118,7 @@ function Write({userId, userName}) {
     formData.append('content', content);
     formData.append('title', title);
     formData.append('board', boardId);
+    formData.append('category', postCate);
 
     if(title === ''){
     dispatch(errorWindowOn('제목을 입력해주세요'));
@@ -133,7 +156,11 @@ function Write({userId, userName}) {
 
   const updateContent = async () => {
     try {
-      const response = await axios.get(`${postRead}?id=${id}`);;
+      const formData = new FormData();
+      formData.append('id', id);
+      formData.append('mod', true)
+
+      const response = await axios.post(postRead, formData);
       const list = response.data.list.map(item => {
         item.content = item.content.replace(/\\/g, '');
         return item;
@@ -146,14 +173,39 @@ function Write({userId, userName}) {
   };
 
   useEffect(() => {
+    readBoard();
     if(mod === 'modify'){
       updateContent();
     }
   }, []);
+  
+  useEffect(() => {
+    console.log(boardMaster);
+  }, [boardMaster]);
 
   return (
     <div className='board-container post-write'>
       <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} className='write-title-input' placeholder='제목을 입력해주세요'/>
+
+      <div>
+        <ul className='board-module-category'>
+          {boardMaster.includes(userId) && (
+            <li className={postCate === 0 ? 'board-category-btn active' : 'board-category-btn '}>
+              <button onClick={() => setPostCate(0)}>
+                공지
+              </button>
+            </li>
+          )}
+          {boardCate.map((category, index) => (
+            <li key={index} className={postCate === index + 1 ? 'board-category-btn active' : 'board-category-btn '}>
+              <button onClick={() => setPostCate(index + 1)}>
+                {category}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
 
       <ReactQuill
             ref={quillRef}

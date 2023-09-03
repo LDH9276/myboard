@@ -3,7 +3,7 @@ import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import CustomEditor from '@ckeditor/ckeditor5-custom';
 
-function BestCommentList({id}) {
+function BestCommentList({id, commentRefresh}) {
 
   const bestCommentLink = "http://localhost/myboard_server/Board/Post_BestCommentList.php";
 
@@ -23,6 +23,10 @@ function BestCommentList({id}) {
   useEffect(() => {
     readBesetComment();
   }, [id]);
+
+  useEffect(() => {
+    readBesetComment();
+  }, [commentRefresh]);
 
   return (
     <div>

@@ -1,3 +1,11 @@
+/* 공지사항 서식 */
+.board-notice-list .board-list-item{
+  background: #F8FFDE;
+  border: none;;
+}
+.board-notice-list .board-item-category{
+  color: var(--main-color02);
+}
 
 /* 오늘의 게시물 서식 */
 .board-container.today{
@@ -11,10 +19,9 @@
 .todayboard-list-wrap .swiper-slide{
   position: relative;
   width: 300px;
-  height: 150px;
-  border-radius: 16px;
+  height: 200px;
   background: #fff;
-  border: 1px solid #FFBE7C;
+  border: 1px solid #8DA82B;
   padding: 14px;
   box-sizing: border-box;
 }
@@ -30,7 +37,7 @@
 }
 .today-item-title{
   position: absolute;
-  bottom: 50px;
+  bottom: 60px;
   font-weight: 600;
   font-size: 22px;
   margin-top: 5px;
@@ -50,7 +57,6 @@
 .today-item-profile{
   width: 24px;
   height: 24px;
-  border-radius: 10px;
   object-fit: cover;
 }
 .today-item-writer{
@@ -165,7 +171,6 @@
   height: 24px;
   object-fit: cover;
   margin-right: 5px;
-  border-radius: 8px;
 }
 .board-badge-wrap{
   display: flex;

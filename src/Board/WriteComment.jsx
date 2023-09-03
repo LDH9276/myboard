@@ -6,6 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import { formats, toolbarOptions } from "./boardmodules/Module";
 import { useSelector, useDispatch } from 'react-redux';
 import { errorWindowOn } from '../Redux/Error';
+Quill.register("modules/imageResize", ImageResize);
 
 function WriteComment( {id, commentId, modify, answer, depth} ) {
 
@@ -20,9 +21,6 @@ function WriteComment( {id, commentId, modify, answer, depth} ) {
   const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php"
   const postCommentLink = "http://localhost/myboard_server/Board/Post_WriteComment.php"
   const postCommentRead = "http://localhost/myboard_server/Board/Post_ReWriteComment.php"
-
-  // Quill
-  Quill.register('modules/imageResize', ImageResize)
 
   function handleContentChange(value) {
     setContent(value);

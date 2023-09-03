@@ -9,7 +9,7 @@ import 'swiper/css/free-mode';
 import { useSelector } from 'react-redux';
 
 
-function TodayPost({newPost, newPostReset}) {
+function TodayPost(props) {
 
   const todayPost = "http://localhost/myboard_server/Board/Post_TodayPost.php";
   const boardId = useSelector(state => state.boardId);
@@ -45,7 +45,6 @@ function TodayPost({newPost, newPostReset}) {
         loopedSlides={3}
         className='todayboard-list-wrap'
       >
-        {newPost ? <li><button onClick={()=>newPostReset()}>갱신하기</button></li> : ''}
         {Array.isArray(todayList) && todayList.map(item => (
           <SwiperSlide key={item.id}>
             <Link to={`/read/${item.id}`} className='today-list-item'>

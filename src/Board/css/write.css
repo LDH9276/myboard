@@ -13,7 +13,7 @@
 
 .write-title-input{
     border : none;
-    border-bottom: 1px solid #f1c232;
+    border-bottom: 1px solid #A7C636;
     width: 100%;
     line-height: 38px;
     font-size: 24px;
@@ -44,7 +44,7 @@
 .write-btn-wrap button:last-of-type{
     width: 120px;
     height: 32px;
-    background: #f1c232;
+    background: #A7C636;
     border: none;
     font-size: 12px;
     color: #fff;

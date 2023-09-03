@@ -17,7 +17,7 @@ function Header(props) {
             <div className="header-wrap">
                 <div className="header-homemenu">
                     <Link to="/">
-                        Home
+                        <img src={`${process.env.PUBLIC_URL}/logo.svg`} alt="home" />
                     </Link>
                 </div>
                 <div className="header-userbtn">
