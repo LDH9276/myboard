@@ -92,10 +92,15 @@
 .board-index-wrap{
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
+
+
 .board-subscribe{
   padding: 25px 0px;
+  position: relative;
 }
+
 .board-subscribe-btn{
   width: 64px;
   font-size: 14px;
