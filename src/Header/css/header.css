@@ -44,9 +44,7 @@
     height: 100%;
     object-fit: cover;
 }
-
 .header-usermenu{
-    position: absolute;
     top: 48px;
     right: 0px;
     width: 120px;
