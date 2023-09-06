@@ -90,6 +90,7 @@ function App() {
                 <Route path="/read/:id" element={<Read userId={userId} userName={userName} />} />
                 <Route path="*" element={<List />} />
             </Routes>
+            
         </Router>
     );
 }

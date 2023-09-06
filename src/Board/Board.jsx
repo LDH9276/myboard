@@ -64,6 +64,20 @@ function Board() {
         }
     };
 
+    const readSubscribeList = async () => {
+        const formData = new FormData();
+        formData.append("user_id", userId);
+        formData.append("mode", "list_read");
+
+        try {
+            const subscribeCheck = await axios.post(boardSubscribe, formData);
+            setUserSubscribe(subscribeCheck.data.subscribe);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
     const readVisited = async () => {
         if (userId === "") {
             const visited = JSON.parse(localStorage.getItem("visited")) || [];
@@ -96,7 +110,7 @@ function Board() {
         readVisited();
     };
 
-    const handleSubscribe = async (mode) => {
+    const handleSubscribe = async (key, mode, index) => {
         if (mode) {
             setTotalBoardSubscribe(totalBoardSubscribe + 1);
         } else {
@@ -105,13 +119,16 @@ function Board() {
 
         const formData = new FormData();
         formData.append("user_id", userId ? userId : userId);
-        formData.append("board_id", id);
+        formData.append("board_id", key);
         formData.append("mode", mode ? "subscribe" : "unsubscribe");
 
         try {
             const subscribeCheck = await axios.post(boardSubscribe, formData);
+            if(index === "board") {
             setSubscribe(subscribeCheck.data.is_subscribe);
-            console.log(subscribeCheck.data);
+            } 
+            readSubscribe();
+            readSubscribeList();
         } catch (error) {
             console.error(error);
         }
@@ -120,6 +137,7 @@ function Board() {
     useEffect(() => {
         readBoard();
         readSubscribe();
+        readSubscribeList();
 
         if (isNaN(id)) {
             navigate("/");
@@ -155,7 +173,7 @@ function Board() {
                             ) : (
                                 <div className="board-subscribe">
                                     <button
-                                        onClick={subscribe ? () => handleSubscribe(false) : () => handleSubscribe(true)}
+                                        onClick={subscribe ? () => handleSubscribe(id, false) : () => handleSubscribe(id, true, "board")}
                                         className={subscribe ? "board-subscribe-btn active" : "board-subscribe-btn"}
                                     >
                                         {subscribe ? "구독중" : "구독하기"}
@@ -169,7 +187,7 @@ function Board() {
                         </div>
                     </div>
                 ))}
-            <VisitedModule boardVisited={boardVisited} userSubscribe={userSubscribe} />
+            <VisitedModule boardVisited={boardVisited} userSubscribe={userSubscribe} handleSubscribe={handleSubscribe}/>
 
             <TodayPost postCategory={postCategory} />
 

@@ -5,7 +5,7 @@ import { READ } from './Read';
 import { UPLOAD_COMMENT, UPLOADED_COMMENT, EDIT_COMMENT, EDIT_ANSWER } from './UploadComment';
 import { COMMENT_LIST } from './CommentList';
 import { LOGINMENUON, LOGINMENUOFF, SIGNUPMENUON, SIGNUPMENUOFF } from './MenuToggle';
-import { BOARD_OPENED, BOARD_LIMIT } from './Board';
+import { BOARD_OPENED, BOARD_LIMIT, BOARD_SUBSCRIBE } from './Board';
 import { HEADERMENUON } from './Loginout';
 import storage from "redux-persist/lib/storage/session";
 import { WRITING } from "./Write";
@@ -13,7 +13,7 @@ import { WRITING } from "./Write";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ['isLoggedIn', 'userId', 'userName', 'userProfile', 'userInfo', 'boardId', 'boardName', 'writer', 'content', 'totalCommentLists', 'loginMenu', 'signupMenu', 'headerMenu', 'boardLimit', 'postLimit', 'uploadedComment', 'editCommentId', 'editAnswerId', 'editAnswerParent', 'errorWindow', 'error']
+  whitelist: ['isLoggedIn', 'userId', 'userName', 'userProfile', 'userInfo', 'boardId', 'boardName', 'writer', 'content', 'totalCommentLists', 'loginMenu', 'signupMenu', 'headerMenu', 'boardLimit', 'postLimit', 'uploadedComment', 'editCommentId', 'editAnswerId', 'editAnswerParent', 'errorWindow', 'error', 'subscribe']
 };
 
 const initialState = {
@@ -28,6 +28,7 @@ const initialState = {
   boardName: '',
   boardLimit: 0,
   postLimit: 0,
+  subscribe : [],
   uploadedComment: false,
   editCommentId: null,
   editAnswerId: null,
@@ -120,6 +121,11 @@ function rootReducer(state = initialState, action) {
         boardName: action.payload.boardName,
         userId: action.payload.userId
       };
+    case BOARD_SUBSCRIBE:
+      return {
+        ...state,
+        subscribe: action.payload.subscribe
+    };
     case BOARD_LIMIT:
       return {
         ...state,
