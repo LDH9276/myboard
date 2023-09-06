@@ -21,10 +21,8 @@ function App() {
     const tokenChek = "http://localhost/myboard_server/JWT_Verify.php";
     const boardLimitCheck = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
 
-    const isLoggedIn = useSelector((state) => state.isLoggedIn);
     const userId = useSelector((state) => state.userId);
     const userName = useSelector((state) => state.userName);
-    const userInfo = useSelector((state) => state.userInfo);
     const loginMenu = useSelector((state) => state.loginMenu);
     const signupMenu = useSelector((state) => state.signupMenu);
     const cookies = new Cookies();
