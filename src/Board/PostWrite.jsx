@@ -3,6 +3,7 @@ import ReactQuill, { Quill } from "react-quill";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import { formats, toolbarOptions } from "./boardmodules/Module";
+Quill.register("modules/imageResize", ImageResize);
 
 function PostWrite({ modContent }) {
     const quillRef = useRef();
@@ -57,7 +58,6 @@ function PostWrite({ modContent }) {
         };
     }
 
-    Quill.register("modules/imageResize", ImageResize);
 
     const modules = useMemo(
         () => ({

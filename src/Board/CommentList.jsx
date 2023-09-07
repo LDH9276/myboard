@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import CustomEditor from "@ckeditor/ckeditor5-custom";
+import { Tweet } from "react-twitter-widgets";
 import WriteComment from "./WriteComment";
 import { editAnswer, refreshComment } from "../Redux/UploadComment";
 import CommnetChild from "./CommnetChild";
@@ -34,9 +33,63 @@ function CommentList({ id, userId }) {
             formData.append("user_id", userId);
 
             const response = await axios.post(contentChek, formData);
+            console.log(response.data);
+
             const list = response.data.list.map((item) => {
                 item.content = item.content.replace(/\\/g, "");
                 return item;
+            });
+
+            list.map((item) => {
+                const searchContent = item.content;
+                const regex = /https:\/\/twitter\.com\/\w+\/status\/(\d+)(\?\S+)?/g;
+                const twitterNumbers = [];
+                const contentParts = [];
+                const spanRegex = /<span[^>]*>(https:\/\/twitter\.com\/\w+\/status\/\d+\S*)<\/span>/g;
+                let match;
+                let spanContent = searchContent;
+                while ((match = spanRegex.exec(searchContent)) !== null) {
+                    // exec는 매칭되는 것을 찾으면 배열로 반환하고, 매칭되는 것이 없으면 null을 반환한다.
+                    spanContent = spanContent.replace(match[0], match[1]); // match[0]은 매칭되는 전체 문자열, match[1]은 매칭되는 문자열 중 첫번째 그룹
+                }
+
+                let lastIndex = 0;
+                while ((match = regex.exec(spanContent)) !== null) {
+                    const matchedNumber = match[1];
+                    twitterNumbers.push(matchedNumber);
+
+
+
+                    let part = spanContent.slice(lastIndex, match.index);
+                    
+                    const openTags = (part.match(/<p>/g) || []).length;
+                    const closeTags = (part.match(/<\/p>/g) || []).length;
+
+                    if (openTags > closeTags) {
+                        part += "</p>";
+                    }
+
+                    contentParts.push(part);
+                    contentParts.push(`"${matchedNumber}"`);
+                    lastIndex = regex.lastIndex;
+                }
+
+                let part = spanContent.slice(lastIndex);
+                const openTags = (part.match(/<p>/g) || []).length;
+                const closeTags = (part.match(/<\/p>/g) || []).length;
+
+                part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);">/g, '');
+
+                if (closeTags < openTags) {
+                    part = "<p>" + part;
+                }
+
+                contentParts.push(part);
+
+                console.log(contentParts);
+
+                // 해당 list.content를 해당 배열에 담아둔다
+                item.content = contentParts;
             });
 
             const parentComments = [];
@@ -224,15 +277,15 @@ function CommentList({ id, userId }) {
                                         {userId !== "" && editCommentId === child.id ? (
                                             <WriteComment commentId={child.id} answer={false} modify={true} id={id} depth={child.comment_depth} />
                                         ) : (
-                                            <CKEditor
-                                                editor={CustomEditor}
-                                                data={child.content}
-                                                disabled={true}
-                                                config={{
-                                                    toolbar: [],
-                                                }}
-                                                readOnly={true}
-                                            />
+                                            <div className="">
+                                                {Array.from(child.content).map((part, index) => {
+                                                    if (part.startsWith('"') && part.endsWith('"')) {
+                                                        const tweetId = part.replace(/"/g, "");
+                                                        return <Tweet key={index} tweetId={tweetId} />;
+                                                    }
+                                                    return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+                                                })}
+                                            </div>
                                         )}
                                     </div>
                                     {child.writer === userId ? (

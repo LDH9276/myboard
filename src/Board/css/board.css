@@ -32,6 +32,7 @@
   color: #A7C636;
   font-size: 14px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .board-category-btn > button{
@@ -197,12 +198,14 @@
 /*  */
 .board-module-autorefresh{
   display: flex;
-  gap: 5px;
+  gap: 8px;
   color: #A7C636;
   font-size: 14px;
   align-items: center;
 }
-
+.board-module-autorefresh span{
+    white-space: nowrap;
+}
 .board-module-autorefresh button{
   display: block;
   width: 40px; height: 24px;

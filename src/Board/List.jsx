@@ -65,6 +65,7 @@ function List({ boardId, postCategory, boardCate, autoRefresh }) {
     useEffect(() => {
         list();
         totalList();
+        readNotice();
     }, [boardId]);
 
     useEffect(() => {

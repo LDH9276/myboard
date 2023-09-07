@@ -3,7 +3,7 @@ import axios from "axios";
 import ReactQuill, { Quill } from "react-quill";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
-import { formats, toolbarOptions } from "./boardmodules/Module";
+import { formats, commentToolbarOptions } from "./boardmodules/Module";
 import { useSelector, useDispatch } from "react-redux";
 import { errorWindowOn } from "../Redux/Error";
 Quill.register("modules/imageResize", ImageResize);
@@ -72,7 +72,7 @@ function WriteComment({ id, commentId, modify, answer, depth }) {
                 handlers: {
                     image: handleImageUpload,
                 },
-                container: toolbarOptions,
+                container: commentToolbarOptions,
             },
             imageResize: {
                 parchment: Quill.import("parchment"),
@@ -160,7 +160,7 @@ function WriteComment({ id, commentId, modify, answer, depth }) {
     }, []);
 
     return (
-        <div>
+        <div className="comment_write">
             <ReactQuill
                 ref={commentQuillRef}
                 onChange={handleContentChange}
@@ -169,9 +169,10 @@ function WriteComment({ id, commentId, modify, answer, depth }) {
                 modules={modules}
                 formats={formats}
                 value={content}
+                className="write_comment"
             ></ReactQuill>
 
-            <button onClick={() => onUpdateClick()}>등록</button>
+            <button onClick={() => onUpdateClick()} className="submit">등록</button>
         </div>
     );
 }

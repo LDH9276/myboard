@@ -72,6 +72,7 @@ function Board() {
         try {
             const subscribeCheck = await axios.post(boardSubscribe, formData);
             setUserSubscribe(subscribeCheck.data.subscribe);
+            console.log(subscribeCheck.data.subscribe);
         } catch (error) {
             console.error(error);
         }
@@ -87,6 +88,7 @@ function Board() {
             } else {
                 visited.unshift(id);
             }
+
             localStorage.setItem("visited", JSON.stringify([...new Set(visited)]));
             const postData = localStorage.getItem("visited");
 
@@ -94,11 +96,13 @@ function Board() {
             formData.append("user_id", postData);
             const visitedCheck = await axios.post(passenger, formData);
             setBoardVisited(visitedCheck.data.result);
+            console.log(visitedCheck.data.result);
         } else {
             const formData = new FormData();
             formData.append("user_id", userId);
             const visitedCheck = await axios.post(boardVisitedCheck, formData);
             setBoardVisited(visitedCheck.data.result);
+            console.log(visitedCheck.data);
         }
     };
 

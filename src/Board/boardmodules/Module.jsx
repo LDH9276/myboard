@@ -1,4 +1,8 @@
-    export const toolbarOptions = [
+export const commentToolbarOptions = [
+    [{ image: null }]
+  ]; 
+
+export const toolbarOptions = [
     [{ header: [1, 2, 3, false] }],
     ["bold", "italic", "underline", "strike"],
     ["blockquote"],

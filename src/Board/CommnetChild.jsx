@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import CustomEditor from "@ckeditor/ckeditor5-custom";
+import { Tweet } from "react-twitter-widgets";
 import WriteComment from "./WriteComment";
 import CommentGrandChild from "./CommentGrandChild";
 
@@ -45,21 +44,21 @@ function CommnetChild({ commentId, children, id, handleModify, handleDelete, han
                                 )}
                             </div>
                             <div className="comment-content-wrap">
-                                <p>@{parentWriter}</p>
-                                {userId !== "" && editCommentId === child.id ? (
-                                    <WriteComment commentId={child.id} answer={false} modify={true} id={id} depth={child.comment_depth} />
-                                ) : (
-                                    <CKEditor
-                                        editor={CustomEditor}
-                                        data={child.content}
-                                        disabled={true}
-                                        config={{
-                                            toolbar: [],
-                                        }}
-                                        readOnly={true}
-                                    />
-                                )}
-                            </div>
+                                        <p>@{parentWriter}</p>
+                                        {userId !== "" && editCommentId === child.id ? (
+                                            <WriteComment commentId={child.id} answer={false} modify={true} id={id} depth={child.comment_depth} />
+                                        ) : (
+                                            <div className="">
+                                                {Array.from(child.content).map((part, index) => {
+                                                    if (part.startsWith('"') && part.endsWith('"')) {
+                                                        const tweetId = part.replace(/"/g, "");
+                                                        return <Tweet key={index} tweetId={tweetId} />;
+                                                    }
+                                                    return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
                             {child.writer === userId ? (
                                 <div className="comment-like-wrap">
                                     <span className="comment-like-icon_wrap">

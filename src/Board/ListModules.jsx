@@ -15,6 +15,7 @@ function ListModules({ postCategory, boardCate, autoRefresh }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPosts, setTotalPosts] = useState(0);
     const [postsPerPage] = useState(5);
+    const [notice, setNotice] = useState([]);
 
     const totalList = async () => {
         try {
@@ -38,10 +39,27 @@ function ListModules({ postCategory, boardCate, autoRefresh }) {
         }
     };
 
+    const readNotice = async () => {
+        try {
+            const response = await axios.post(`${listCheck}?page=1&board=${boardId}&boardCate=0`);
+            const notice = response.data.list;
+            setNotice(notice);
+            console.log(notice);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         setCurrentPage(1);
         totalList();
     }, []);
+
+    useEffect(() => {
+        list();
+        totalList();
+        readNotice();
+    }, [boardId]);
 
     useEffect(() => {
         list();
@@ -97,7 +115,20 @@ function ListModules({ postCategory, boardCate, autoRefresh }) {
     };
 
     return (
-        <div className="board-container">
+        <div>
+
+            <ul className="board-notice-list">
+                {notice.map((item) => (
+                    <li key={item.id}>
+                        <Link to={`/read/${item.id}`} className="board-list-item">
+                            <p className="board-item-category">{postCategory[item.cat]}</p>
+                            <p className="board-item-title">{item.title} </p>
+                            <p className="board-item-date">{PostUpdateDate(item.reg_date)}</p>
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+
             <ul>
                 {newPost ? (
                     <li className="board-list-newpost">

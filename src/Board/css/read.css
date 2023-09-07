@@ -49,23 +49,37 @@
   padding: 0px 16px;
   box-sizing: border-box;
 }
+.read-writer-wrap img{
+    max-width: 100%;
+}
 
 .read-title-wrap{
   font-size: 24px;
   margin-bottom: 20px;
 }
 
-.read-content-wrap .ck-reset_all {
-  display: none !important;
+.read-content-wrap {
+    width: 100%;    
+    word-wrap: break-word;
 }
-.content-youtube{
-  position: relative; width: 100%; height: auto; padding-top: 50%;
-}
-.content-youtube iframe{
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+
+.read-content-wrap img{
+    max-width: 100%;
 }
 
 .ql-video{
+  width: 100%;
+  height: 100%;
+}
+.content-youtube{
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+.content-youtube iframe{
+  position: absolute;
+  top: 0; left: 0;
   width: 100%;
   height: 100%;
 }
@@ -119,6 +133,28 @@
 
 
 /* 댓글 영역 */
+.comment_write{
+    width: 100%;
+    padding: 16px 16px;
+    box-sizing: border-box;
+}
+.write_comment {
+    border: 1px solid #dcdcdc;
+    outline-color: transparent !important;
+    background: #fff;
+}
+
+.comment_write .ql-toolbar{
+    border: none !important;
+    outline-color: transparent !important;
+    background: #fff;
+    border-bottom: 1px solid var(--main-color01) !important;
+}
+.comment_write .ql-container{
+  border: none !important;
+  outline-color: transparent !important;
+  min-height: 80px;
+}
 
 .comment-content{
   width: 100%;

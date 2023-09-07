@@ -38,9 +38,13 @@ function Read({ userId }) {
 
     const readBoard = async () => {
         try {
-            const response = await axios.post(`${boardLink}?id=${boardId}`);
+            const formData = new FormData();
+            formData.append("id", boardId);
+
+            const response = await axios.post(boardLink, formData);
             setBoardList(response.data.boardlist);
             setPostCategory(response.data.boardlist[0].board_category);
+            console.log(response.data.boardlist);
         } catch (error) {
             console.error(error);
         }
@@ -72,13 +76,12 @@ function Read({ userId }) {
                 item.content = item.content.replace(/\\/g, "");
                 return item;
             });
-            console.log(list);
 
             const searchContent = list[0].content;
             const regex = /https:\/\/twitter\.com\/\w+\/status\/(\d+)(\?\S+)?/g;
             const twitterNumbers = [];
             const contentParts = [];
-            const spanRegex = /<span[^>]*>(.*?)<\/span>/g;
+            const spanRegex = /<span[^>]*>(https:\/\/twitter\.com\/\w+\/status\/\d+\S*)<\/span>/g;
             let match;
             let spanContent = searchContent;
             while ((match = spanRegex.exec(searchContent)) !== null) {
@@ -306,13 +309,17 @@ function Read({ userId }) {
                             <h3>{content ? content[0].title : ""}</h3>
                         </div>
 
-                        {contents.map((part, index) => {
-                            if (part.startsWith('"') && part.endsWith('"')) {
-                                const tweetId = part.replace(/"/g, "");
-                                return <Tweet key={index} tweetId={tweetId} />;
-                            }
-                            return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
-                        })}
+                        <div className="read-content-wrap">
+                            {contents.map((part, index) => {
+                                if (part.startsWith('"') && part.endsWith('"')) {
+                                    const tweetId = part.replace(/"/g, "");
+                                    return <Tweet key={index} tweetId={tweetId} />;
+                                }
+                                part = part.replace(/style="background-color:\s*rgb\(255,\s*255,\s*255\);\s*color:\s*rgb\(0,\s*0,\s*0\);">/g, '');
+                                part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);\s*background-color:\s*rgb\(255,\s*255,\s*255\);">/g, '');
+                                return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+                            })}
+                        </div>
                     </div>
                 </li>
             </ul>
