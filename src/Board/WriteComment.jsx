@@ -22,7 +22,8 @@ function WriteComment({ id, commentId, modify, answer, depth }) {
     const postCommentRead = "http://localhost/myboard_server/Board/Post_ReWriteComment.php";
 
     function handleContentChange(value) {
-        setContent(value);
+        const filteredValue = value.replace(/<span[^>]*>/g, "");
+        setContent(filteredValue);
     }
 
     useEffect(() => {

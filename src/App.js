@@ -39,7 +39,6 @@ function App() {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${access_token}`,
-                    Refresh: refresh_token
                 },
                 withCredentials: true,
             });

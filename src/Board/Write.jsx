@@ -31,8 +31,6 @@ function Write({ userId, userName }) {
     const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php";
     const boardLink = "http://localhost/myboard_server/Board/Board_ListCheck.php";
 
-    // Quill
-
     const readBoard = async () => {
         try {
             const formData = new FormData();
@@ -51,7 +49,8 @@ function Write({ userId, userName }) {
     };
 
     function handleContentChange(value) {
-        setContent(value);
+        const filteredValue = value.replace(/<span[^>]*>/g, "");
+        setContent(filteredValue);
     }
 
     useEffect(() => {

@@ -81,12 +81,14 @@ function Read({ userId }) {
             const regex = /https:\/\/twitter\.com\/\w+\/status\/(\d+)(\?\S+)?/g;
             const twitterNumbers = [];
             const contentParts = [];
-            const spanRegex = /<span[^>]*>(https:\/\/twitter\.com\/\w+\/status\/\d+\S*)<\/span>/g;
+            const pRegex = /<p[^>]*>(.*?)<\/p>/g;
+            const brRegex = /<p><br><\/p>/g;
             let match;
-            let spanContent = searchContent;
-            while ((match = spanRegex.exec(searchContent)) !== null) {
+            let spanContent = searchContent.replace(brRegex, "");
+            while ((match = pRegex.exec(searchContent)) !== null) {
                 // exec는 매칭되는 것을 찾으면 배열로 반환하고, 매칭되는 것이 없으면 null을 반환한다.
                 spanContent = spanContent.replace(match[0], match[1]); // match[0]은 매칭되는 전체 문자열, match[1]은 매칭되는 문자열 중 첫번째 그룹
+                console.log(spanContent);
             }
 
             let lastIndex = 0;
@@ -95,13 +97,6 @@ function Read({ userId }) {
                 twitterNumbers.push(matchedNumber);
 
                 let part = spanContent.slice(lastIndex, match.index);
-                const openTags = (part.match(/<p>/g) || []).length;
-                const closeTags = (part.match(/<\/p>/g) || []).length;
-
-                if (openTags > closeTags) {
-                    part += "</p>";
-                }
-
                 contentParts.push(part);
                 contentParts.push(`"${matchedNumber}"`);
                 lastIndex = regex.lastIndex;
