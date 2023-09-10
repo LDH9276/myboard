@@ -13,6 +13,8 @@ function WriteComment({ id, commentId, modify, answer, depth }) {
     const uploadedComment = useSelector((state) => state.uploadedComment);
     const [content, setContent] = useState("");
     const userId = useSelector((state) => state.userId);
+    const userName = useSelector((state) => state.userName);
+    const userProfile = useSelector((state) => state.userProfile);
     const dispatch = useDispatch();
     const commentQuillRef = useRef();
 
@@ -162,18 +164,35 @@ function WriteComment({ id, commentId, modify, answer, depth }) {
 
     return (
         <div className="comment_write">
+            <p className="comment-write-profile">
+                <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt="user_profile" className="comment-profile-img" />
+                <span className="comment-profile-name" >
+                {userName}
+                </span>
+            </p>
+
             <ReactQuill
                 ref={commentQuillRef}
                 onChange={handleContentChange}
-                placeholder={"내용을 입력해주세요"}
                 theme="snow"
                 modules={modules}
                 formats={formats}
                 value={content}
                 className="write_comment"
             ></ReactQuill>
-
-            <button onClick={() => onUpdateClick()} className="submit">등록</button>
+            <ul className="comment-write-btn_wrap">
+                <li className="comment-btn-img">
+                    <button className="comment-write-sticker">스티커</button>
+                    <button onClick={() => handleImageUpload()} className="comment-write-sticker">
+                        사진
+                    </button>
+                </li>
+                <li className="comment-btn-submit">
+                    <button onClick={() => onUpdateClick()} className="comment-write-submit">
+                        등록
+                    </button>
+                </li>
+            </ul>
         </div>
     );
 }

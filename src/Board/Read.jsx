@@ -82,14 +82,15 @@ function Read({ userId }) {
             const twitterNumbers = [];
             const contentParts = [];
             const pRegex = /<p[^>]*>(.*?)<\/p>/g;
-            const brRegex = /<p><br><\/p>/g;
+            const brRegex = '';
+            // const brRegex = /<p[^>]*>(.*?)<\/p>/g;
             let match;
             let spanContent = searchContent.replace(brRegex, "");
-            while ((match = pRegex.exec(searchContent)) !== null) {
-                // exec는 매칭되는 것을 찾으면 배열로 반환하고, 매칭되는 것이 없으면 null을 반환한다.
-                spanContent = spanContent.replace(match[0], match[1]); // match[0]은 매칭되는 전체 문자열, match[1]은 매칭되는 문자열 중 첫번째 그룹
-                console.log(spanContent);
-            }
+            // while ((match = pRegex.exec(searchContent)) !== null) {
+            //     // exec는 매칭되는 것을 찾으면 배열로 반환하고, 매칭되는 것이 없으면 null을 반환한다.
+            //     spanContent = spanContent.replace(match[0], match[1]); // match[0]은 매칭되는 전체 문자열, match[1]은 매칭되는 문자열 중 첫번째 그룹
+            //     console.log(spanContent);
+            // }
 
             let lastIndex = 0;
             while ((match = regex.exec(spanContent)) !== null) {
@@ -276,7 +277,7 @@ function Read({ userId }) {
             <ul>
                 <li className="board_title">
                     <Link to={`/board/${boardId}`}>
-                        <h2>{boardName}</h2>
+                        <h2 className="read-board-name">{boardName}</h2>
                     </Link>
                 </li>
                 <li>
@@ -300,8 +301,10 @@ function Read({ userId }) {
                                 </p>
                             </div>
                         </div>
+
                         <div className="read-title-wrap">
-                            <h3>{content ? content[0].title : ""}</h3>
+                            <p className="read-title-category">{postCategory[content[0].cat]}</p>
+                            <h3 className="read-title-subject">{content ? content[0].title : ""}</h3>
                         </div>
 
                         <div className="read-content-wrap">
@@ -310,8 +313,8 @@ function Read({ userId }) {
                                     const tweetId = part.replace(/"/g, "");
                                     return <Tweet key={index} tweetId={tweetId} />;
                                 }
-                                part = part.replace(/style="background-color:\s*rgb\(255,\s*255,\s*255\);\s*color:\s*rgb\(0,\s*0,\s*0\);">/g, '');
-                                part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);\s*background-color:\s*rgb\(255,\s*255,\s*255\);">/g, '');
+                                part = part.replace(/style="background-color:\s*rgb\(255,\s*255,\s*255\);\s*color:\s*rgb\(0,\s*0,\s*0\);">/g, "");
+                                part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);\s*background-color:\s*rgb\(255,\s*255,\s*255\);">/g, "");
                                 return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
                             })}
                         </div>
@@ -320,10 +323,14 @@ function Read({ userId }) {
             </ul>
 
             {writer === userId ? (
-                <>
-                    <button onClick={() => navigate(`/write/${id}/modify`)}>수정</button>
-                    <button onClick={onDleteBtnClick}>삭제</button>
-                </>
+                <div className="read-btn-wrap">
+                    <button onClick={() => navigate(`/write/${id}/modify`)}>
+                        <img src={`${process.env.PUBLIC_URL}/btn/modify.svg`} alt="수정버튼" />
+                    </button>
+                    <button onClick={onDleteBtnClick}>
+                        <img src={`${process.env.PUBLIC_URL}/btn/delete.svg`} alt="수정버튼" />
+                    </button>
+                </div>
             ) : null}
 
             {/* <button onClick={() => navigate(`/board/${boardId}`)}>목록으로</button> */}

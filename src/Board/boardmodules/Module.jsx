@@ -9,7 +9,7 @@ export const toolbarOptions = [
     [{ list: "ordered" }, { list: "bullet" }],
     [{ color: [] }, { background: [] }],
     [{ align: [] }],
-    ["link", "video",{ image: null }]
+    [{ image: null }]
   ]; 
   
   

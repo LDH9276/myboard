@@ -95,6 +95,7 @@ ul, ol, li {
     bottom: 80px;
     left: 50%;
     transform: translateX(350px);
+
   }  
 }
 .board-container{

@@ -1,299 +1,425 @@
 /* 제목, 프로필 영역 */
-.board_title{
-  padding-top: 30px;
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 32px;
-  margin-bottom: 20px;
-  padding-left: 16px;
+.board_title {
+    padding-top: 30px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 32px;
+    margin-bottom: 20px;
+    padding-left: 16px;
 }
-.read-writer-profile{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  padding: 16px 0px;
-}
-
-.read-writer-info{
-  display: flex;
-  align-items: center;
+.read-writer-profile {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 16px 0px;
 }
 
-.read-post-status{
-  display: flex;
-  gap: 10px;
-}
-.read-post-status p{
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.read-writer-info {
+    display: flex;
+    align-items: center;
 }
 
-.read-profile-img{
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
-  object-fit: cover;
+.read-post-status {
+    display: flex;
+    gap: 10px;
 }
-.read-profile-time{
-  font-size: 12px;
-  line-height: 22px;
-  color: #777;
+.read-post-status p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.read-writer-wrap{
-  margin-bottom: 40px;
-  padding: 0px 16px;
-  box-sizing: border-box;
+.read-profile-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    object-fit: cover;
 }
-.read-writer-wrap img{
+.read-profile-time {
+    font-size: 12px;
+    line-height: 22px;
+    color: #777;
+}
+
+.read-writer-wrap {
+    margin-bottom: 40px;
+    padding: 0px 16px;
+    box-sizing: border-box;
+}
+.read-writer-wrap img {
     max-width: 100%;
 }
 
-.read-title-wrap{
-  font-size: 24px;
-  margin-bottom: 20px;
+.read-title-wrap {
+    margin-bottom: 20px;
+}
+.read-title-category{
+    font-size: 1em;
+    color: var(--main-color02);
+    margin-bottom: 0.5em;
+}
+.read-title-subject{
+    font-size: 24px;
 }
 
 .read-content-wrap {
-    width: 100%;    
+    width: 100%;
+    font-size: 1em;
+    line-height: 1.8em;
     word-wrap: break-word;
 }
 
-.read-content-wrap img{
+.read-content-wrap img {
     max-width: 100%;
 }
 
-.ql-video{
-  width: 100%;
-  height: 100%;
+.ql-video {
+    width: 100%;
+    height: 100%;
 }
-.content-youtube{
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%;
+.content-youtube {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    margin: 2em 0px;
 }
-.content-youtube iframe{
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
+.content-youtube iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-#player{
-  position: relative; width: 100%; 
-  height: auto; padding-top: 50%
+div[twdiv="yes"]{
+    margin: 2em 0px;
 }
+
+#player {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding-top: 50%;
+}
+.read-btn-wrap{
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    padding: 0px 16px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.read-btn-wrap button{
+    padding: 10px 10px;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    line-height: 22px;
+    cursor: pointer;
+}
+
 
 /* 베댓 영역 */
-.comment-best-area{
-  width: 100%;
-  padding: 10px 16px;
-  background: #F8FFDE;
-  box-sizing: border-box;
+.comment{
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+.comment~.board-module-wrap{
+    padding-top: 2em;
+    border-top: 1px solid #eee;
 }
 
-.comment-best-wrap{
-  display: flex;
-  justify-content: space-between;
-  padding: 16px 0px;
+.comment-best-area {
+    width: 100%;
+    padding: 10px 16px;
+    background: #f8ffde;
+    box-sizing: border-box;
 }
 
-.comment-bset-writer{
-  width: 100px;
-}
-.comment-best-content{
-  width: 100%;
-  padding-left: 20px;
-}
-.comment-best-content .ck{
-  border: none !important;
-  outline-color: transparent !important;
-  background: transparent !important;
-}
-.comment-best-content p{
-  margin-top: 0px !important;
+.comment-best-wrap {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0px;
 }
 
-.comment-best-icon{
-  width:80px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 5px;
+.comment-bset-writer {
+    width: 100px;
 }
-.comment-best-icon-img{
-  width: 14px;
-  height: 14px;
-  object-fit: contain;
+.comment-best-content {
+    width: 100%;
+    padding-left: 20px;
+}
+.comment-best-content .ck {
+    border: none !important;
+    outline-color: transparent !important;
+    background: transparent !important;
+}
+.comment-best-content p {
+    margin-top: 0px !important;
 }
 
+.comment-best-icon {
+    width: 80px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+}
+.comment-best-icon-img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
 
 /* 댓글 영역 */
-.comment_write{
+.firstchild-comment {
     width: 100%;
     padding: 16px 16px;
     box-sizing: border-box;
 }
-.write_comment {
-    border: 1px solid #dcdcdc;
-    outline-color: transparent !important;
-    background: #fff;
+.comment-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 24px 0px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    border-bottom: 1px solid #eee;
+}
+.comment-left-wrap {
+    width: 42px;
+}
+.comment-profile-img {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
 }
 
-.comment_write .ql-toolbar{
-    border: none !important;
-    outline-color: transparent !important;
-    background: #fff;
-    border-bottom: 1px solid var(--main-color01) !important;
+.comment-content-wrap {
+    width: calc(100% - 42px);
+    padding-left: 16px;
+    box-sizing: border-box;
 }
-.comment_write .ql-container{
-  border: none !important;
-  outline-color: transparent !important;
-  min-height: 80px;
+.comment-content-wrap iframe {
+    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.comment-youtube {
+    width: 100%;
+    padding-bottom: 56.25%;
+    position: relative;
+}
+.comment-youtube iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.comment-content{
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  padding: 24px 0px;
+.commonet-state-wrap {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
 }
-.comment-left-wrap{
-  width: 240px;
+.comment-writer-wrap {
+    display: flex;
+    justify-content: space-between;
 }
-.comment-content-wrap{
-  width: 100%;
+.comment-top {
+    margin-bottom: 16px;
 }
-.comment-like-wrap{
-  width: 100px;
-  display: flex;
-  gap: 5px;
+.comment-item-parent_writer{
+    display: block;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14px;
+    color: var(--main-color01);
 }
-.comment-like-icon_wrap{
-  width: 14px;
-  height: 14px;
-  position: relative;
+.comment-like-wrap {
+    width: 100px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
 }
-.comment-item-icon{
-  display: block;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 14px; height: 14px;
-  object-fit: contain;
-  opacity: 0;
-  transition: .5s;
-  animation: dislike 0.5s ease-in-out;
+.comment-like-icon_wrap {
+    width: 14px;
+    height: 14px;
+    position: relative;
 }
-.comment-item-icon.active{
-  opacity: 1;
-  animation: like 0.5s ease-in-out;
+.comment-item-icon {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    opacity: 0;
+    transition: 0.5s;
+    animation: dislike 0.5s ease-in-out;
 }
-.comment-item-back{
-  display: block;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 14px; height: 14px;
-  object-fit: contain;
+.comment-item-icon.active {
+    opacity: 1;
+    animation: like 0.5s ease-in-out;
+}
+.comment-item-back {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
 }
 
 /*  */
-.secondchild-comment{
-  margin-left: 20px;
+.secondchild-comment > .comment-content {
+    padding-left: 20px;
 }
 
-.thirdchild-comment{
-  margin-left: 20px;
+.thirdchild-comment > .comment-content {
+    padding-left: 40px;
 }
-
-
 
 @keyframes like {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  60% {
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    60% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 @keyframes dislike {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  40% {
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(0);
-  }
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    40% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+    }
 }
 
-.comment-item-writer{
-  display: block;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 22px;
+.comment-item-writer {
+    display: block;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
 }
-.comment-item-regdate{
-  display: block;
-  font-size: 12px;
-  line-height: 22px;
-  color: #dcdcdc;
+.comment-item-regdate {
+    display: block;
+    font-size: 12px;
+    line-height: 22px;
+    color: #dcdcdc;
 }
-.comment-btn-wrap{
-  display: flex;
-  justify-content: left;
-  gap: 10px;
+.comment-btn-wrap {
+    display: flex;
+    justify-content: left;
+    gap: 10px;
 }
-.comment-reply-btn{
-  display: block;
-  font-size: 12px;
-  line-height: 22px;
-  padding: 0px 12px;
-  color: #dcdcdc;
-  cursor: pointer;
-  background: none;
-  border : 2px solid #A7C636;
-  color: #A7C636;
+.comment-reply-btn {
+    display: block;
+    font-size: 12px;
+    line-height: 22px;
+    padding: 0px 12px;
+    color: #dcdcdc;
+    cursor: pointer;
+    background: none;
+    border: 2px solid #a7c636;
+    color: #a7c636;
 }
-.comment-mod-btn{
-  display: block;
-  background: none;
-  border: none;
-  font-size: 12px;
-  line-height: 22px;
-  padding: 0px 5px;
+.comment-mod-btn {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 12px;
+    line-height: 22px;
+    padding: 0px 5px;
 }
-.comment-asnwer-wrap{
-  width: 100%;
-  background: #333;
+.comment-asnwer-wrap {
+    width: 100%;
+    background: #333;
 }
 .comment-asnwer-wrap .ck-editor__main {
-  background: #333;
-  color: #fff;
-  min-height: 150px;
-}
-
-.comment-content .ck{
-  border: none !important;
-  outline-color: transparent !important;
-}
-.comment-content .ck-reset_all {
-  display: none !important;
-}
-.comment-content.modify .ck{
-  background: #f8f8f8 !important;
+    background: #333;
+    color: #fff;
+    min-height: 150px;
 }
 .comment-modbtn-wrap {
-  display: flex;
-  justify-content: space-between;
-  height: 26px;
+    display: flex;
+    justify-content: space-between;
+    height: 26px;
+}
+
+/* 작성 폼 */
+.comment_write {
+    width: 100%;
+    padding: 16px 16px;
+    box-sizing: border-box;
+}
+.comment-write-profile{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 20px;
+}
+
+.comment_write .ql-toolbar {
+    display: none;
+}
+.quill.write_comment{
+    border: 1px solid #dcdcdc;
+    outline-color: transparent !important;
+    background: #fafafa;
+}
+.comment_write .ql-container {
+    border: none !important;
+    outline-color: transparent !important;
+    min-height: 180px;
+}
+.comment-write-btn_wrap{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.comment-btn-img{
+    display: flex;
+    gap: 10px;
+}
+.comment-write-sticker{
+    display: block;
+    font-size: 12px;
+    line-height: 22px;
+    padding: 0px 12px;
+    cursor: pointer;
+    background:var(--main-color02);
+    border: none;
+    color: #fff;
+}
+
+.comment-write-submit{
+    display: block;
+    font-size: 12px;
+    line-height: 22px;
+    padding: 0px 12px;
+    color: #dcdcdc;
+    cursor: pointer;
+    background: none;
+    border: 2px solid #a7c636;
+    color: #a7c636;
 }

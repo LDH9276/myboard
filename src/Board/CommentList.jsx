@@ -58,10 +58,8 @@ function CommentList({ id, userId }) {
                     const matchedNumber = match[1];
                     twitterNumbers.push(matchedNumber);
 
-
-
                     let part = spanContent.slice(lastIndex, match.index);
-                    
+
                     const openTags = (part.match(/<p>/g) || []).length;
                     const closeTags = (part.match(/<\/p>/g) || []).length;
 
@@ -78,7 +76,7 @@ function CommentList({ id, userId }) {
                 const openTags = (part.match(/<p>/g) || []).length;
                 const closeTags = (part.match(/<\/p>/g) || []).length;
 
-                part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);">/g, '');
+                part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);">/g, "");
 
                 if (closeTags < openTags) {
                     part = "<p>" + part;
@@ -246,34 +244,42 @@ function CommentList({ id, userId }) {
                             {child.is_deleted !== 1 ? (
                                 <div className="comment-content">
                                     <div className="comment-left-wrap">
-                                        <div className="comment-img-wrap"></div>
-                                        <div className="comment-top">
-                                            <p className="comment-item-writer">{child.writer}</p>
-                                            <p className="comment-item-regdate">{child.reg_date}</p>
+                                        <div className="comment-img-wrap">
+                                            <img
+                                                src={`http://localhost/myboard_server/Users/Profile/${child.profile_name}.${child.profile_ext}`}
+                                                alt="profile"
+                                                className="comment-profile-img"
+                                            />
                                         </div>
-                                        {userId !== "" ? (
-                                            <div className="comment-btn-wrap">
-                                                <button onClick={() => handelAnswer(child.id, child.id)} className="comment-reply-btn">
-                                                    답글
-                                                </button>
-                                                {userId === child.writer ? (
-                                                    <div className="comment-modbtn-wrap">
-                                                        <button onClick={() => handleModify(child.id)} className="comment-mod-btn">
-                                                            수정
-                                                        </button>
-                                                        <button onClick={() => handleDelete(child.id)} className="comment-mod-btn">
-                                                            삭제
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    ""
-                                                )}
-                                            </div>
-                                        ) : (
-                                            ""
-                                        )}
                                     </div>
                                     <div className="comment-content-wrap">
+                                        <div className="comment-top">
+                                            <div className="comment-writer-wrap">
+                                                <p className="comment-item-writer">{child.writer}</p>
+                                                {child.writer === userId ? (
+                                                    <div className="comment-like-wrap">
+                                                        <span className="comment-like-icon_wrap">
+                                                            <img src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`} alt="댓글수" className="comment-item-back" />
+                                                            <img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt="댓글수" className="comment-item-icon active" />
+                                                        </span>
+                                                        <span className="comment-like-count">{child.total_like}</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="comment-like-wrap" onClick={() => handleLikeAction(child.id, child.like)}>
+                                                        <span className="comment-like-icon_wrap">
+                                                            <img src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`} alt="댓글수" className="comment-item-back" />
+                                                            <img
+                                                                src={`${process.env.PUBLIC_URL}/btn/like.svg`}
+                                                                alt="댓글수"
+                                                                className={child.like ? "comment-item-icon active" : "comment-item-icon"}
+                                                            />
+                                                        </span>
+                                                        <span className="comment-like-count">{child.total_like}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <p className="comment-item-regdate">{child.reg_date}</p>
+                                        </div>
                                         {userId !== "" && editCommentId === child.id ? (
                                             <WriteComment commentId={child.id} answer={false} modify={true} id={id} depth={child.comment_depth} />
                                         ) : (
@@ -287,28 +293,30 @@ function CommentList({ id, userId }) {
                                                 })}
                                             </div>
                                         )}
+                                        <div className="commonet-state-wrap">
+                                            {userId !== "" ? (
+                                                <div className="comment-btn-wrap">
+                                                    {userId === child.writer ? (
+                                                        <div className="comment-modbtn-wrap">
+                                                            <button onClick={() => handleModify(child.id)} className="comment-mod-btn">
+                                                                수정
+                                                            </button>
+                                                            <button onClick={() => handleDelete(child.id)} className="comment-mod-btn">
+                                                                삭제
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        ""
+                                                    )}
+                                                    <button onClick={() => handelAnswer(child.id, child.id)} className="comment-reply-btn">
+                                                        답글
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
                                     </div>
-                                    {child.writer === userId ? (
-                                        <div className="comment-like-wrap">
-                                            <span className="comment-like-icon_wrap">
-                                                <img src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`} alt="댓글수" className="comment-item-back" />
-                                                <img src={`${process.env.PUBLIC_URL}/btn/like.svg`} alt="댓글수" className="comment-item-icon active" />
-                                            </span>
-                                            <span className="comment-like-count">{child.total_like}</span>
-                                        </div>
-                                    ) : (
-                                        <div className="comment-like-wrap" onClick={() => handleLikeAction(child.id, child.like)}>
-                                            <span className="comment-like-icon_wrap">
-                                                <img src={`${process.env.PUBLIC_URL}/btn/like_btn.svg`} alt="댓글수" className="comment-item-back" />
-                                                <img
-                                                    src={`${process.env.PUBLIC_URL}/btn/like.svg`}
-                                                    alt="댓글수"
-                                                    className={child.like ? "comment-item-icon active" : "comment-item-icon"}
-                                                />
-                                            </span>
-                                            <span className="comment-like-count">{child.total_like}</span>
-                                        </div>
-                                    )}
                                 </div>
                             ) : (
                                 <div className="comment-content modify">삭제된 댓글입니다.</div>
