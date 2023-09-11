@@ -1,14 +1,12 @@
 import React, { useEffect, useTransition, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { useSelector, useDispatch } from "react-redux";
-import CustomEditor from "@ckeditor/ckeditor5-custom";
 import WriteComment from "./WriteComment";
 import CommentList from "./CommentList";
 import ListModules from "./ListModules";
 import ListModule from "./ListModule";
-import Dompurify from "dompurify";
+import DOMPurify from "dompurify";
 import "./css/read.css";
 import { Tweet } from "react-twitter-widgets";
 
@@ -72,25 +70,27 @@ function Read({ userId }) {
             const formData = new FormData();
             formData.append("id", id);
             const response = await axios.post(contentChek, formData);
+
+            console.log(response.data);
+
             const list = response.data.list.map((item) => {
                 item.content = item.content.replace(/\\/g, "");
                 return item;
             });
 
+            console.log(list);
+
             const searchContent = list[0].content;
             const regex = /https:\/\/twitter\.com\/\w+\/status\/(\d+)(\?\S+)?/g;
             const twitterNumbers = [];
             const contentParts = [];
-            const pRegex = /<p[^>]*>(.*?)<\/p>/g;
-            const brRegex = '';
-            // const brRegex = /<p[^>]*>(.*?)<\/p>/g;
+            const spanRegex = /<span[^>]*>(https:\/\/twitter\.com\/\w+\/status\/\d+\S*)<\/span>/g;
             let match;
-            let spanContent = searchContent.replace(brRegex, "");
-            // while ((match = pRegex.exec(searchContent)) !== null) {
-            //     // exec는 매칭되는 것을 찾으면 배열로 반환하고, 매칭되는 것이 없으면 null을 반환한다.
-            //     spanContent = spanContent.replace(match[0], match[1]); // match[0]은 매칭되는 전체 문자열, match[1]은 매칭되는 문자열 중 첫번째 그룹
-            //     console.log(spanContent);
-            // }
+            let spanContent = searchContent;
+            while ((match = spanRegex.exec(searchContent)) !== null) {
+                // exec는 매칭되는 것을 찾으면 배열로 반환하고, 매칭되는 것이 없으면 null을 반환한다.
+                spanContent = spanContent.replace(match[0], match[1]); // match[0]은 매칭되는 전체 문자열, match[1]은 매칭되는 문자열 중 첫번째 그룹
+            }
 
             let lastIndex = 0;
             while ((match = regex.exec(spanContent)) !== null) {
@@ -98,6 +98,14 @@ function Read({ userId }) {
                 twitterNumbers.push(matchedNumber);
 
                 let part = spanContent.slice(lastIndex, match.index);
+
+                const openTags = (part.match(/<p>/g) || []).length;
+                const closeTags = (part.match(/<\/p>/g) || []).length;
+
+                if (openTags > closeTags) {
+                    part += "</p>";
+                }
+
                 contentParts.push(part);
                 contentParts.push(`"${matchedNumber}"`);
                 lastIndex = regex.lastIndex;
@@ -106,6 +114,8 @@ function Read({ userId }) {
             let part = spanContent.slice(lastIndex);
             const openTags = (part.match(/<p>/g) || []).length;
             const closeTags = (part.match(/<\/p>/g) || []).length;
+
+            part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);">/g, "");
 
             if (closeTags < openTags) {
                 part = "<p>" + part;
@@ -303,7 +313,7 @@ function Read({ userId }) {
                         </div>
 
                         <div className="read-title-wrap">
-                            <p className="read-title-category">{postCategory[content[0].cat]}</p>
+                            <p className="read-title-category">{content[0] && postCategory[content[0].cat]}</p>
                             <h3 className="read-title-subject">{content ? content[0].title : ""}</h3>
                         </div>
 
@@ -315,7 +325,8 @@ function Read({ userId }) {
                                 }
                                 part = part.replace(/style="background-color:\s*rgb\(255,\s*255,\s*255\);\s*color:\s*rgb\(0,\s*0,\s*0\);">/g, "");
                                 part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);\s*background-color:\s*rgb\(255,\s*255,\s*255\);">/g, "");
-                                return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
+                                return <div key={index} dangerouslySetInnerHTML={{ __html:DOMPurify.sanitize(part, { ALLOWED_TAGS: ["div", "strong", "b", "p", "iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] })}}>
+                            </div>;
                             })}
                         </div>
                     </div>
