@@ -48,6 +48,10 @@ function Read({ userId }) {
         }
     };
 
+    function scrollToTop() {
+        window.scrollTo(0, 0);
+    }
+
     // Writer info
     const [WriterName, setWriterName] = useState("");
     const [WriterProfile, setWriterProfile] = useState("");
@@ -178,6 +182,7 @@ function Read({ userId }) {
     }, [uploadedComment]);
 
     useEffect(() => {
+        scrollToTop();
         startTransition(() => {
             readContent();
         });
@@ -325,8 +330,17 @@ function Read({ userId }) {
                                 }
                                 part = part.replace(/style="background-color:\s*rgb\(255,\s*255,\s*255\);\s*color:\s*rgb\(0,\s*0,\s*0\);">/g, "");
                                 part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);\s*background-color:\s*rgb\(255,\s*255,\s*255\);">/g, "");
-                                return <div key={index} dangerouslySetInnerHTML={{ __html:DOMPurify.sanitize(part, { ALLOWED_TAGS: ["div", "strong", "b", "p", "iframe"], ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] })}}>
-                            </div>;
+                                return (
+                                    <div
+                                        key={index}
+                                        dangerouslySetInnerHTML={{
+                                            __html: DOMPurify.sanitize(part, {
+                                                ALLOWED_TAGS: ["div", "strong", "b", "p", "iframe"],
+                                                ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
+                                            }),
+                                        }}
+                                    ></div>
+                                );
                             })}
                         </div>
                     </div>
