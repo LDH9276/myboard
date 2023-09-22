@@ -87,7 +87,7 @@ function App() {
                 <Route path="/write/:id/:mod" element={<Wtite userId={userId} userName={userName} />} />
                 <Route path="/Board/:id" element={<Board userId={userId} userName={userName} />} />
                 <Route path="/read/:id" element={<Read userId={userId} userName={userName} />} />
-                <Route path="*" element={<List />} />
+                <Route path="*" element={<Main />} />
             </Routes>
         </Router>
     );
