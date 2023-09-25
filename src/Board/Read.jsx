@@ -85,7 +85,7 @@ function Read({ userId }) {
             console.log(list);
 
             const searchContent = list[0].content;
-            const regex = /https:\/\/twitter\.com\/\w+\/status\/(\d+)(\?\S+)?/g;
+            const regex = /https?:\/\/(?:www\.)?(?:twitter\.com|x\.com)\/\w+\/status\/(\d+)(\?\S+)?/g;
             const twitterNumbers = [];
             const contentParts = [];
             const spanRegex = /<span[^>]*>(https:\/\/twitter\.com\/\w+\/status\/\d+\S*)<\/span>/g;
@@ -131,7 +131,7 @@ function Read({ userId }) {
             setTwitterNumber(twitterNumbers);
 
             dispatch({ type: "READ", payload: { writer: list[0].writer, content: list } });
-            setContents(contentParts);
+            setContents(list[0].content);
             console.log(contents);
             setUpdateDate(list[0].reg_date);
             setTotalLike(list[0].total_like);
@@ -323,7 +323,7 @@ function Read({ userId }) {
                         </div>
 
                         <div className="read-content-wrap">
-                            {contents.map((part, index) => {
+                            {/* {contents.map((part, index) => {
                                 if (part.startsWith('"') && part.endsWith('"')) {
                                     const tweetId = part.replace(/"/g, "");
                                     return <Tweet key={index} tweetId={tweetId} />;
@@ -341,7 +341,10 @@ function Read({ userId }) {
                                         }}
                                     ></div>
                                 );
-                            })}
+                            })} */}
+                            {/* <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(contents, { ALLOWED_TAGS: ["div", "strong", "b", "p", "iframe"], ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"], }), }} ></div> */}
+
+                            <div dangerouslySetInnerHTML={{__html:contents}}></div>
                         </div>
                     </div>
                 </li>

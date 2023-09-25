@@ -45,7 +45,7 @@ function Main(props) {
       <div className="main-container-wrap">
         <p>메인 화면은 아직 만들고 있어요!</p>
 
-        <input type="text" onChange={(e) => setText(e.target.value)} onFocus={handleInputFocus} onBlur={handleInputFocus} ref={inputRef} className='main-search-board'/>
+        <input type="text" onChange={(e) => setText(e.target.value)} onFocus={() => setInputFocus(true)} onBlur={() => setInputFocus(false)} ref={inputRef} className='main-search-board'/>
 
         <ul className={inputFocus ? 'searchbox active' : 'searchbox'}>
             {searchList < 1 ? (
