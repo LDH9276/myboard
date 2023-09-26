@@ -1,4 +1,4 @@
-import React, { useEffect, useTransition, useState } from "react";
+import React, { useEffect, useTransition, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,6 +33,7 @@ function Read({ userId }) {
     const [autoRefresh, setAutoRefresh] = useState(true);
     const [postCategory, setPostCategory] = useState([]);
     const [twitterNumber, setTwitterNumber] = useState([]);
+    const iframeRef = useRef(null);
 
     const readBoard = async () => {
         try {
@@ -146,6 +147,14 @@ function Read({ userId }) {
     useEffect(() => {
         readLike();
     }, [userId]);
+
+    useEffect(() => {
+        const iframe = iframeRef.current;
+        if (iframe) {
+          // iframe의 높이를 설정합니다.
+          iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px";
+        }
+      }, [contents]);
 
     const onDleteBtnClick = () => {
         if (window.confirm("정말로 삭제하시겠습니까?")) {
