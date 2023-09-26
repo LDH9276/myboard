@@ -38,7 +38,6 @@ function Read({ userId }) {
         try {
             const formData = new FormData();
             formData.append("id", boardId);
-
             const response = await axios.post(boardLink, formData);
             setBoardList(response.data.boardlist);
             setPostCategory(response.data.boardlist[0].board_category);
