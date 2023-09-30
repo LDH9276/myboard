@@ -8,6 +8,7 @@ import "react-quill/dist/quill.snow.css";
 import { formats, toolbarOptions } from "./boardmodules/Module";
 import "./css/write.css";
 import { errorWindowOn } from "../Redux/Error";
+import { sendTwitterLink } from "../API/sendTwitterLink";
 Quill.register("modules/imageResize", ImageResize);
 
 function Write({ userId, userName }) {
@@ -48,8 +49,15 @@ function Write({ userId, userName }) {
         }
     };
 
-    function handleContentChange(value) {
-        const filteredValue = value.replace(/<span[^>]*>/g, "");
+    async function handleContentChange(value) {
+        let filteredValue = value.replace(/<span[^>]*>/g, "");
+      
+        const url = filteredValue.match(/(https?:\/\/[^\s]+)/g);
+        if (url) {
+            filteredValue.replace(url[0], url[0] + "<p><br></p>");
+        }
+            
+      
         setContent(filteredValue);
     }
 

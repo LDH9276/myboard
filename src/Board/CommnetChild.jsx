@@ -69,13 +69,7 @@ function CommnetChild({ commentId, children, id, handleModify, handleDelete, han
                                         <WriteComment commentId={child.id} answer={false} modify={true} id={id} depth={child.comment_depth} />
                                     ) : (
                                         <div className="">
-                                            {Array.from(child.content).map((part, index) => {
-                                                if (part.startsWith('"') && part.endsWith('"')) {
-                                                    const tweetId = part.replace(/"/g, "");
-                                                    return <Tweet key={index} tweetId={tweetId} />;
-                                                }
-                                                return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
-                                            })}
+                                            <div dangerouslySetInnerHTML={{ __html: child.content }}></div>
                                         </div>
                                     )}
                                     <div className="commonet-state-wrap">

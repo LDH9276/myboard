@@ -7,8 +7,8 @@ import CommentList from "./CommentList";
 import ListModules from "./ListModules";
 import ListModule from "./ListModule";
 import DOMPurify from "dompurify";
+import { reading } from '../Redux/Read';
 import "./css/read.css";
-import { Tweet } from "react-twitter-widgets";
 
 function Read({ userId }) {
     const { id } = useParams();
@@ -32,8 +32,6 @@ function Read({ userId }) {
     const [boardList, setBoardList] = useState([]);
     const [autoRefresh, setAutoRefresh] = useState(true);
     const [postCategory, setPostCategory] = useState([]);
-    const [twitterNumber, setTwitterNumber] = useState([]);
-    const iframeRef = useRef(null);
 
     const readBoard = async () => {
         try {
@@ -81,13 +79,12 @@ function Read({ userId }) {
                 item.content = item.content.replace(/\\/g, "");
                 return item;
             });
-
-            dispatch({ type: "READ", payload: { writer: list[0].writer, content: list } });
-            setContents(list[0].content);
-            console.log(contents);
+            setContents(list[0]);
             setUpdateDate(list[0].reg_date);
             setTotalLike(list[0].total_like);
             setCommentCount(list[0].comment_count);
+            setWriterName(list[0].writer);
+            dispatch({ type: "READ", payload: { writer: list[0].writer, content: list } });
         } catch (error) {
             console.error(error);
         }
@@ -114,10 +111,11 @@ function Read({ userId }) {
             const formdata = new FormData();
             formdata.append("writer", writer);
             const response = await axios.post(writerInfo, formdata);
-            console.log(response.data);
-            setWriterName(response.data.name);
+            console.log(response.data);            
             setWriterProfile(response.data.profile);
             setWriterProfileImg(response.data.profile_name + "." + response.data.profile_ext);
+            console.log(response.data.profile_name + "." + response.data.profile_ext);
+
         } catch (error) {
             console.error(error);
         }
@@ -127,6 +125,12 @@ function Read({ userId }) {
         startTransition(() => {
             readContent();
         });
+        const script = document.createElement("script");
+        script.src = `https://platform.twitter.com/widgets.js`;
+        script.async = true;
+        if (document.body.contains(script)) {
+            document.body.removeChild(script);
+        }
     }, []);
 
     useEffect(() => {
@@ -149,12 +153,15 @@ function Read({ userId }) {
     }, [userId]);
 
     useEffect(() => {
-        const iframe = iframeRef.current;
-        if (iframe) {
-          // iframe의 높이를 설정합니다.
-          iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px";
-        }
-      }, [contents]);
+        const script = document.createElement("script");
+        script.src = `https://platform.twitter.com/widgets.js`;
+        script.async = true;
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, [contents]);
 
     const onDleteBtnClick = () => {
         if (window.confirm("정말로 삭제하시겠습니까?")) {
@@ -278,33 +285,12 @@ function Read({ userId }) {
                         </div>
 
                         <div className="read-title-wrap">
-                            <p className="read-title-category">{content[0] && postCategory[content[0].cat]}</p>
+                            <p className="read-title-category">{content && postCategory[content.cat]}</p>
                             <h3 className="read-title-subject">{content ? content[0].title : ""}</h3>
                         </div>
 
                         <div className="read-content-wrap">
-                            {/* {contents.map((part, index) => {
-                                if (part.startsWith('"') && part.endsWith('"')) {
-                                    const tweetId = part.replace(/"/g, "");
-                                    return <Tweet key={index} tweetId={tweetId} />;
-                                }
-                                part = part.replace(/style="background-color:\s*rgb\(255,\s*255,\s*255\);\s*color:\s*rgb\(0,\s*0,\s*0\);">/g, "");
-                                part = part.replace(/style="color:\s*rgb\(0,\s*0,\s*0\);\s*background-color:\s*rgb\(255,\s*255,\s*255\);">/g, "");
-                                return (
-                                    <div
-                                        key={index}
-                                        dangerouslySetInnerHTML={{
-                                            __html: DOMPurify.sanitize(part, {
-                                                ALLOWED_TAGS: ["div", "strong", "b", "p", "iframe"],
-                                                ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
-                                            }),
-                                        }}
-                                    ></div>
-                                );
-                            })} */}
-                            {/* <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(contents, { ALLOWED_TAGS: ["div", "strong", "b", "p", "iframe"], ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"], }), }} ></div> */}
-
-                            <div dangerouslySetInnerHTML={{__html:contents}}></div>
+                            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(contents.content, { ALLOWED_TAGS: ["script", "blockquote", "a", "div", "strong", "b", "p", "iframe"], ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling", "async"], }), }} ></div>
                         </div>
                     </div>
                 </li>

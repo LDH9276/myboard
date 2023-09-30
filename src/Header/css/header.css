@@ -32,29 +32,146 @@
     width: 40px;
     height: 40px;
 }
-.header-userprofile{
-    width: 40px;
-    height: 40px;
-    background: #fff;
-    border: none;
-    font-size: 10px;
-}
 .header-userprofile img{
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-.header-usermenu{
-    top: 48px;
-    right: 0px;
-    width: 120px;
-    display: none;
-    position: absolute;
+.header-userprofile-btn{
+    width: 40px;
+    height: 40px;
+    border: none;
     background: #fff;
-    text-align: right;
-    z-index: 10001;
+}
+.header-userprofile-btn img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
+.header-usermenu{
+    top: 50%;
+    right: 50%;
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: fixed;
+    z-index: -1;
+    background: rgba(0,0,0,0.2);
+    text-align: right;
+    transform: translate(50%, -50%);
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.2s ease-in-out;  
+}
 .header-usermenu.active{
+    display: flex;
+    z-index: 10000;
+    opacity: 1;
+}
+
+.header-usermenu .header-usermenu-wrap{
+    width: 0%;
+    max-width: 660px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background: #fff;
+    box-sizing: border-box;
+    padding: 16px;
+    position: relative;
+    transition-delay: 1s;
+    transition: .5s;
+}
+.header-usermenu.active .header-usermenu-wrap{
+    width: calc(100% - 32px);
+}
+
+
+.header-userprofile{
+    width: 100%;
+    font-size: 18px;
+}
+.header-usermenu-close{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    background: #fff;
+    border: none;
+}
+.userprofile-login{
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    text-align: left;
+    height: 160px;
+    margin-top: 48px;
+    margin-bottom: 30px;
+}
+.userprofile-login .profile{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    grid-row: 1/3;
+}
+.board-submenus{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.header-board-togo-list.active{
     display: block;
+}
+.header-board-togo-list{
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+.header-board-togo-search.active{
+    display: block;
+}
+.header-board-togo-search{
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+.userprofile-menubtn-wrap ul li {
+    display: block;
+    margin: 16px 0px;
+}
+.userprofile-menubtn-wrap ul li button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 64px;
+    height: 64px;
+    background: #fff;
+    border: none;
+    box-shadow: 0px 2px 6px rgba(102, 65, 28, 0.08) ;
+    gap: 12px;
+}
+.header-board-togo{
+    width: 100%;
+    text-align: left;
+    margin-left: 16px;
+}
+.header-board-togo ul li{
+    display: flex;
+    line-height: 24px;
+    padding: 12px 0px;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+}
+.header-btn-unsubscribe{
+    width: 60px; height: 28px;
+    border: 2px solid var(--main-color02);
+    background: transparent;
+    cursor: pointer;
+    color: var(--main-color02);
+    font-size: 0.8em;
+    font-weight: 600;
 }

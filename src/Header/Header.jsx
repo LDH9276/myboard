@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { headerMenuOn } from "../Redux/Loginout";
 import UserMenu from "./UserMenu";
+import Menubtn from "./Menubtn";
+import MenuSub from "./MenuSub";
 import "./css/header.css";
 
 function Header(props) {
@@ -21,7 +23,7 @@ function Header(props) {
                     </Link>
                 </div>
                 <div className="header-userbtn">
-                    <button onClick={headerMenu ? () => dispatch(headerMenuOn(false)) : () => dispatch(headerMenuOn(true))} className="header-userprofile">
+                    <button onClick={headerMenu ? () => dispatch(headerMenuOn(false)) : () => dispatch(headerMenuOn(true))} className="header-userprofile-btn">
                         {userId ? (
                             <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} />
                         ) : (
@@ -30,7 +32,16 @@ function Header(props) {
                     </button>
                     {headerMenu ? (
                         <div className="header-usermenu active">
-                            <UserMenu />
+                            <div className="header-usermenu-wrap">
+                                <button onClick={()=>dispatch(headerMenuOn(false))} className="header-usermenu-close">
+                                    X
+                                </button>
+                                <UserMenu />
+                                <div className="board-submenus">
+                                    <Menubtn />
+                                    <MenuSub />
+                                </div>
+                            </div>
                         </div>
                     ) : (
                         <div className="header-usermenu">
