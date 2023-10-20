@@ -25,6 +25,7 @@ const initialState = {
     errorWindow: false,
     error: "",
     isLoading: false,
+    searchmode: "main",
 };
 
 const store = configureStore({

@@ -82,7 +82,7 @@ function App() {
             {isLoading ? (<div>
             <span className="fixed loading loading-ring w-[72px] top-1/2 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
             <span className="fixed font-xl top-2/6 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
-            <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[9980] backdrop-blur-sm"></div>
+            <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[9980] backdrop-blur-sm dark:bg-black/75"></div>
             </div>
             ) : null}
             

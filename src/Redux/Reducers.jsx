@@ -9,6 +9,7 @@ import { BOARD_OPENED, BOARD_LIMIT, BOARD_SUBSCRIBE } from "./Board";
 import { HEADERMENUON } from "./Loginout";
 import storage from "redux-persist/lib/storage/session";
 import { WRITING } from "./Write";
+import { USERBTN } from "./Usermenu";
 
 const persistConfig = {
     key: "root",
@@ -37,6 +38,7 @@ const persistConfig = {
         "errorWindow",
         "error",
         "subscribe",
+        "searchmode"
     ],
 };
 
@@ -64,6 +66,7 @@ const initialState = {
     headerMenu: false,
     errorWindow: false,
     error: "",
+    searchmode: "main",
 };
 
 function rootReducer(state = initialState, action) {
@@ -202,6 +205,11 @@ function rootReducer(state = initialState, action) {
                 uploadedComment: false,
                 editCommentId: null,
                 editAnswerId: null,
+            };
+        case USERBTN:
+            return {
+                ...state,
+                searchmode: action.payload.type,
             };
 
         default:

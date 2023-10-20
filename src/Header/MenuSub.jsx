@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { debounce } from "lodash";
+import { userBtn } from "../Redux/Usermenu";
 
 function MenuSub(props) {
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
@@ -13,8 +14,9 @@ function MenuSub(props) {
     const [inputFocus, setInputFocus] = useState(false);
     const [searchList, setSearchList] = useState([]);
     const inputRef = useRef(null);
-    const [searchmode, setSearchmode] = useState("main");
+    const searchmode = useSelector((state) => state.searchmode);
     const [hotBoard, setHotBoard] = useState([]);
+    const dispatch = useDispatch();
 
     const boardSubscribe = "http://localhost/myboard_server/Board/Board_Subscribe.php";
 
@@ -71,6 +73,9 @@ function MenuSub(props) {
 
     useEffect(() => {
         readHotBoard();
+        if (!isLoggedIn) {
+            dispatch(userBtn("list"));
+        }
     }, []);
 
     useEffect(() => {
@@ -83,7 +88,16 @@ function MenuSub(props) {
 
     useEffect(() => {
         readSubscribeList();
+        dispatch(userBtn("main"));
     }, [userId]);
+
+    useEffect(() => {
+        if (!userId){
+            dispatch(userBtn("list"));
+        } else {
+            dispatch(userBtn("main"));
+        }
+    }, [isLoggedIn]);
 
     useEffect(() => {
         readSubscribeList();
@@ -91,21 +105,24 @@ function MenuSub(props) {
     }, [onSubscribe]);
 
     return (
-        <div className="w-2/3 flex shadow-xl z-40 relative bg-base-100">
+        <div className="w-2/3 flex shadow-xl z-40 relative bg-base-100 border-primary border-4 p-4 box-border">
             {isLoggedIn ? (
                 <div className="w-full">
-                    <div className={searchmode === "main" ? "header-board-togo-list active" : "header-board-togo-list"}>
-                        <div className="header-board-togo-title">
-                            <h3>구독한 게시판</h3>
+                    <div className={searchmode === "main" ? "w-full h-full relative" : "hidden"}>
+                        <div className="font-bold text-lg mb-2">
+                            <h3>구독게시판</h3>
                         </div>
                         <ul>
                             {userSubscribe && userSubscribe.length > 0 ? (
-                                userSubscribe.map((subscribe, index) => (
-                                    <li key={index}>
+                                userSubscribe.slice(0, 4).map((subscribe, index) => (
+                                    <li key={index} className="py-2 border-b-[1px] flex justify-between">
                                         <Link to={`/board/${subscribe.board_id}`}>
-                                            <span>{subscribe.board_name}</span>
+                                            <span className="leading-6 text-sm md:text-base">{subscribe.board_name}</span>
                                         </Link>
-                                        <button onClick={() => handleSubscribe(subscribe.board_id, userId)} className="header-btn-unsubscribe">
+                                        <button
+                                            onClick={() => handleSubscribe(subscribe.board_id, userId)}
+                                            className="leading-6 w-14 border-2 border-secondary text-xs font-medium text-secondary"
+                                        >
                                             구독취소
                                         </button>
                                     </li>
@@ -115,23 +132,19 @@ function MenuSub(props) {
                                     <span>구독한 게시판이 없습니다.</span>
                                 </li>
                             )}
-                            <li>
-                                <button onClick={() => setSearchmode("list")}>게시판 찾아보기</button>
-                                <button onClick={() => setSearchmode("search")}>게시판 검색</button>
-                            </li>
                         </ul>
                     </div>
                     <div className={searchmode === "list" ? "header-board-togo-search active" : "header-board-togo-search"}>
                         <ul>
-                            <div className="header-board-togo-title">
+                            <div className="font-bold text-lg mb-2">
                                 <h3>인기 게시판</h3>
                             </div>
                             {hotBoard && hotBoard.length > 0 ? (
                                 hotBoard.map((hot, index) => (
-                                    <li key={index}>
-                                        <Link to={`/board/${hot.id}`}>
-                                            <span>{hot.board_name}</span>
-                                            <span>{hot.board_subscriber} 구독자</span>
+                                    <li key={index} className="py-2 border-b-[1px] text-sm">
+                                        <Link to={`/board/${hot.id}`} className=" flex justify-between">
+                                            <span className="leading-6">{hot.board_name}</span>
+                                            <span className="leading-6 text-secondary">{hot.board_subscriber} 구독자</span>
                                         </Link>
                                     </li>
                                 ))
@@ -141,12 +154,11 @@ function MenuSub(props) {
                                 </li>
                             )}
                         </ul>
-                        <button onClick={() => setSearchmode("main")}>구독한 게시판으로</button>
                     </div>
 
                     <div className={searchmode === "search" ? "header-board-togo-search active" : "header-board-togo-search"}>
                         <div className="header-board-togo-title">
-                            <h3>게시판 찾기</h3>
+                            <h3 className="font-bold text-lg mb-2">게시판 찾기</h3>
                         </div>
                         <input
                             type="text"
@@ -154,50 +166,60 @@ function MenuSub(props) {
                             onFocus={() => setInputFocus(true)}
                             onBlur={() => setInputFocus(false)}
                             ref={inputRef}
-                            className="main-search-board"
+                            className="w-full border-primary border-b-2 outline-none focus:border-secondary"
                         />
-                        <ul className={inputFocus ? "searchbox active" : "searchbox"}>
+                        <ul className={inputFocus ? "searchbox active h-full" : "searchbox h-full"}>
                             {searchList < 1 ? (
-                                <li>검색어를 입력해주세요.</li>
+                                <li className="w-full h-3/4 flex justify-center items-center">
+                                    <span>검색어를 입력해주세요.</span>
+                                </li>
                             ) : (
                                 searchList.map((search, index) => (
-                                    <li key={index}>
+                                    <li key={index} className="py-3 border-b-[1px] flex justify-between text-sm">
                                         <Link to={`/board/${search.id}`}>{search.board_name}</Link>
                                     </li>
                                 ))
                             )}
                         </ul>
-                        <button onClick={() => setSearchmode("main")}>구독한 게시판으로</button>
                     </div>
                 </div>
             ) : (
-                <div className="header-board-togo-wrap">
-
-                <div className = {searchmode === "main" ? "header-board-togo-search active" : "header-board-togo-search"}>
-                    <ul>
-                        <div className="header-board-togo-title">
-                            <h3>인기 게시판</h3>
+                <div className="w-full">
+                    <div className={searchmode === "main" ? "w-full h-full relative" : "hidden"}>
+                        <div className="font-bold text-lg mb-2">
+                            <h3>구독게시판</h3>
                         </div>
-                        {hotBoard && hotBoard.length > 0 ? (
-                            hotBoard.map((hot, index) => (
-                                <li key={index}>
-                                    <Link to={`/board/${hot.id}`}>
-                                        <span>{hot.board_name}</span>
-                                        <span>{hot.board_subscriber} 구독자</span>
-                                    </Link>
+                        <ul>
+                            <span>
+                                비회원입니다. <br /> 로그인 후 확인이 가능합니다.
+                            </span>
+                        </ul>
+                    </div>
+                    <div className={searchmode === "list" ? "header-board-togo-search active" : "header-board-togo-search"}>
+                        <ul>
+                            <div className="font-bold text-lg mb-2">
+                                <h3>인기 게시판</h3>
+                            </div>
+                            {hotBoard && hotBoard.length > 0 ? (
+                                hotBoard.map((hot, index) => (
+                                    <li key={index} className="py-2 border-b-[1px] text-sm">
+                                        <Link to={`/board/${hot.id}`} className=" flex justify-between">
+                                            <span className="leading-6">{hot.board_name}</span>
+                                            <span className="leading-6 text-secondary">{hot.board_subscriber} 구독자</span>
+                                        </Link>
+                                    </li>
+                                ))
+                            ) : (
+                                <li>
+                                    <span>게시판 리스트 출력실패</span>
                                 </li>
-                            ))
-                        ) : (
-                            <li>
-                                <span>게시판 리스트 출력실패</span>
-                            </li>
-                        )}
-                    </ul>
-                    <button onClick={() => setSearchmode("search")}>게시판 검색</button>
-                </div>
-                <div className={searchmode === "search" ? "header-board-togo-search active" : "header-board-togo-search"}>
+                            )}
+                        </ul>
+                    </div>
+
+                    <div className={searchmode === "search" ? "header-board-togo-search active" : "header-board-togo-search"}>
                         <div className="header-board-togo-title">
-                            <h3>게시판 찾기</h3>
+                            <h3 className="font-bold text-lg mb-2">게시판 찾기</h3>
                         </div>
                         <input
                             type="text"
@@ -205,22 +227,23 @@ function MenuSub(props) {
                             onFocus={() => setInputFocus(true)}
                             onBlur={() => setInputFocus(false)}
                             ref={inputRef}
-                            className="main-search-board"
+                            className="w-full border-primary border-b-2 outline-none focus:border-secondary"
                         />
-                        <ul className={inputFocus ? "searchbox active" : "searchbox"}>
+                        <ul className={inputFocus ? "searchbox active h-full" : "searchbox h-full"}>
                             {searchList < 1 ? (
-                                <li>검색어를 입력해주세요.</li>
+                                <li className="w-full h-3/4 flex justify-center items-center">
+                                    <span>검색어를 입력해주세요.</span>
+                                </li>
                             ) : (
                                 searchList.map((search, index) => (
-                                    <li key={index}>
+                                    <li key={index} className="py-3 border-b-[1px] flex justify-between text-sm">
                                         <Link to={`/board/${search.id}`}>{search.board_name}</Link>
                                     </li>
                                 ))
                             )}
                         </ul>
-                        <button onClick={() => setSearchmode("main")}>게시판 목록으로</button>
                     </div>
-            </div>
+                </div>
             )}
         </div>
     );

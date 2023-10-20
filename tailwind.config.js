@@ -16,7 +16,15 @@ module.exports = {
                     "base-100": "#ffffff",
                 },
             },
-            "dark",
+            {
+                dark: {
+                    primary: "#A7C636",
+                    secondary: "#8DA82B",
+                    accent: "#CFFA32",
+                    neutral: "#3d4451",
+                    "base-100": "#333",
+                }
+            }
         ],
     },
 };
