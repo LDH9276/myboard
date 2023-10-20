@@ -1,7 +1,7 @@
 import { persistReducer } from "redux-persist";
 import { LOGIN, LOGOUT } from "./Loginout";
 import { ERROR_WINDOW_ON, ERROR_WINDOW_OFF } from "./Error";
-import { READ } from "./Read";
+import { LOADING, READ } from "./Read";
 import { UPLOAD_COMMENT, UPLOADED_COMMENT, EDIT_COMMENT, EDIT_ANSWER } from "./UploadComment";
 import { COMMENT_LIST } from "./CommentList";
 import { LOGINMENUON, LOGINMENUOFF, SIGNUPMENUON, SIGNUPMENUOFF } from "./MenuToggle";
@@ -14,6 +14,7 @@ const persistConfig = {
     key: "root",
     storage,
     whitelist: [
+        "isLoading",
         "isLoggedIn",
         "userId",
         "userName",
@@ -40,6 +41,7 @@ const persistConfig = {
 };
 
 const initialState = {
+    isLoading: false,
     isLoggedIn: false,
     userId: "",
     userName: "",
@@ -71,6 +73,11 @@ function rootReducer(state = initialState, action) {
     }
 
     switch (action.type) {
+        case LOADING:
+            return {
+                ...state,
+                isLoading: action.payload.isLoading,
+            };
         case ERROR_WINDOW_ON:
             return {
                 ...state,

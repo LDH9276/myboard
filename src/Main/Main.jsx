@@ -21,16 +21,6 @@ function Main(props) {
             console.error(error);
         }
     }, 500);
-
-    const handleInputFocus = () => {
-        const input = inputRef.current;
-
-        if(input === document.activeElement){
-            setInputFocus(true);
-        } else {
-            setInputFocus(false);
-        }
-    };
     
     useEffect(() => {
         if (text.length > 1) {
@@ -41,19 +31,24 @@ function Main(props) {
     }, [text]);
 
   return (
-    <div className='board-container'>
-      <div className="main-container-wrap">
-        <p>메인 화면은 아직 만들고 있어요!</p>
+    <div className=' w-full flex items-center h-[100svh] box-border px-4 bg-primary'>
+      <div className="max-w-[768px] w-full flex flex-col items-center shadow-xl bg-white px-4 box-border mx-auto">
 
-        <input type="text" onChange={(e) => setText(e.target.value)} onFocus={() => setInputFocus(true)} onBlur={() => setInputFocus(false)} ref={inputRef} className='main-search-board'/>
+        <h2>
+            <img src={`${process.env.PUBLIC_URL}/logo.svg`} alt="logo" className='w-[200px] h-[100px] object-contain mt-6'/>
+        </h2>
 
-        <ul className={inputFocus ? 'searchbox active' : 'searchbox'}>
+        <p className='text-xl font-bold mt-10 my-6'>메인 화면은 아직 만들고 있어요!</p>
+
+        <input type="text" onChange={(e) => setText(e.target.value)} onFocus={() => setInputFocus(true)} onBlur={() => setInputFocus(false)} ref={inputRef} className='w-4/5 border-b-2 border-b-primary outline-none leading-10 xl:w-1/2 mb-4 focus:border-b-secondary'/>
+
+        <ul className={inputFocus || searchList ? 'w-4/5 block text-left mx-auto border-1 mb-4 xl:w-1/2 ' : 'w-full hidden text-left mx-auto border-1 xl:w-1/2'}>
             {searchList < 1 ? (
-                <li>검색어를 입력해주세요.</li>
+                <li className='block w-full leading-8 text-center'>검색어를 입력해주세요.</li>
             ) : (
                 searchList.map((search, index) => (
                     <li key={index}>
-                        <Link to={`/board/${search.id}`}>
+                        <Link to={`/board/${search.id}`} className='block w-full leading-8'>
                             {search.board_name}
                         </Link>
                     </li>
@@ -61,14 +56,14 @@ function Main(props) {
             )}
         </ul>
 
-        <Link to='/board/1'>
-          <button>
+        <Link to='/board/1' className='w-4/5 mt-[2rem]'>
+          <button className='btn w-full mb-4 bg-primary text-white rounded-none'>
             게시판으로 가기
           </button>
         </Link>
 
-        <Link to='/board/2'>
-          <button>
+        <Link to='/board/2' className='w-4/5 mb-[2rem]'>
+          <button className='btn w-full bg-secondary text-white rounded-none'>
             게시판2로 가기
           </button>
         </Link>

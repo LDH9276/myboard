@@ -24,6 +24,7 @@ const initialState = {
     headerMenu: false,
     errorWindow: false,
     error: "",
+    isLoading: false,
 };
 
 const store = configureStore({

@@ -37,8 +37,8 @@ function UserMenu(props) {
                             <p>email</p>
                         </li>
                         <li className="userprofile-button-wrap">
-                            <button onClick={() => handleMyprofilePage()}>프로필 수정</button>
-                            <button onClick={() => dispatch(logout())}>로그아웃</button>
+                            <button onClick={() => handleMyprofilePage()} className="userprofile-button-modify">프로필 수정</button>
+                            <button onClick={() => dispatch(logout())} className="userprofile-button-logout">로그아웃</button>
                         </li>
                     </ul>
                 ) : (

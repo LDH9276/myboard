@@ -20,7 +20,7 @@ import ErrorWindow from "./Header/ErrorWindow";
 function App() {
     const tokenChek = "http://localhost/myboard_server/JWT_Verify.php";
     const boardLimitCheck = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
-
+    const isLoading = useSelector((state) => state.isLoading);
     const userId = useSelector((state) => state.userId);
     const userName = useSelector((state) => state.userName);
     const loginMenu = useSelector((state) => state.loginMenu);
@@ -79,6 +79,15 @@ function App() {
             <Header />
             {loginMenu ? <Login /> : null}
             {signupMenu ? <Signup /> : null}
+            {isLoading ? (<div>
+            <span className="fixed loading loading-ring w-[72px] top-1/2 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
+            <span className="fixed font-xl top-2/6 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
+            <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[9980] backdrop-blur-sm"></div>
+            </div>
+            ) : null}
+            
+
+
             <Routes>
                 <Route exact path="/" element={<Main />} />
                 <Route exact path="/:boardname" element={<List />} />

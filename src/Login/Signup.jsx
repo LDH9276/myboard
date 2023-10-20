@@ -11,6 +11,7 @@ function Sign(props) {
   const dispatch = useDispatch();
 
   // 입력값 State
+  const isLoggenIn = useSelector((state) => state.isLoggenIn);
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -71,6 +72,12 @@ function Sign(props) {
       setError(error.message);
     }
   };
+
+  useEffect(() => {
+    if (isLoggenIn) {
+      navigate('/');
+    }
+  }, [isLoggenIn]);
 
   return (
     <div className='loginform-wrap'>

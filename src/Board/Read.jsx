@@ -7,7 +7,7 @@ import CommentList from "./CommentList";
 import ListModules from "./ListModules";
 import ListModule from "./ListModule";
 import DOMPurify from "dompurify";
-import { reading } from '../Redux/Read';
+import { loading } from '../Redux/Read';
 import "./css/read.css";
 
 function Read({ userId }) {
@@ -68,6 +68,9 @@ function Read({ userId }) {
     }, [userId]);
 
     const readContent = async () => {
+
+        dispatch(loading(true));
+
         try {
             const formData = new FormData();
             formData.append("id", id);
@@ -85,6 +88,9 @@ function Read({ userId }) {
             setCommentCount(list[0].comment_count);
             setWriterName(list[0].writer);
             dispatch({ type: "READ", payload: { writer: list[0].writer, content: list } });
+            setTimeout(() => {
+                dispatch(loading(false));
+            }, 1000);
         } catch (error) {
             console.error(error);
         }

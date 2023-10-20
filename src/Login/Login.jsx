@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { sendLoginRequest } from "../API/sendLoginRequest";
 import { Cookies } from "react-cookie";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { login } from "../Redux/Loginout";
 import "./css/loginsign.css";
 import { signupMenuOn } from "../Redux/MenuToggle";
 import { loginMenuOff } from "../Redux/MenuToggle";
 
 function Login(props) {
+    const isLoggenIn = useSelector((state) => state.isLoggenIn);
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -51,6 +52,12 @@ function Login(props) {
         setIdForm(false);
         setPasswordForm(true);
     };
+
+    useEffect(() => {
+        if (isLoggenIn === true) {
+            navigate("/");
+        }
+    }, [isLoggenIn]);
 
     return (
         <div className="loginform-wrap">

@@ -160,12 +160,12 @@ function Board() {
         <div className="board-container">
             {Array.isArray(boardList) &&
                 boardList.map((board, index) => (
-                    <div key={index} className="board-index">
-                        <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className="board-thumb" />
-                        <div className="board-index-wrap">
-                            <div className="board-detail">
-                                <h2>{board.board_name}</h2>
-                                <p dangerouslySetInnerHTML={{ __html: dompurify.sanitize(board.board_detail) }}></p>
+                    <div key={index} className="w-full">
+                        <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className="w-full h-[200px] object-cover" />
+                        <div className="w-full flex justify-between items-center px-4 box-border">
+                            <div className="w-full">
+                                <h2 className="font-bold text-xl">{board.board_name}</h2>
+                                <p className="font-normal text-sm mt-2" dangerouslySetInnerHTML={{ __html: dompurify.sanitize(board.board_detail) }}></p>
                             </div>
                             {userId === "" ? (
                                 <div className="board-subscribe">
