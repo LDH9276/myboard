@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "./Pagination";
 import { Link, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { loading } from '../Redux/Read';
 import BottomNav from "./BottomNav";
 import TodayPost from "./TodayPost";
 import "./css/list.css";
@@ -12,6 +13,8 @@ function List({ boardId, postCategory, boardCate, autoRefresh }) {
     const listCheck = "http://localhost/myboard_server/Board/Post_List.php";
 
     const userId = useSelector((state) => state.userId);
+    const dispatch = useDispatch();
+
     const [boardList, setBoardList] = useState([]);
     const [newPost, setNewPost] = useState(false);
     const [notice, setNotice] = useState([]);
@@ -35,9 +38,14 @@ function List({ boardId, postCategory, boardCate, autoRefresh }) {
     };
 
     const list = async () => {
+        // dispatch(loading(true));
+
         try {
             const response = await axios.post(`${listCheck}?page=${currentPage}&board=${boardId}&boardCate=${boardCate}`);
             setBoardList(response.data.list);
+            // setTimeout(() => {
+            //     dispatch(loading(false));
+            // }, 300);
         } catch (error) {
             console.error(error);
         }

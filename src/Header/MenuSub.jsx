@@ -91,9 +91,9 @@ function MenuSub(props) {
     }, [onSubscribe]);
 
     return (
-        <div className="header-board-togo">
+        <div className="w-2/3 flex shadow-xl z-40 relative bg-base-100">
             {isLoggedIn ? (
-                <div className="header-board-togo-wrap">
+                <div className="w-full">
                     <div className={searchmode === "main" ? "header-board-togo-list active" : "header-board-togo-list"}>
                         <div className="header-board-togo-title">
                             <h3>구독한 게시판</h3>

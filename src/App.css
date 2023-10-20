@@ -1,5 +1,6 @@
 /* input 기본 스타일 초기화 */
 input {
+  -webkit-border-radius: 0;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;

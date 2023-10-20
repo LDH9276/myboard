@@ -31,20 +31,20 @@ function Header(props) {
                         )}
                     </button>
                     {headerMenu ? (
-                        <div className="header-usermenu active">
-                            <div className="header-usermenu-wrap">
-                                <button onClick={()=>dispatch(headerMenuOn(false))} className="header-usermenu-close">
+                        <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[9980] backdrop-blur-sm flex justify-center items-center">
+                            <div className="header-usermenu-wrap relative">
+                                <button onClick={()=>dispatch(headerMenuOn(false))} className="block w-12 h-12 absolute right-0 top-0 z-50">
                                     X
                                 </button>
                                 <UserMenu />
-                                <div className="board-submenus">
+                                <div className="flex w-full gap-4">
                                     <Menubtn />
                                     <MenuSub />
                                 </div>
                             </div>
                         </div>
                     ) : (
-                        <div className="header-usermenu">
+                        <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[9980] backdrop-blur-sm hidden">
                             <UserMenu />
                         </div>
                     )}

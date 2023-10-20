@@ -26,17 +26,17 @@ function UserMenu(props) {
     };
 
     return (
-        <div className="header-userprofile">
+        <div className="w-full mb-4 shadow-xl relative z-0 bg-base-100">
                 {userId ? (
-                    <ul className="userprofile-login">
-                        <li className="profile">
-                            <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} />
+                    <ul className="w-full grid grid-cols-3 grid-rows-2">
+                        <li className="row-span-2 col-span-1">
+                            <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} className="w-full h-full object-cover"/>
                         </li>
-                        <li>
-                            <p>{userId}</p>
-                            <p>email</p>
+                        <li className="row-span-1 col-span-2 pl-4 box-border">
+                            <p className="text-2xl font-bold w-full">{userId}</p>
+                            <p className="text-md">email</p>
                         </li>
-                        <li className="userprofile-button-wrap">
+                        <li className="row-span-1 col-span-2 pl-4 box-border">
                             <button onClick={() => handleMyprofilePage()} className="userprofile-button-modify">프로필 수정</button>
                             <button onClick={() => dispatch(logout())} className="userprofile-button-logout">로그아웃</button>
                         </li>

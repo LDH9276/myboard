@@ -165,23 +165,7 @@
     color: #888;
     border: 1px solid #888;
 }
-.userprofile-menubtn-wrap ul li {
-    display: block;
-    margin: 16px 0px;
-}
-.userprofile-menubtn-wrap ul li button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    width: 48px;
-    height: 48px;
-    background: #fff;
-    border: none;
-    box-shadow: 0px 2px 6px rgba(102, 65, 28, 0.08) ;
-    gap: 8px;
-    font-size: 10px;
-}
+
 .userprofile-menubtn-wrap ul li button img{
     width: 20px;
     height: 20px;
