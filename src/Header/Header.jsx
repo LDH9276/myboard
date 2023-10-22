@@ -32,16 +32,25 @@ function Header(props) {
                     </button>
                     {headerMenu ? (
                         <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[10000] backdrop-blur-sm flex justify-center items-center dark:bg-black/75">
-                            <div className="w-full max-w-[768px] box-border px-4 relative">
+                            <div className="w-full max-w-[768px] box-border px-4 relative sm:grid sm:grid-cols-3 sm:gap-4 md:block">
                                 <button onClick={() => dispatch(headerMenuOn(false))} className="block w-4 h-4 absolute right-8 top-4 z-50">
                                     <img src={`${process.env.PUBLIC_URL}/btn/close.svg`} className="w-full h-full" alt="close" />
                                 </button>
                                 <UserMenu />
-                                <div className="flex w-full gap-4">
-                                    <Menubtn />
+                                <div className="flex w-full gap-4 sm:hidden md:flex">
+                                    <Menubtn/>
                                     <MenuSub />
                                 </div>
-                                <div className="flex flex-col justify-center items-center w-full my-4 py-2 shadow-xl z-40 relative bg-secondary">
+
+                                <div className="hidden sm:block w-full sm:col-span-2 md:hidden">
+                                    <MenuSub />
+                                </div>
+
+                                <div className="hidden sm:block w-full sm:col-span-3 md:hidden">
+                                    <Menubtn/>
+                                </div>
+
+                                <div className="flex flex-col justify-center items-center w-full my-4 py-2 shadow-xl z-40 relative bg-secondary sm:col-span-3">
                                     <p className=" text-white">&copy; Able Designs</p>
                                 </div>
                             </div>

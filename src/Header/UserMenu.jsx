@@ -26,13 +26,13 @@ function UserMenu(props) {
     };
 
     return (
-        <div className="w-full mb-4 shadow-xl relative z-0 bg-base-100 border-4 border-secondary box-border">
+        <div className="w-full mb-4 shadow-xl relative z-0 bg-base-100 border-4 border-secondary box-border sm:h-full sm:mb-0 md:h-auto md:mb-4">
                 {userId ? (
-                    <ul className="w-full grid grid-cols-3 grid-rows-2 relative">
+                    <ul className="w-full grid grid-cols-3 grid-rows-2 relative sm:flex sm:flex-col md:grid">
                         <li className="row-span-2 col-span-1 max-w-[235px] w-full relative pb-[100%]">
                             <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} className="w-full h-full object-cover absolute top-0 left-0"/>
                         </li>
-                        <li className="row-span-1 col-span-2 pl-4 box-border flex flex-col justify-center items-center">
+                        <li className="row-span-1 col-span-2 pl-4 box-border flex flex-col justify-center items-center sm:my-4 md:my-2">
                             <p className="text-xl font-bold w-full md:text-2xl lg:text-4xl">{userId}</p>
                             <p className="text-xs w-full md:text-base lg:mt-2 lg:text-xl">email</p>
                         </li>
@@ -42,12 +42,12 @@ function UserMenu(props) {
                         </li>
                     </ul>
                 ) : (
-                    <ul className="w-full grid grid-cols-3 grid-rows-2 relative">
+                    <ul className="w-full grid grid-cols-3 grid-rows-2 relative sm:flex sm:flex-col md:grid">
                         <li className="row-span-2 col-span-1 max-w-[235px] w-full relative pb-[100%]">
                             <img src={`http://localhost/myboard_server/Users/Profile/default.png`} alt={userId} className="w-full h-full object-cover absolute top-0 left-0"/>
                         </li>
                         <li className="row-span-1 col-span-2 pl-4 box-border flex flex-col justify-center items-center">
-                            <p className="text-lg font-bold w-full md:text-2xl lg:text-4xl">
+                            <p className="text-lg font-bold w-full md:text-2xl lg:text-2xl sm:mt-4">
                                 로그인 해주세요.
                             </p>
                         </li>

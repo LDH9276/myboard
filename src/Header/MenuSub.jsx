@@ -105,7 +105,7 @@ function MenuSub(props) {
     }, [onSubscribe]);
 
     return (
-        <div className="w-2/3 flex shadow-xl z-40 relative bg-base-100 border-primary border-4 p-4 box-border">
+        <div className="w-2/3 flex shadow-xl z-40 relative bg-base-100 border-primary border-4 p-4 box-border sm:w-full sm:h-full sm:row-span-2 md:h-auto">
             {isLoggedIn ? (
                 <div className="w-full">
                     <div className={searchmode === "main" ? "w-full h-full relative" : "hidden"}>
