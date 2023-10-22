@@ -60,9 +60,14 @@ function Login(props) {
     }, [isLoggenIn]);
 
     return (
-        <div className="loginform-wrap">
-            <div className="loginform-box">
-                <button onClick={() => dispatch(loginMenuOff())}>X</button>
+        <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[10000] backdrop-blur-sm flex justify-center items-center dark:bg-black/75 box-border px-4 bg-base-100">
+            <div className="w-full bg-base-100 px-4 py-12 relative shadow-lg border-4 border-primary">
+                <button onClick={() => dispatch(loginMenuOff())}>
+                    <img src={`${process.env.PUBLIC_URL}/btn/close.svg`} className="absolute top-4 right-4 w-4 h-4" alt="close" />
+                </button>
+
+                <p className="text-2xl font-bold mt-4 mb-8">Login</p>
+
                 <form onSubmit={onLoginClick}>
                     <input
                         type="text"
@@ -85,9 +90,9 @@ function Login(props) {
 
                     <p>{error}</p>
 
-                    <input type="submit" value="Login" className="loginform-loginbtn" />
+                    <input type="submit" value="Login" className="btn-primary w-full text-center text-white h-12 mb-4" />
                 </form>
-                <button className="loginform-signupbtn" onClick={() => dispatch(signupMenuOn())}>
+                <button className="btn-secondary w-full text-center text-white h-12" onClick={() => dispatch(signupMenuOn())}>
                     Sign Up
                 </button>
             </div>

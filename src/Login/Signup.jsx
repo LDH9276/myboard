@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './css/loginsign.css';
 import { loginMenuOn } from '../Redux/MenuToggle';
 import { signupMenuOff } from '../Redux/MenuToggle';
+import { errorWindowOn } from '../Redux/Error';
 
 function Sign(props) {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function Sign(props) {
     event.preventDefault();
 
     if (id === '') {
-      alert('아이디를 입력해주세요.');
+      dispatch(errorWindowOn("아이디를 입력해주세요."));
       return;
     }
     if (password === '') {
@@ -80,8 +81,8 @@ function Sign(props) {
   }, [isLoggenIn]);
 
   return (
-    <div className='loginform-wrap'>
-      <div className="loginform-box">
+    <div className='fixed w-full h-full top-0 left-0 bg-white/75 z-[9700] backdrop-blur-sm flex justify-center items-center dark:bg-black/75 box-border px-4 bg-base-100'>
+      <div className="w-full bg-base-100 px-4 py-12 relative shadow-lg border-4 border-primary">
         <button onClick={() => dispatch(signupMenuOff())}>X</button>
 
         <form onSubmit={onSubmit} encType="multipart/form-data">
