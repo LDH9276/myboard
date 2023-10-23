@@ -113,7 +113,7 @@ function Write({ userId, userName }) {
     }, []);
 
     return (
-        <div className="board-container post-write">
+        <div className="w-full max-w-[800px] bg-base-200  mx-auto post-write">
             <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} className="write-title-input" placeholder="제목을 입력해주세요" />
 
             <PostWrite modContent={modContent} />

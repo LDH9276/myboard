@@ -36,12 +36,13 @@ function App() {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const systemPreference = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
 
-    const [theme, setTheme] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "mytheme");
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "default");
 
     useEffect(() => {
         localStorage.setItem("theme", theme);
 
         const localTheme = localStorage.getItem("theme");
+        const defaultMode = localStorage.getItem("defaultMode");
         const osTheme = systemPreference ? "dark" : "mytheme";
         console.log(localTheme, osTheme);
 
@@ -51,9 +52,12 @@ function App() {
             setIsDarkMode(false);
         } else if (localTheme === "dark" && osTheme === "dark") {
             setIsDarkMode(true);
-        } else {
+        } else if (defaultMode === "true" && osTheme === "dark") {
+            setIsDarkMode(true);
+        } else if (defaultMode === "true" && osTheme === "mytheme") {
             setIsDarkMode(false);
         }
+
     }, [theme, systemPreference]);
 
     useEffect(() => {
@@ -61,14 +65,58 @@ function App() {
     }, [isDarkMode]);
 
     const handleTheme = useCallback(() => {
+        const theme = localStorage.getItem("theme");
         if (theme === "mytheme") {
+            console.log("dark");
             setTheme("dark");
             localStorage.setItem("darkMode", true);
             setIsDarkMode(true);
+        } else if (theme === "default") {
+            const osTheme = systemPreference ? "dark" : "mytheme";
+            if (osTheme === "dark") {
+                console.log("dark");
+                setTheme("dark");
+                localStorage.setItem("darkMode", true);
+                setIsDarkMode(true);
+            } else {
+                console.log("light");
+                setTheme("mytheme");
+                localStorage.setItem("darkMode", false);
+                setIsDarkMode(false);
+            }
         } else {
+            console.log("light");
             setTheme("mytheme");
             localStorage.setItem("darkMode", false);
             setIsDarkMode(false);
+        }
+    }, []);
+
+    const handleDefaultTheme = useCallback(() => {
+        const osTheme = systemPreference ? "dark" : "mytheme";
+        setTheme("default");
+        if (localStorage.getItem("defaultMode") === "false" || localStorage.getItem("defaultMode") === null) {
+            localStorage.setItem("defaultMode", true);
+            if (osTheme === "dark") {
+                localStorage.setItem("theme", "dark");
+                localStorage.setItem("darkMode", true);
+                setIsDarkMode(true);
+            } else {
+                localStorage.setItem("theme", "mytheme");
+                localStorage.setItem("darkMode", false);
+                setIsDarkMode(false);
+            }
+        } else {
+            localStorage.setItem("defaultMode", false);
+            if (osTheme === "dark") {
+                localStorage.setItem("theme", "dark");
+                localStorage.setItem("darkMode", true);
+                setIsDarkMode(true);
+            } else {
+                localStorage.setItem("theme", "mytheme");
+                localStorage.setItem("darkMode", false);
+                setIsDarkMode(false);
+            }
         }
     }, []);
 
@@ -133,7 +181,7 @@ function App() {
     return (
         <Router data-set-theme={isDarkMode ? THEME_LIGHT : THEME_DARK}>
             <ErrorWindow />
-            <Header handleTheme={handleTheme} isDarkMode={isDarkMode}/>
+            <Header handleTheme={handleTheme} isDarkMode={isDarkMode} handleDefaultTheme={handleDefaultTheme}/>
             {loginMenu ? <Login /> : null}
             {signupMenu ? <Signup /> : null}
             {isLoading ? (

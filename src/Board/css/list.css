@@ -8,7 +8,7 @@
 }
 
 /* 오늘의 게시물 서식 */
-.board-container.today {
+.w-full max-w-[800px] bg-base-200  mx-auto.today {
     margin-bottom: 50px;
 }
 .todayboard-list-wrap {
@@ -233,7 +233,7 @@
 
 @media screen and (min-width:320px) and (max-width:670px) {
   /* 오늘의 게시물 서식 */
-.board-container.today {
+.w-full max-w-[800px] bg-base-200  mx-auto.today {
   margin-bottom: 50px;
 }
 .todayboard-list-wrap {

@@ -17,25 +17,6 @@ input[type='number']::-webkit-outer-spin-button {
           appearance: none;
 }
 
-:root {
-  --base-color: #333;
-  --main-color01: #A7C636;
-  --main-color02: #8DA82B;
-  --main-color03: #fff;
-  --main-m-auto: 0 auto;
-}
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  color: var(--base-color);
-  text-decoration: none;
-  font-family: 'Pretendard';
-}
-ul, ol, li {
-  list-style-type: none;
-}
-
 .main-bottom-wrap{
   position: fixed;
   z-index: 9980;
@@ -99,7 +80,7 @@ ul, ol, li {
 
   }  
 }
-.board-container{
+.w-full max-w-[800px] bg-base-200  mx-auto{
   max-width: 800px;
   margin: 60px auto 0px;
 }

@@ -8,7 +8,7 @@ import MenuSub from "./MenuSub";
 import "./css/header.css";
 
 
-function Header({handleTheme, isDarkMode}) {
+function Header({handleDefaultTheme, handleTheme, isDarkMode}) {
     const userId = useSelector((state) => state.userId);
     const userProfile = useSelector((state) => state.userProfile);
     const headerMenu = useSelector((state) => state.headerMenu);
@@ -31,14 +31,18 @@ function Header({handleTheme, isDarkMode}) {
                         )}
                     </button>
                     {headerMenu ? (
-                        <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[10000] backdrop-blur-sm flex justify-center items-center">
+                        <div className="fixed w-full h-full top-0 left-0 bg-base-100/75 z-[10000] backdrop-blur-sm flex justify-center items-center">
                             <div className="w-full max-w-[768px] box-border px-4 relative sm:grid sm:grid-cols-3 sm:gap-4 md:block">
                                 <button onClick={() => dispatch(headerMenuOn(false))} className="block w-4 h-4 absolute right-8 top-4 z-50">
                                     <img src={`${process.env.PUBLIC_URL}/btn/close.svg`} className="w-full h-full" alt="close" />
                                 </button>
 
-                                <button onClick={()=>handleTheme()} className="absolute text-base-200 right-8 top-24 z-50">
+                                <button onClick={()=>handleTheme()} className="absolute text-base-content right-24 top-4 z-50 ">
                                     {isDarkMode ? ("라이트모드로") : ("다크모드로")}
+                                </button>
+
+                                <button onClick={()=>handleDefaultTheme()} className="absolute text-base-content right-64 top-4 z-50 ">
+                                    {isDarkMode ? ("기기설정으로") : ("기기설정으로")}
                                 </button>
 
                                 <UserMenu />

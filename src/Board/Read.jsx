@@ -261,7 +261,7 @@ function Read({ userId }) {
     };
 
     return (
-        <div className="board-container">
+        <div className="w-full max-w-[800px] bg-base-200  mx-auto">
             <ul>
                 <li className="board_title">
                     <Link to={`/board/${boardId}`}>

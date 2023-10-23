@@ -157,15 +157,15 @@ function Board() {
     }, [id, boardLimit]);
 
     return (
-        <div className="board-container">
+        <div className="w-full max-w-[800px] bg-base-200  mx-auto">
             {Array.isArray(boardList) &&
                 boardList.map((board, index) => (
                     <div key={index} className="w-full">
                         <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className="w-full h-[200px] object-cover" />
                         <div className="w-full flex justify-between items-center px-4 box-border">
                             <div className="w-full">
-                                <h2 className="font-bold text-xl dark:text-primary">{board.board_name}</h2>
-                                <p className="font-normal text-sm mt-2 dark:text-primary" dangerouslySetInnerHTML={{ __html: dompurify.sanitize(board.board_detail) }}></p>
+                                <h2 className="font-bold text-xl text-base-content">{board.board_name}</h2>
+                                <p className="font-normal text-sm mt-2 text-base-content" dangerouslySetInnerHTML={{ __html: dompurify.sanitize(board.board_detail) }}></p>
                             </div>
                             {userId === "" ? (
                                 <div className="board-subscribe">

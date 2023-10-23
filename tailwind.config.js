@@ -14,19 +14,20 @@ module.exports = {
                     accent: "#CFFA32",
                     neutral: "#3d4451",
                     "base-100": "#ffffff",
+                    "base-200": "#ffffff",
+                    "base-content": "#333",
                 },
             },
             {
                 dark: {
-                    primary: "#A7C636",
-                    secondary: "#8DA82B",
+                    primary: "#65781F",
+                    secondary: "#65781F",
                     accent: "#CFFA32",
                     neutral: "#3d4451",
-                    "base-100": "#333",
-                    "base-200": "#d8d8d8",
-                    "base-content": "#fff",
-                    "primary-content": "#A7C636",
-                    "--text": "#fff",
+                    "base-100": "#000",
+                    "base-200": "#333",
+                    "base-content": "#e8e8e8",
+                    "primary-content": "#A7C636"
                 }
             }
         ],
