@@ -37,7 +37,7 @@ function TodayPost(props) {
 
     return (
         <div>
-            <Swiper ref={todaySlide} spaceBetween={16} slidesPerView={"auto"} modules={[FreeMode]} loop={slidesTotal} loopedSlides={3} className="todayboard-list-wrap">
+            <Swiper ref={todaySlide} spaceBetween={16} slidesPerView={"auto"} modules={[FreeMode]} loop={slidesTotal} loopedSlides={3} className="todayboard-list-wrap translate-x-[-1px]">
                 {Array.isArray(todayList) &&
                     todayList.map((item) => (
                         <SwiperSlide key={item.id}>

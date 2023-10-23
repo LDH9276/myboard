@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "./App.css";
 import axios from "axios";
 import Login from "./Login/Login";
@@ -16,6 +16,9 @@ import Header from "./Header/Header";
 import Board from "./Board/Board";
 import Main from "./Main/Main";
 import ErrorWindow from "./Header/ErrorWindow";
+import { useMediaQuery } from "react-responsive";
+import { themeChange } from "theme-change";
+import { set } from "lodash";
 
 function App() {
     const tokenChek = "http://localhost/myboard_server/JWT_Verify.php";
@@ -28,10 +31,51 @@ function App() {
     const cookies = new Cookies();
     const dispatch = useDispatch();
 
+    const THEME_LIGHT = useMemo(() => "mytheme");
+    const THEME_DARK = useMemo(() => "dark");
+    const [isDarkMode, setIsDarkMode] = useState(false);
+    const systemPreference = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
+
+    const [theme, setTheme] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "mytheme");
+
+    useEffect(() => {
+        localStorage.setItem("theme", theme);
+
+        const localTheme = localStorage.getItem("theme");
+        const osTheme = systemPreference ? "dark" : "mytheme";
+        console.log(localTheme, osTheme);
+
+        if (localTheme === "dark" && osTheme === "mytheme") {
+            setIsDarkMode(true);
+        } else if (localTheme === "mytheme" && osTheme === "dark") {
+            setIsDarkMode(false);
+        } else if (localTheme === "dark" && osTheme === "dark") {
+            setIsDarkMode(true);
+        } else {
+            setIsDarkMode(false);
+        }
+    }, [theme, systemPreference]);
+
+    useEffect(() => {
+        document.querySelector("html").setAttribute("data-theme", isDarkMode ? THEME_DARK : THEME_LIGHT);
+    }, [isDarkMode]);
+
+    const handleTheme = useCallback(() => {
+        if (theme === "mytheme") {
+            setTheme("dark");
+            localStorage.setItem("darkMode", true);
+            setIsDarkMode(true);
+        } else {
+            setTheme("mytheme");
+            localStorage.setItem("darkMode", false);
+            setIsDarkMode(false);
+        }
+    }, []);
+
     // 토큰 검증
     const verifyUser = async () => {
         const access_token = localStorage.getItem("access_token");
-        const refresh_token = cookies.get('refresh_token');
+        const refresh_token = cookies.get("refresh_token");
 
         try {
             const response = await axios(tokenChek, {
@@ -68,25 +112,37 @@ function App() {
         }
     };
 
+    const readDarkMode = () => {
+        const darkMode = localStorage.getItem("darkMode");
+
+        if (darkMode === "true") {
+            localStorage.setItem("theme", "dark");
+        } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            localStorage.setItem("theme", "dark");
+        } else {
+            localStorage.setItem("theme", "mytheme");
+        }
+    };
+
     useEffect(() => {
         verifyUser();
         readBoardList();
+        readDarkMode();
     }, []);
 
     return (
-        <Router>
+        <Router data-set-theme={isDarkMode ? THEME_LIGHT : THEME_DARK}>
             <ErrorWindow />
-            <Header />
+            <Header handleTheme={handleTheme} isDarkMode={isDarkMode}/>
             {loginMenu ? <Login /> : null}
             {signupMenu ? <Signup /> : null}
-            {isLoading ? (<div>
-            <span className="fixed loading loading-ring w-[72px] top-1/2 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
-            <span className="fixed font-xl top-2/6 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
-            <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[9980] backdrop-blur-sm dark:bg-black/75"></div>
-            </div>
+            {isLoading ? (
+                <div>
+                    <span className="fixed loading loading-ring w-[72px] top-1/2 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
+                    <span className="fixed font-xl top-2/6 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
+                    <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[9980] backdrop-blur-sm dark:bg-black/75"></div>
+                </div>
             ) : null}
-            
-
 
             <Routes>
                 <Route exact path="/" element={<Main />} />

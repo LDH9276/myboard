@@ -9,7 +9,7 @@ import { BOARD_OPENED, BOARD_LIMIT, BOARD_SUBSCRIBE } from "./Board";
 import { HEADERMENUON } from "./Loginout";
 import storage from "redux-persist/lib/storage/session";
 import { WRITING } from "./Write";
-import { USERBTN } from "./Usermenu";
+import { USERBTN, USERTHEME } from "./Usermenu";
 
 const persistConfig = {
     key: "root",
@@ -38,7 +38,8 @@ const persistConfig = {
         "errorWindow",
         "error",
         "subscribe",
-        "searchmode"
+        "searchmode",
+        "theme"
     ],
 };
 
@@ -67,6 +68,7 @@ const initialState = {
     errorWindow: false,
     error: "",
     searchmode: "main",
+    theme: "mytheme"
 };
 
 function rootReducer(state = initialState, action) {
@@ -76,6 +78,11 @@ function rootReducer(state = initialState, action) {
     }
 
     switch (action.type) {
+        case USERTHEME:
+            return {
+                ...state,
+                theme: action.payload.theme,
+            };
         case LOADING:
             return {
                 ...state,

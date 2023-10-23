@@ -133,6 +133,7 @@ function MenuSub(props) {
                                 </li>
                             )}
                         </ul>
+                        <button className="btn-secondary text-white w-full py-2 absolute bottom-0">구독게시판 더보기</button>
                     </div>
                     <div className={searchmode === "list" ? "header-board-togo-search active" : "header-board-togo-search"}>
                         <ul>

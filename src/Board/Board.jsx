@@ -164,8 +164,8 @@ function Board() {
                         <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className="w-full h-[200px] object-cover" />
                         <div className="w-full flex justify-between items-center px-4 box-border">
                             <div className="w-full">
-                                <h2 className="font-bold text-xl">{board.board_name}</h2>
-                                <p className="font-normal text-sm mt-2" dangerouslySetInnerHTML={{ __html: dompurify.sanitize(board.board_detail) }}></p>
+                                <h2 className="font-bold text-xl dark:text-primary">{board.board_name}</h2>
+                                <p className="font-normal text-sm mt-2 dark:text-primary" dangerouslySetInnerHTML={{ __html: dompurify.sanitize(board.board_detail) }}></p>
                             </div>
                             {userId === "" ? (
                                 <div className="board-subscribe">

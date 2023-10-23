@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { headerMenuOn } from "../Redux/Loginout";
@@ -7,15 +7,15 @@ import Menubtn from "./Menubtn";
 import MenuSub from "./MenuSub";
 import "./css/header.css";
 
-function Header(props) {
+
+function Header({handleTheme, isDarkMode}) {
     const userId = useSelector((state) => state.userId);
     const userProfile = useSelector((state) => state.userProfile);
     const headerMenu = useSelector((state) => state.headerMenu);
     const dispatch = useDispatch();
-    const [menu, setMenu] = useState(false);
 
     return (
-        <header className="header-top">
+        <header className="fixed w-full h-[60px] top-0 right-0 bg-base-100 z-[9999]">
             <div className="header-wrap">
                 <div className="header-homemenu">
                     <Link to="/">
@@ -31,11 +31,16 @@ function Header(props) {
                         )}
                     </button>
                     {headerMenu ? (
-                        <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[10000] backdrop-blur-sm flex justify-center items-center dark:bg-black/75">
+                        <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[10000] backdrop-blur-sm flex justify-center items-center">
                             <div className="w-full max-w-[768px] box-border px-4 relative sm:grid sm:grid-cols-3 sm:gap-4 md:block">
                                 <button onClick={() => dispatch(headerMenuOn(false))} className="block w-4 h-4 absolute right-8 top-4 z-50">
                                     <img src={`${process.env.PUBLIC_URL}/btn/close.svg`} className="w-full h-full" alt="close" />
                                 </button>
+
+                                <button onClick={()=>handleTheme()} className="absolute text-base-200 right-8 top-24 z-50">
+                                    {isDarkMode ? ("라이트모드로") : ("다크모드로")}
+                                </button>
+
                                 <UserMenu />
                                 <div className="flex w-full gap-4 sm:hidden md:flex">
                                     <Menubtn/>
