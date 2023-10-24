@@ -57,7 +57,6 @@ function App() {
         } else if (defaultMode === "true" && osTheme === "mytheme") {
             setIsDarkMode(false);
         }
-
     }, [theme, systemPreference]);
 
     useEffect(() => {
@@ -67,26 +66,22 @@ function App() {
     const handleTheme = useCallback(() => {
         const theme = localStorage.getItem("theme");
         if (theme === "mytheme") {
-            console.log("dark");
-            setTheme("dark");
+            localStorage.setItem("theme", "dark");
             localStorage.setItem("darkMode", true);
             setIsDarkMode(true);
         } else if (theme === "default") {
             const osTheme = systemPreference ? "dark" : "mytheme";
             if (osTheme === "dark") {
-                console.log("dark");
-                setTheme("dark");
+                localStorage.setItem("theme", "dark");
                 localStorage.setItem("darkMode", true);
                 setIsDarkMode(true);
             } else {
-                console.log("light");
-                setTheme("mytheme");
+                localStorage.setItem("theme", "mytheme");
                 localStorage.setItem("darkMode", false);
                 setIsDarkMode(false);
             }
         } else {
-            console.log("light");
-            setTheme("mytheme");
+            localStorage.setItem("theme", "mytheme");
             localStorage.setItem("darkMode", false);
             setIsDarkMode(false);
         }
@@ -94,7 +89,6 @@ function App() {
 
     const handleDefaultTheme = useCallback(() => {
         const osTheme = systemPreference ? "dark" : "mytheme";
-        setTheme("default");
         if (localStorage.getItem("defaultMode") === "false" || localStorage.getItem("defaultMode") === null) {
             localStorage.setItem("defaultMode", true);
             if (osTheme === "dark") {
@@ -119,6 +113,14 @@ function App() {
             }
         }
     }, []);
+
+    useEffect(() => {
+        if(isDarkMode){
+            themeChange("dark");
+        } else {
+            themeChange("mytheme");
+        }
+    }, [isDarkMode]);
 
     // 토큰 검증
     const verifyUser = async () => {
@@ -160,22 +162,9 @@ function App() {
         }
     };
 
-    const readDarkMode = () => {
-        const darkMode = localStorage.getItem("darkMode");
-
-        if (darkMode === "true") {
-            localStorage.setItem("theme", "dark");
-        } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            localStorage.setItem("theme", "dark");
-        } else {
-            localStorage.setItem("theme", "mytheme");
-        }
-    };
-
     useEffect(() => {
         verifyUser();
         readBoardList();
-        readDarkMode();
     }, []);
 
     return (

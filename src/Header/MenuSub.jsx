@@ -203,7 +203,7 @@ function MenuSub(props) {
                             </div>
                             {hotBoard && hotBoard.length > 0 ? (
                                 hotBoard.map((hot, index) => (
-                                    <li key={index} className="py-2 border-b-[1px] text-sm">
+                                    <li key={index} className="py-2 border-b-[1px] border-neutral text-sm">
                                         <Link to={`/board/${hot.id}`} className=" flex justify-between">
                                             <span className="leading-6">{hot.board_name}</span>
                                             <span className="leading-6 text-secondary">{hot.board_subscriber} 구독자</span>

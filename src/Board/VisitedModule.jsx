@@ -12,14 +12,14 @@ function VisitedModule({ boardVisited = [], userSubscribe = [], handleSubscribe 
     return (
         <div className="board-visitlist-box">
             {boardVisited.length === 0 ? (
-                <div className="board-visitlist-wrap">
+                <div className="w-full bg-base-100">
                     <div className="board-visitlist-legend">방문 게시판</div>
                     <div className="board-visitlist">
                         <p className="board-visitlist-item empty">방문한 게시판이 없습니다.</p>
                     </div>
                 </div>
             ) : (
-                <div className="board-visitlist-wrap">
+                <div className="w-full bg-base-100 flex justify-between">
                     <div className="board-visitlist-legend">방문 게시판</div>
                     <ul className="board-visitlist">
                         {boardVisited.slice(0, 4).map((board) => (

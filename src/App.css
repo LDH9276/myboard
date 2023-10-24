@@ -17,6 +17,11 @@ input[type='number']::-webkit-outer-spin-button {
           appearance: none;
 }
 
+:root {
+    --main-color01: #A7C636;
+    --main-color02: #8DA82B;
+}
+
 .main-bottom-wrap{
   position: fixed;
   z-index: 9980;
@@ -77,12 +82,7 @@ input[type='number']::-webkit-outer-spin-button {
     bottom: 80px;
     left: 50%;
     transform: translateX(350px);
-
   }  
-}
-.w-full max-w-[800px] bg-base-200  mx-auto{
-  max-width: 800px;
-  margin: 60px auto 0px;
 }
 .bottom-like-wrap{
   display: block;
