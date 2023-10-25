@@ -15,7 +15,7 @@ function Main(props) {
         try {
             const formData = new FormData();
             formData.append('search', text);
-            const response = await axios.post('http://localhost/myboard_serverl/Board/Board_Search.php', formData);
+            const response = await axios.post('http://localhost/myboard_server/Board/Board_Search.php', formData);
             setSearchList(response.data.list);
         } catch (error) {
             console.error(error);

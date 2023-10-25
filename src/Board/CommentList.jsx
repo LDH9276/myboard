@@ -20,9 +20,9 @@ function CommentList({ id, userId }) {
     const dispatch = useDispatch();
 
     // Link
-    const contentChek = "http://localhost/myboard_serverl/Board/Post_ReadComment.php";
-    const postCommentLink = "http://localhost/myboard_serverl/Board/Post_WriteComment.php";
-    const postLikeLink = "http://localhost/myboard_serverl/Board/Post_CommentLike.php";
+    const contentChek = "http://localhost/myboard_server/Board/Post_ReadComment.php";
+    const postCommentLink = "http://localhost/myboard_server/Board/Post_WriteComment.php";
+    const postLikeLink = "http://localhost/myboard_server/Board/Post_CommentLike.php";
 
     const readContent = async () => {
         try {
@@ -205,7 +205,7 @@ function CommentList({ id, userId }) {
                                     <div className="comment-left-wrap">
                                         <div className="comment-img-wrap">
                                             <img
-                                                src={`http://localhost/myboard_serverl/Users/Profile/${child.profile_name}.${child.profile_ext}`}
+                                                src={`http://localhost/myboard_server/Users/Profile/${child.profile_name}.${child.profile_ext}`}
                                                 alt="profile"
                                                 className="comment-profile-img"
                                             />

@@ -4,18 +4,18 @@ function ListModule({ postCategory, setBoardCate, boardCate, autoRefresh, setAut
     return (
         <div className="board-module-wrap">
             <ul className="board-module-category">
-                <li className={boardCate === "*" ? "board-category-btn active" : "board-category-btn "}>
+                <li className={boardCate === "*" ? "board-category-btn active" : "board-category-btn text-base-content"}>
                     <button onClick={() => setBoardCate("*")}>전체</button>
                 </li>
                 {postCategory.map((category, index) => (
-                    <li key={index} className={boardCate === index ? "board-category-btn active" : "board-category-btn "}>
+                    <li key={index} className={boardCate === index ? "board-category-btn active" : "board-category-btn text-base-content "}>
                         <button onClick={() => setBoardCate(index)}>{category}</button>
                     </li>
                 ))}
             </ul>
 
             <p className="board-module-autorefresh">
-                <span>최신 글 알림</span>
+                <span className="text-base-content">최신 글 알림</span>
                 {autoRefresh ? 
                     <button onClick={() => setAutoRefresh(false)}>ON</button> : 
                     <button onClick={() => setAutoRefresh(true)}>OFF</button>

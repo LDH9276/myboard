@@ -21,8 +21,8 @@ import { themeChange } from "theme-change";
 import { set } from "lodash";
 
 function App() {
-    const tokenChek = "http://localhost/myboard_serverl/JWT_Verify.php";
-    const boardLimitCheck = "http://localhost/myboard_serverl/Board/Board_LimiteCheck.php";
+    const tokenChek = "http://localhost/myboard_server/JWT_Verify.php";
+    const boardLimitCheck = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
     const isLoading = useSelector((state) => state.isLoading);
     const userId = useSelector((state) => state.userId);
     const userName = useSelector((state) => state.userName);
@@ -69,21 +69,25 @@ function App() {
             localStorage.setItem("theme", "dark");
             localStorage.setItem("darkMode", true);
             setIsDarkMode(true);
+            setTheme("dark");
         } else if (theme === "default") {
             const osTheme = systemPreference ? "dark" : "mytheme";
             if (osTheme === "dark") {
                 localStorage.setItem("theme", "dark");
                 localStorage.setItem("darkMode", true);
                 setIsDarkMode(true);
+                setTheme("dark");
             } else {
                 localStorage.setItem("theme", "mytheme");
                 localStorage.setItem("darkMode", false);
                 setIsDarkMode(false);
+                setTheme("mytheme");
             }
         } else {
             localStorage.setItem("theme", "mytheme");
             localStorage.setItem("darkMode", false);
             setIsDarkMode(false);
+            setTheme("mytheme");
         }
     }, []);
 
@@ -95,10 +99,12 @@ function App() {
                 localStorage.setItem("theme", "dark");
                 localStorage.setItem("darkMode", true);
                 setIsDarkMode(true);
+                setTheme("default");
             } else {
                 localStorage.setItem("theme", "mytheme");
                 localStorage.setItem("darkMode", false);
                 setIsDarkMode(false);
+                setTheme("default");
             }
         } else {
             localStorage.setItem("defaultMode", false);
@@ -106,10 +112,12 @@ function App() {
                 localStorage.setItem("theme", "dark");
                 localStorage.setItem("darkMode", true);
                 setIsDarkMode(true);
+                setTheme("default");
             } else {
                 localStorage.setItem("theme", "mytheme");
                 localStorage.setItem("darkMode", false);
                 setIsDarkMode(false);
+                setTheme("default");
             }
         }
     }, []);
@@ -177,7 +185,7 @@ function App() {
                 <div>
                     <span className="fixed loading loading-ring w-[72px] top-1/2 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
                     <span className="fixed font-xl top-2/6 right-1/2 translate-x-1/2 z-[9982] text-primary"></span>
-                    <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[9980] backdrop-blur-sm dark:bg-black/75"></div>
+                    <div className="fixed w-full h-full top-0 left-0 bg-base-100/75 z-[9980] backdrop-blur-sm"></div>
                 </div>
             ) : null}
 

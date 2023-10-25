@@ -30,7 +30,7 @@ function UserMenu(props) {
                 {userId ? (
                     <ul className="w-full grid grid-cols-3 grid-rows-2 relative sm:flex sm:flex-col md:grid">
                         <li className="row-span-2 col-span-1 max-w-[235px] w-full relative pb-[100%]">
-                            <img src={`http://localhost/myboard_serverl/Users/Profile/${userProfile}`} alt={userId} className="w-full h-full object-cover absolute top-0 left-0"/>
+                            <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} className="w-full h-full object-cover absolute top-0 left-0"/>
                         </li>
                         <li className="row-span-1 col-span-2 pl-4 box-border flex flex-col justify-center items-center sm:my-4 md:my-2">
                             <p className="text-xl font-bold w-full md:text-2xl lg:text-4xl">{userId}</p>
@@ -44,7 +44,7 @@ function UserMenu(props) {
                 ) : (
                     <ul className="w-full grid grid-cols-3 grid-rows-2 relative sm:flex sm:flex-col md:grid">
                         <li className="row-span-2 col-span-1 max-w-[235px] w-full relative pb-[100%]">
-                            <img src={`http://localhost/myboard_serverl/Users/Profile/default.png`} alt={userId} className="w-full h-full object-cover absolute top-0 left-0"/>
+                            <img src={`http://localhost/myboard_server/Users/Profile/default.png`} alt={userId} className="w-full h-full object-cover absolute top-0 left-0"/>
                         </li>
                         <li className="row-span-1 col-span-2 pl-4 box-border flex flex-col justify-center items-center">
                             <p className="text-lg font-bold w-full md:text-2xl lg:text-2xl sm:mt-4">

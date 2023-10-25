@@ -10,27 +10,27 @@ function VisitedModule({ boardVisited = [], userSubscribe = [], handleSubscribe 
     const [toggle, setToggle] = useState(false);
 
     return (
-        <div className="board-visitlist-box">
+        <div className="w-full relative box-border px-4 z-50">
             {boardVisited.length === 0 ? (
-                <div className="w-full bg-base-100">
+                <div className="w-full bg-base-200 shadow-xl">
                     <div className="board-visitlist-legend">방문 게시판</div>
                     <div className="board-visitlist">
                         <p className="board-visitlist-item empty">방문한 게시판이 없습니다.</p>
                     </div>
                 </div>
             ) : (
-                <div className="w-full bg-base-100 flex justify-between">
-                    <div className="board-visitlist-legend">방문 게시판</div>
-                    <ul className="board-visitlist">
-                        {boardVisited.slice(0, 4).map((board) => (
+                <div className="w-full h-[48px] overflow-hidden bg-base-200 flex justify-start shadow-lg my-8">
+                    <div className="w-[80px] h-full leading-[48px] text-center text-white bg-primary text-xs font-bold">방문 게시판</div>
+                    <ul className="flex bg-base-200">
+                        {boardVisited.slice(0, 5).map((board) => (
                             <li key={board.id}>
-                                <Link to={`/board/${board.id}`} className="board-visitlist-item">
-                                    {board.board_name}
+                                <Link to={`/board/${board.id}`} className="block w-8 mx-2 text-center text-xs text-base-content leading-[48px] bg-base-200">
+                                    {board.board_name.slice(0, 2)}
                                 </Link>
                             </li>
                         ))}
                     </ul>
-                    <div className="board-visitlist-subscribe">
+                    <div className="w-12 h-12 absolute top-0 right-4 flex items-center justify-center bg-base-200">
                         <button
                             onClick={() => { toggle ? setToggle(false) : setToggle(true); }} >
                             <img src={`${process.env.PUBLIC_URL}/btn/list-arrow.svg`} alt="구독한 게시판" className={!toggle ? "board-visitlist-icon" : "board-visitlist-icon active"} />

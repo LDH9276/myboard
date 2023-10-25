@@ -8,7 +8,7 @@ Quill.register("modules/imageResize", ImageResize);
 function PostWrite({ modContent }) {
     const quillRef = useRef();
     const [content, setContent] = useState("");
-    const imageUploadLink = "http://localhost/myboard_serverl/Board/Post_Upload.php";
+    const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php";
 
     function handleContentChange(value) {
         setContent(value);
@@ -43,7 +43,7 @@ function PostWrite({ modContent }) {
                 }
 
                 const data = await response.json();
-                const imageUrl = `http://localhost/myboard_serverl/Board/Upload/${data.filename}`;
+                const imageUrl = `http://localhost/myboard_server/Board/Upload/${data.filename}`;
 
                 // 이미지를 에디터에 삽입
                 const range = quillRef.current.getEditor().getSelection();

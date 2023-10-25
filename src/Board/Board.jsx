@@ -24,10 +24,10 @@ function Board() {
     const [userSubscribe, setUserSubscribe] = useState([]);
 
     // Link
-    const boardVisitedLink = "http://localhost/myboard_serverl/Board/Board_VisitedCheck.php";
-    const boardVisitedCheck = "http://localhost/myboard_serverl/Board/Board_VisitedModule.php";
-    const passenger = "http://localhost/myboard_serverl/Board/Board_VisitedCheckPassinger.php";
-    const boardSubscribe = "http://localhost/myboard_serverl/Board/Board_Subscribe.php";
+    const boardVisitedLink = "http://localhost/myboard_server/Board/Board_VisitedCheck.php";
+    const boardVisitedCheck = "http://localhost/myboard_server/Board/Board_VisitedModule.php";
+    const passenger = "http://localhost/myboard_server/Board/Board_VisitedCheckPassinger.php";
+    const boardSubscribe = "http://localhost/myboard_server/Board/Board_Subscribe.php";
     const boardLink = process.env.REACT_APP_BOARD_LIST_CHECK;
 
     // Dispatch,
@@ -157,18 +157,18 @@ function Board() {
     }, [id, boardLimit]);
 
     return (
-        <div className="w-full max-w-[800px] bg-base-200  mx-auto">
+        <div className="w-full max-w-[800px] bg-base-100  mx-auto mt-[60px]">
             {Array.isArray(boardList) &&
                 boardList.map((board, index) => (
                     <div key={index} className="w-full">
-                        <img src={`http://localhost/myboard_serverl/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className="w-full h-[200px] object-cover" />
-                        <div className="w-full flex justify-between items-center px-4 box-border">
+                        <img src={`http://localhost/myboard_server/Board/BoardBanner/${board.board_thumbnail}`} alt={board.board_name} className="w-full h-[200px] object-cover" />
+                        <div className="w-full flex justify-between items-center px-4 box-border my-4">
                             <div className="w-full">
                                 <h2 className="font-bold text-xl text-base-content">{board.board_name}</h2>
                                 <p className="font-normal text-sm mt-2 text-base-content" dangerouslySetInnerHTML={{ __html: dompurify.sanitize(board.board_detail) }}></p>
                             </div>
                             {userId === "" ? (
-                                <div className="board-subscribe">
+                                <div className="w-1/3 flex flex-col items-end justify-center">
                                     <p className="board-subscribe-total">
                                         <span>{totalBoardSubscribe}</span>
                                         <span>구독중</span>

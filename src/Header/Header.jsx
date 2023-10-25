@@ -15,7 +15,7 @@ function Header({handleDefaultTheme, handleTheme, isDarkMode}) {
     const dispatch = useDispatch();
 
     return (
-        <header className="fixed w-full h-[60px] top-0 right-0 bg-base-100 z-[9999]">
+        <header className="fixed w-full h-[60px] top-0 right-0 bg-base-200 z-[9999]">
             <div className="header-wrap">
                 <div className="header-homemenu">
                     <Link to="/">
@@ -25,9 +25,9 @@ function Header({handleDefaultTheme, handleTheme, isDarkMode}) {
                 <div className="header-userbtn">
                     <button onClick={headerMenu ? () => dispatch(headerMenuOn(false)) : () => dispatch(headerMenuOn(true))} className="header-userprofile-btn">
                         {userId ? (
-                            <img src={`http://localhost/myboard_serverl/Users/Profile/${userProfile}`} alt={userId} />
+                            <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} />
                         ) : (
-                            <img src={`http://localhost/myboard_serverl/Users/Profile/menu.png`} alt="not login" />
+                            <img src={`http://localhost/myboard_server/Users/Profile/menu.png`} alt="not login" />
                         )}
                     </button>
                     {headerMenu ? (

@@ -18,7 +18,7 @@ function MenuSub(props) {
     const [hotBoard, setHotBoard] = useState([]);
     const dispatch = useDispatch();
 
-    const boardSubscribe = "http://localhost/myboard_serverl/Board/Board_Subscribe.php";
+    const boardSubscribe = "http://localhost/myboard_server/Board/Board_Subscribe.php";
 
     const readSubscribeList = async () => {
         const formData = new FormData();
@@ -36,7 +36,7 @@ function MenuSub(props) {
 
     const readHotBoard = async () => {
         try {
-            const response = await axios.get("http://localhost/myboard_serverl/Board/Board_List.php");
+            const response = await axios.get("http://localhost/myboard_server/Board/Board_List.php");
             console.log(response.data);
             setHotBoard(response.data.list);
         } catch (error) {
@@ -64,7 +64,7 @@ function MenuSub(props) {
         try {
             const formData = new FormData();
             formData.append("search", text);
-            const response = await axios.post("http://localhost/myboard_serverl/Board/Board_Search.php", formData);
+            const response = await axios.post("http://localhost/myboard_server/Board/Board_Search.php", formData);
             setSearchList(response.data.list);
         } catch (error) {
             console.error(error);

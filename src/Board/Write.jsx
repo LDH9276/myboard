@@ -193,7 +193,7 @@ function Write({ userId, userName }) {
     }, [boardMaster]);
 
     return (
-        <div className="w-full max-w-[800px] bg-base-200  mx-auto post-write">
+        <div className="w-full max-w-[800px] bg-base-200 mt-[60px] mx-auto post-write">
             <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} className="write-title-input" placeholder="제목을 입력해주세요" />
 
             <div>

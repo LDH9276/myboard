@@ -137,15 +137,13 @@
   position: absolute; top: 48px;
   right: 16px;
   overflow: hidden;
-  width: calc(100% - 116px);
+  width: calc(100% - 112px);
   height: 0px;
   padding: 0px 16px;
-  border-top: 1px solid #eee;
-  background: #fff;
+  @apply bg-base-200 shadow-md;
   font-size: 14px;
   line-height: 38px;
   box-sizing: border-box;
-  box-shadow: rgba(100, 100, 111, 0.1) 0px 12px 14px 0px;
   transition: .3s;
 }
 .board-subscribe-list.active{

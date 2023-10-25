@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import "./css/list.css";
 
 function ListModules({ postCategory, boardCate, autoRefresh }) {
-    const pagination = "http://localhost/myboard_serverl/Board/Module/Post_Pagination.php";
-    const listCheck = "http://localhost/myboard_serverl/Board/Module/Post_List.php";
+    const pagination = "http://localhost/myboard_server/Board/Module/Post_Pagination.php";
+    const listCheck = "http://localhost/myboard_server/Board/Module/Post_List.php";
 
     const boardId = useSelector((state) => state.boardId);
     const [boardList, setBoardList] = useState([]);
@@ -149,7 +149,7 @@ function ListModules({ postCategory, boardCate, autoRefresh }) {
                                 <p className="board-item-date">{PostUpdateDate(item.reg_date)}</p>
                                 <p className="board-item-writer">
                                     <img
-                                        src={`http://localhost/myboard_serverl/Users/Profile/${item.profile_imgname}.${item.profile_img}`}
+                                        src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`}
                                         alt={item.nickname}
                                         className="board-item-profile"
                                     />
