@@ -9,8 +9,8 @@ import TodayPost from "./TodayPost";
 import "./css/list.css";
 
 function List({ boardId, postCategory, boardCate, autoRefresh }) {
-    const pagination = "http://localhost/myboard_server/Board/Post_Pagination.php";
-    const listCheck = "http://localhost/myboard_server/Board/Post_List.php";
+    const pagination = "http://localhost/myboard_serverl/Board/Post_Pagination.php";
+    const listCheck = "http://localhost/myboard_serverl/Board/Post_List.php";
 
     const userId = useSelector((state) => state.userId);
     const dispatch = useDispatch();
@@ -178,13 +178,13 @@ function List({ boardId, postCategory, boardCate, autoRefresh }) {
                                 >
                                     &nbsp;
                                 </button>
-                                <Link to={`/read/${item.id}`} className="board-list-item">
+                                <Link to={`/read/${item.id}`} className="flex flex-wrap py-3 px-4 box-border leading-6">
                                     <p className="board-item-category">{postCategory[item.cat]}</p>
                                     <p className="board-item-title">{item.title} </p>
                                     <p className="board-item-date">{PostUpdateDate(item.reg_date)}</p>
                                     <p className="board-item-writer">
                                         <img
-                                            src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`}
+                                            src={`http://localhost/myboard_serverl/Users/Profile/${item.profile_imgname}.${item.profile_img}`}
                                             alt={item.nickname}
                                             className="board-item-profile"
                                         />
@@ -225,7 +225,7 @@ function List({ boardId, postCategory, boardCate, autoRefresh }) {
                                     <p className="board-item-date">{PostUpdateDate(item.reg_date)}</p>
                                     <p className="board-item-writer">
                                         <img
-                                            src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`}
+                                            src={`http://localhost/myboard_serverl/Users/Profile/${item.profile_imgname}.${item.profile_img}`}
                                             alt={item.nickname}
                                             className="board-item-profile"
                                         />

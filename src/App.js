@@ -21,8 +21,8 @@ import { themeChange } from "theme-change";
 import { set } from "lodash";
 
 function App() {
-    const tokenChek = "http://localhost/myboard_server/JWT_Verify.php";
-    const boardLimitCheck = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
+    const tokenChek = "http://localhost/myboard_serverl/JWT_Verify.php";
+    const boardLimitCheck = "http://localhost/myboard_serverl/Board/Board_LimiteCheck.php";
     const isLoading = useSelector((state) => state.isLoading);
     const userId = useSelector((state) => state.userId);
     const userName = useSelector((state) => state.userName);

@@ -4,7 +4,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import CustomEditor from "@ckeditor/ckeditor5-custom";
 
 function BestCommentList({ id, commentRefresh }) {
-    const bestCommentLink = "http://localhost/myboard_server/Board/Post_BestCommentList.php";
+    const bestCommentLink = "http://localhost/myboard_serverl/Board/Post_BestCommentList.php";
 
     const [bestComment, setBestComment] = useState([]);
 

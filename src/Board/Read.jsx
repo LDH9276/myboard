@@ -56,12 +56,12 @@ function Read({ userId }) {
     const [WriterProfileImg, setWriterProfileImg] = useState("");
 
     // Link
-    const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php";
-    const contentChek = "http://localhost/myboard_server/Board/Post_Read.php";
-    const postLikeLink = "http://localhost/myboard_server/Board/Post_Like.php";
-    const postLikeChek = "http://localhost/myboard_server/Board/Post_CheckLike.php";
-    const writerInfo = "http://localhost/myboard_server/Board/Post_WriterInfo.php";
-    const boardLink = "http://localhost/myboard_server/Board/Board_ListCheck.php";
+    const postWriteLink = "http://localhost/myboard_serverl/Board/Post_Write.php";
+    const contentChek = "http://localhost/myboard_serverl/Board/Post_Read.php";
+    const postLikeLink = "http://localhost/myboard_serverl/Board/Post_Like.php";
+    const postLikeChek = "http://localhost/myboard_serverl/Board/Post_CheckLike.php";
+    const writerInfo = "http://localhost/myboard_serverl/Board/Post_WriterInfo.php";
+    const boardLink = "http://localhost/myboard_serverl/Board/Board_ListCheck.php";
 
     useEffect(() => {
         readBoard();
@@ -272,7 +272,7 @@ function Read({ userId }) {
                     <div className="read-writer-wrap">
                         <div className="read-writer-profile">
                             <div className="read-writer-info">
-                                <img src={`http://localhost/myboard_server/Users/Profile/${WriterProfileImg}`} alt="profile" className="read-profile-img" />
+                                <img src={`http://localhost/myboard_serverl/Users/Profile/${WriterProfileImg}`} alt="profile" className="read-profile-img" />
                                 <div className="read-wtire-text">
                                     <p className="read-profile-name">{WriterName}</p>
                                     <p className="read-profile-time">{PostUpdateDate(updateDate)}</p>

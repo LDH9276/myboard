@@ -28,7 +28,7 @@ function CommnetChild({ commentId, children, id, handleModify, handleDelete, han
                                 <div className="comment-left-wrap">
                                     <div className="comment-img-wrap">
                                         <img
-                                            src={`http://localhost/myboard_server/Users/Profile/${child.profile_name}.${child.profile_ext}`}
+                                            src={`http://localhost/myboard_serverl/Users/Profile/${child.profile_name}.${child.profile_ext}`}
                                             alt="profile"
                                             className="comment-profile-img"
                                         />

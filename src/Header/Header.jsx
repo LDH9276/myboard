@@ -25,9 +25,9 @@ function Header({handleDefaultTheme, handleTheme, isDarkMode}) {
                 <div className="header-userbtn">
                     <button onClick={headerMenu ? () => dispatch(headerMenuOn(false)) : () => dispatch(headerMenuOn(true))} className="header-userprofile-btn">
                         {userId ? (
-                            <img src={`http://localhost/myboard_server/Users/Profile/${userProfile}`} alt={userId} />
+                            <img src={`http://localhost/myboard_serverl/Users/Profile/${userProfile}`} alt={userId} />
                         ) : (
-                            <img src={`http://localhost/myboard_server/Users/Profile/menu.png`} alt="not login" />
+                            <img src={`http://localhost/myboard_serverl/Users/Profile/menu.png`} alt="not login" />
                         )}
                     </button>
                     {headerMenu ? (

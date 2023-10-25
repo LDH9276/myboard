@@ -9,7 +9,7 @@ import "swiper/css/free-mode";
 import { useSelector } from "react-redux";
 
 function TodayPost(props) {
-    const todayPost = "http://localhost/myboard_server/Board/Post_TodayPost.php";
+    const todayPost = "http://localhost/myboard_serverl/Board/Post_TodayPost.php";
     const boardId = useSelector((state) => state.boardId);
     const [slidesTotal, setSlidesTotal] = useState(true);
     const [todayList, setTodayList] = useState([]);
@@ -48,7 +48,7 @@ function TodayPost(props) {
                                 <div className="today-item-bottom_wrap">
                                     <p className="today-item-writer">
                                         <img
-                                            src={`http://localhost/myboard_server/Users/Profile/${item.profile_imgname}.${item.profile_img}`}
+                                            src={`http://localhost/myboard_serverl/Users/Profile/${item.profile_imgname}.${item.profile_img}`}
                                             alt={item.nickname}
                                             className="today-item-profile"
                                         />
