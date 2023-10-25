@@ -61,7 +61,7 @@ function Login(props) {
 
     return (
         <div className="fixed w-full h-full top-0 left-0 bg-white/75 z-[10000] backdrop-blur-sm flex justify-center items-center dark:bg-black/75 box-border px-4 bg-base-100">
-            <div className="w-full bg-base-100 px-4 py-12 relative shadow-lg border-4 border-primary">
+            <div className="w-full max-w-[800px] bg-base-100 px-4 py-12 relative shadow-lg border-4 border-primary">
                 <button onClick={() => dispatch(loginMenuOff())}>
                     <img src={`${process.env.PUBLIC_URL}/btn/close.svg`} className="absolute top-4 right-4 w-4 h-4" alt="close" />
                 </button>
@@ -75,7 +75,7 @@ function Login(props) {
                         id="id"
                         placeholder="id"
                         onChange={(e) => setId(e.target.value)}
-                        className={idForm ? "loginform-idform active" : "loginform-idform"}
+                        className={idForm ? "w-full h-12 bg-base-100" : "w-full h-12  bg-base-100"}
                         onClick={() => handleIdEvent()}
                     />
                     <input
@@ -84,7 +84,7 @@ function Login(props) {
                         id="password"
                         placeholder="Password"
                         onChange={(e) => setPassword(e.target.value)}
-                        className={passwordForm ? "loginform-idform active" : "loginform-idform"}
+                        className={passwordForm ? "w-full h-12 bg-base-100" : "w-full h-12  bg-base-100"}
                         onClick={() => handlePasswordEvent()}
                     />
 

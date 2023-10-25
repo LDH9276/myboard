@@ -59,10 +59,6 @@ function App() {
         }
     }, [theme, systemPreference]);
 
-    useEffect(() => {
-        document.querySelector("html").setAttribute("data-theme", isDarkMode ? THEME_DARK : THEME_LIGHT);
-    }, [isDarkMode]);
-
     const handleTheme = useCallback(() => {
         const theme = localStorage.getItem("theme");
         if (theme === "mytheme") {
