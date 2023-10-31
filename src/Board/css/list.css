@@ -15,12 +15,11 @@
 }
 .todayboard-list-wrap .swiper-slide {
     position: relative;
-    border: 1px solid #8da82b;
     box-sizing: border-box;
-    @apply w-4/6 h-[12em] text-sm p-4 sm:w-[45%] bg-base-100;
+    @apply w-4/6 h-[12em] text-sm p-4 sm:w-[45%] bg-base-100 border-[1px] border-primary;
 }
 .swiper-slide:not(.swiper-slide-prev) {
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    @apply shadow-xl;
 }
 .today-item-category {
     color: var(--main-color02);
@@ -232,9 +231,6 @@
   display: flex;
   padding-left: 16px;
   margin-bottom: 20px;
-}
-.swiper-slide:not(.swiper-slide-prev) {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 .today-item-category {
   color: var(--main-color02);
