@@ -1,28 +1,30 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import "./App.css";
 import axios from "axios";
-import Login from "./Login/Login";
-import Signup from "./Login/Signup";
-import Wtite from "./Board/Write";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import List from "./Board/List";
-import Read from "./Board/Read";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Cookies } from "react-cookie";
-import Mypage from "./Login/Mypage";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "./Redux/Loginout";
 import { boardLimit } from "./Redux/Board";
-import Header from "./Header/Header";
-import Board from "./Board/Board";
-import Main from "./Main/Main";
-import ErrorWindow from "./Header/ErrorWindow";
 import { useMediaQuery } from "react-responsive";
 import { themeChange } from "theme-change";
-import { set } from "lodash";
+
+import Header from "./Header/Header";
+import Main from "./Main/Main";
+import ErrorWindow from "./Header/ErrorWindow";
+import Login from "./Login/Login";
+import Signup from "./Login/Signup";
+import Mypage from "./Login/Mypage";
+import Wtite from "./Board/Write";
+import List from "./Board/List";
+import Read from "./Board/Read";
+import Board from "./Board/Board";
+
+import "./App.css";
 
 function App() {
-    const tokenChek = "http://localhost/myboard_server/JWT_Verify.php";
-    const boardLimitCheck = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
+    const tokenCheckUrl = "http://localhost/myboard_server/JWT_Verify.php";
+    const boardLimitCheckUrl = "http://localhost/myboard_server/Board/Board_LimiteCheck.php";
+
     const isLoading = useSelector((state) => state.isLoading);
     const userId = useSelector((state) => state.userId);
     const userName = useSelector((state) => state.userName);
@@ -44,7 +46,6 @@ function App() {
         const localTheme = localStorage.getItem("theme");
         const defaultMode = localStorage.getItem("defaultMode");
         const osTheme = systemPreference ? "dark" : "mytheme";
-        console.log(localTheme, osTheme);
 
         if (localTheme === "dark" && osTheme === "mytheme") {
             setIsDarkMode(true);
@@ -61,24 +62,12 @@ function App() {
 
     const handleTheme = useCallback(() => {
         const theme = localStorage.getItem("theme");
+        const osTheme = systemPreference ? "dark" : "mytheme";
         if (theme === "mytheme") {
             localStorage.setItem("theme", "dark");
             localStorage.setItem("darkMode", true);
             setIsDarkMode(true);
             setTheme("dark");
-        } else if (theme === "default") {
-            const osTheme = systemPreference ? "dark" : "mytheme";
-            if (osTheme === "dark") {
-                localStorage.setItem("theme", "dark");
-                localStorage.setItem("darkMode", true);
-                setIsDarkMode(true);
-                setTheme("dark");
-            } else {
-                localStorage.setItem("theme", "mytheme");
-                localStorage.setItem("darkMode", false);
-                setIsDarkMode(false);
-                setTheme("mytheme");
-            }
         } else {
             localStorage.setItem("theme", "mytheme");
             localStorage.setItem("darkMode", false);
@@ -89,49 +78,27 @@ function App() {
 
     const handleDefaultTheme = useCallback(() => {
         const osTheme = systemPreference ? "dark" : "mytheme";
-        if (localStorage.getItem("defaultMode") === "false" || localStorage.getItem("defaultMode") === null) {
-            localStorage.setItem("defaultMode", true);
-            if (osTheme === "dark") {
-                localStorage.setItem("theme", "dark");
-                localStorage.setItem("darkMode", true);
-                setIsDarkMode(true);
-                setTheme("default");
-            } else {
-                localStorage.setItem("theme", "mytheme");
-                localStorage.setItem("darkMode", false);
-                setIsDarkMode(false);
-                setTheme("default");
-            }
+        const defaultMode = localStorage.getItem("defaultMode") === "true";
+        localStorage.setItem("defaultMode", !defaultMode);
+        if (defaultMode) {
+            localStorage.setItem("theme", osTheme);
+            localStorage.setItem("darkMode", osTheme === "dark");
+            setIsDarkMode(osTheme === "dark");
+            setTheme("default");
         } else {
-            localStorage.setItem("defaultMode", false);
-            if (osTheme === "dark") {
-                localStorage.setItem("theme", "dark");
-                localStorage.setItem("darkMode", true);
-                setIsDarkMode(true);
-                setTheme("default");
-            } else {
-                localStorage.setItem("theme", "mytheme");
-                localStorage.setItem("darkMode", false);
-                setIsDarkMode(false);
-                setTheme("default");
-            }
+            localStorage.setItem("theme", "mytheme");
+            localStorage.setItem("darkMode", false);
+            setIsDarkMode(false);
+            setTheme("default");
         }
     }, []);
 
-    useEffect(() => {
-        if (isDarkMode) {
-            themeChange("dark");
-        } else {
-            themeChange("mytheme");
-        }
-    }, [isDarkMode]);
-
-    // 토큰 검증
+    // Verify user token
     const verifyUser = async () => {
         const access_token = localStorage.getItem("access_token");
 
         try {
-            const response = await axios(tokenChek, {
+            const response = await axios(tokenCheckUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -140,15 +107,13 @@ function App() {
                 withCredentials: true,
             });
             if (response.data.success === true) {
-                console.log(response.data);
                 const userProfile = response.data.user_profile_name + "." + response.data.user_profile_ext;
-                dispatch(login(response.data.user_id, response.data.user_name, response.data.user_info, userProfile)); // 로그인 상태로 변경
+                dispatch(login(response.data.user_id, response.data.user_name, response.data.user_info, userProfile));
                 if (response.data.type === "access") {
                     localStorage.setItem("access_token", response.data.access_token);
                 }
             } else {
-                console.log(response.data);
-                dispatch(logout()); // 로그아웃 상태로 변경
+                dispatch(logout());
                 cookies.remove("refresh_token");
             }
         } catch (err) {
@@ -160,7 +125,7 @@ function App() {
 
     const readBoardList = async () => {
         try {
-            const response = await axios.get(boardLimitCheck);
+            const response = await axios.get(boardLimitCheckUrl);
             dispatch(boardLimit(response.data.list[0].last_board, response.data.list[0].last_post));
         } catch (error) {
             console.error(error);

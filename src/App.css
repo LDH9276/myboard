@@ -1,138 +1,144 @@
 /* input 기본 스타일 초기화 */
 input {
-  -webkit-border-radius: 0;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+    -webkit-border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 /* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
-input::-ms-clear { display: none; }
+input::-ms-clear {
+    display: none;
+}
 
 /* input type number 에서 화살표 제거 */
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 :root {
-    --main-color01: #A7C636;
-    --main-color02: #8DA82B;
+    --main-color01: #a7c636;
+    --main-color02: #8da82b;
 }
 
-.main-bottom-wrap{
-  position: fixed;
-  z-index: 9980;
+.main-bottom-wrap {
+    position: fixed;
+    z-index: 9980;
 }
-@media screen and (max-width: 799px){
-  .main-bottom-wrap{
-    bottom: 30px; 
-    right: 16px;
-  }
+@media screen and (max-width: 799px) {
+    .main-bottom-wrap {
+        right: 16px;
+        bottom: 30px;
+    }
 }
 @media screen and (min-width: 800px) {
-  .main-bottom-wrap{
+    .main-bottom-wrap {
+        right: 50%;
+        bottom: 80px;
+        transform: translateX(350px);
+    }
+}
+
+.main-write-btn {
+    display: block;
+    padding: 12px;
+    border: none;
+    background: var(--main-color02);
+}
+.main-write-btn img {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+.board-like-btn {
+    display: flex;
+    gap: 5px;
+    padding: 12px;
+    border: none;
+    background: var(--main-color03);
+    justify-content: center;
+    align-items: center;
+}
+
+.board-bottom-wrap {
+    display: flex;
+    position: fixed;
     bottom: 80px;
-    right: 50%; 
-    transform: translateX(350px);
-  }  
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 9980;
 }
-
-
-.main-write-btn{
-  display: block;
-  padding: 12px;
-  border: none;
-  background: var(--main-color02);
-}
-.main-write-btn img{
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
-  object-fit: contain;
-}
-.board-like-btn{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  padding: 12px;
-  border: none;
-  background: var(--main-color03);
-}
-
-.board-bottom-wrap{
-  position: fixed;
-  display: flex;
-  bottom: 80px; 
-  background: #fff;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-  z-index: 9980;
-}
-@media screen and (max-width: 799px){
-  .board-bottom-wrap{
-    bottom: 30px; 
-    right: 16px;
-  }
+@media screen and (max-width: 799px) {
+    .board-bottom-wrap {
+        right: 16px;
+        bottom: 30px;
+    }
 }
 @media screen and (min-width: 800px) {
-  .board-bottom-wrap{
-    bottom: 80px;
+    .board-bottom-wrap {
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(350px);
+    }
+}
+.bottom-like-wrap {
+    display: block;
+    position: relative;
+    width: 13px;
+    height: 13px;
+}
+.bottom-like_icon {
+    display: block;
+    position: absolute;
+    top: 50%;
     left: 50%;
-    transform: translateX(350px);
-  }  
+    width: 13px;
+    height: 13px;
+    animation: dislike 0.5s ease-in-out;
+    transform: translate(-50%, -50%);
+    object-fit: contain;
+    opacity: 0;
+    transition: 0.5s;
 }
-.bottom-like-wrap{
-  display: block;
-  position: relative;
-  width: 13px; height: 13px;
+.bottom-like_back {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 13px;
+    height: 13px;
+    transform: translate(-50%, -50%);
+    object-fit: contain;
 }
-.bottom-like_icon{
-  display: block;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 13px; height: 13px;
-  object-fit: contain;
-  opacity: 0;
-  transition: .5s;
-  animation: dislike 0.5s ease-in-out;
-}
-.bottom-like_back{
-  display: block;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 13px; height: 13px;
-  object-fit: contain;
-}
-.bottom-like_icon.active{
-  opacity: 1;
-  animation: like 0.5s ease-in-out;
+.bottom-like_icon.active {
+    animation: like 0.5s ease-in-out;
+    opacity: 1;
 }
 @keyframes like {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  60% {
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    60% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 @keyframes dislike {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  40% {
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(0);
-  }
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    40% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+    }
 }
 
 @tailwind base;
