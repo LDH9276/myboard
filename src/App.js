@@ -155,7 +155,7 @@ function App() {
                 <Route exact path="/" element={<Main />} />
                 <Route exact path="/:boardname" element={<List />} />
                 <Route path="/mypage" element={<Mypage userId={userId} />} />
-                <Route path="/write/" element={<Wtite userId={userId} userName={userName} />} />
+                <Route path="/write/" element={<Wtite userId={userId} userName={userName} verifyUser={verifyUser}/>} />
                 <Route path="/write/:id/:mod" element={<Wtite userId={userId} userName={userName} />} />
                 <Route path="/Board/:id" element={<Board userId={userId} userName={userName} />} />
                 <Route path="/read/:id" element={<Read userId={userId} userName={userName} />} />

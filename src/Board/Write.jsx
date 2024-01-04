@@ -9,11 +9,13 @@ import { formats, toolbarOptions } from "./boardmodules/Module";
 import "./css/write.css";
 import { errorWindowOn } from "../Redux/Error";
 import { sendTwitterLink } from "../API/sendTwitterLink";
+import { set } from "lodash";
 Quill.register("modules/imageResize", ImageResize);
 
-function Write({ userId, userName }) {
+function Write({ userId, userName, verifyUser }) {
     // State, Props
     const { id } = useParams();
+    const isLoggedIn = useSelector((state) => state.isLoggedIn);
     const boardId = useSelector((state) => state.boardId);
     const { mod } = useParams();
     const [content, setContent] = useState("");
@@ -25,6 +27,7 @@ function Write({ userId, userName }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const quillRef = useRef();
+    const [writeMode, setWriteMode] = useState(false);
 
     // Link
     const postWriteLink = "http://localhost/myboard_server/Board/Post_Write.php";
@@ -32,16 +35,25 @@ function Write({ userId, userName }) {
     const imageUploadLink = "http://localhost/myboard_server/Board/Post_Upload.php";
     const boardLink = "http://localhost/myboard_server/Board/Board_ListCheck.php";
 
+
+    // 마운트 될때 로그인 실행
+    useEffect(() => {
+        verifyUser();
+        if (!isLoggedIn) {
+            alert("로그인 후 이용해주세요");
+            navigate("/");
+        } else {
+            setWriteMode(true); // 로그인 되어있으면 글쓰기 모드 활성화
+        }
+    }, []);
+
     const readBoard = async () => {
         try {
             const formData = new FormData();
             formData.append("id", boardId);
-
             const response = await axios.post(boardLink, formData);
-
             const cate = response.data.boardlist[0].board_category;
             cate.shift();
-
             setBoardCate(cate);
             setBoardMaster(response.data.boardlist[0].board_admin);
         } catch (error) {
@@ -51,13 +63,10 @@ function Write({ userId, userName }) {
 
     async function handleContentChange(value) {
         let filteredValue = value.replace(/<span[^>]*>/g, "");
-      
         const url = filteredValue.match(/(https?:\/\/[^\s]+)/g);
         if (url) {
             filteredValue.replace(url[0], url[0] + "<p><br></p>");
         }
-            
-      
         setContent(filteredValue);
     }
 
@@ -194,39 +203,43 @@ function Write({ userId, userName }) {
 
     return (
         <div className="w-full max-w-[800px] bg-base-200 mt-[60px] mx-auto post-write">
-            <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} className="write-title-input" placeholder="제목을 입력해주세요" />
-
-            <div>
-                <ul className="board-module-category">
-                    {boardMaster.includes(userId) && (
-                        <li className={postCate === 0 ? "board-category-btn active" : "board-category-btn "}>
-                            <button onClick={() => setPostCate(0)}>공지</button>
-                        </li>
-                    )}
-                    {boardCate.map((category, index) => (
-                        <li key={index} className={postCate === index + 1 ? "board-category-btn active" : "board-category-btn "}>
-                            <button onClick={() => setPostCate(index + 1)}>{category}</button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            <ReactQuill
-                ref={quillRef}
-                onChange={handleContentChange}
-                placeholder={"내용을 입력해주세요"}
-                theme="snow"
-                modules={modules}
-                formats={formats}
-                value={content}
-            ></ReactQuill>
-
-            <div className="write-btn-wrap">
-                <div className="write-btn-wrap">
-                    <button onClick={() => navigate(`/board/${boardId}`)}>작성취소</button>
-                    <button onClick={onUpdateClick}>작성완료</button>
+            {/* {글쓰기 상태값이 아니라면, 해당 글쓰기 폼이 보이지 않습니다.} */}
+            {writeMode ? (
+                <div className="write-title-wrap">
+                    <input type="text" onChange={(e) => setTitle(e.target.value)} value={title} className="write-title-input" placeholder="제목을 입력해주세요" />
+                    <div>
+                        <ul className="board-module-category">
+                            {boardMaster.includes(userId) && (
+                                <li className={postCate === 0 ? "board-category-btn active" : "board-category-btn "}>
+                                    <button onClick={() => setPostCate(0)}>공지</button>
+                                </li>
+                            )}
+                            {boardCate.map((category, index) => (
+                                <li key={index} className={postCate === index + 1 ? "board-category-btn active" : "board-category-btn "}>
+                                    <button onClick={() => setPostCate(index + 1)}>{category}</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <ReactQuill
+                        ref={quillRef}
+                        onChange={handleContentChange}
+                        placeholder={"내용을 입력해주세요"}
+                        theme="snow"
+                        modules={modules}
+                        formats={formats}
+                        value={content}
+                    ></ReactQuill>
+                    <div className="write-btn-wrap">
+                        <div className="write-btn-wrap">
+                            <button onClick={() => navigate(`/board/${boardId}`)}>작성취소</button>
+                            <button onClick={onUpdateClick}>작성완료</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            ) : (
+                ""
+            )}
         </div>
     );
 }
